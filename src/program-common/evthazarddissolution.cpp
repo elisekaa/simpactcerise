@@ -1,6 +1,6 @@
 #include "evthazarddissolution.h"
-#include "eventdissolution.h"
-#include "eventdebut.h"
+#include "event/eventdissolution.h"
+#include "event/eventdebut.h"
 #include "configsettings.h"
 #include "hazardfunctionformationsimple.h"
 #include "jsonconfig.h"

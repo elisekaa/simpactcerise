@@ -1,6 +1,6 @@
 #include "evthazardformationagegap.h"
-#include "eventformation.h"
-#include "eventdebut.h"
+#include "event/eventformation.h"
+#include "event/eventdebut.h"
 #include "configsettings.h"
 #include "hazardfunctionformationagegap.h"
 #include "jsonconfig.h"

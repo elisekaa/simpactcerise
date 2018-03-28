@@ -1,7 +1,7 @@
 #include "eventmonitoring.h"
 #include "configsettings.h"
 #include "configwriter.h"
-#include "eventdropout.h"
+#include "event/eventdropout.h"
 #include "configdistributionhelper.h"
 #include "gslrandomnumbergenerator.h"
 #include "piecewiselinearfunction.h"

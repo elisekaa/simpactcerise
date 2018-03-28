@@ -14,29 +14,29 @@ set(SOURCES_SIMPACT
 	../program-common/person_hiv.cpp
 	../program-common/person_hsv2.cpp
 	../program-common/simpactpopulation.cpp
-	../program-common/eventmortalitybase.cpp
-	../program-common/eventmortality.cpp
-	../program-common/eventaidsmortality.cpp
-	../program-common/eventformation.cpp
-	../program-common/eventdissolution.cpp
-	../program-common/eventdebut.cpp
-	../program-common/eventhivtransmission.cpp
-	../program-common/eventhsv2transmission.cpp
-	../program-common/eventchronicstage.cpp
-	../program-common/eventseedbase.cpp
-	../program-common/eventhivseed.cpp
-	../program-common/eventhsv2seed.cpp
-	../program-common/eventintervention.cpp
-	../program-common/eventaidsstage.cpp
-	../program-common/eventconception.cpp
-	../program-common/eventbirth.cpp
-	../program-common/eventdiagnosis.cpp
-	../program-common/eventdropout.cpp
-	../program-common/eventperiodiclogging.cpp
-	../program-common/eventsyncpopstats.cpp
-	../program-common/eventsyncrefyear.cpp
-	../program-common/eventcheckstopalgorithm.cpp
-	../program-common/eventrelocation.cpp
+	../program-common/event/eventmortalitybase.cpp
+	../program-common/event/eventmortality.cpp
+	../program-common/event/eventaidsmortality.cpp
+	../program-common/event/eventformation.cpp
+	../program-common/event/eventdissolution.cpp
+	../program-common/event/eventdebut.cpp
+	../program-common/event/eventhivtransmission.cpp
+	../program-common/event/eventhsv2transmission.cpp
+	../program-common/event/eventchronicstage.cpp
+	../program-common/event/eventseedbase.cpp
+	../program-common/event/eventhivseed.cpp
+	../program-common/event/eventhsv2seed.cpp
+	../program-common/event/eventintervention.cpp
+	../program-common/event/eventaidsstage.cpp
+	../program-common/event/eventconception.cpp
+	../program-common/event/eventbirth.cpp
+	../program-common/event/eventdiagnosis.cpp
+	../program-common/event/eventdropout.cpp
+	../program-common/event/eventperiodiclogging.cpp
+	../program-common/event/eventsyncpopstats.cpp
+	../program-common/event/eventsyncrefyear.cpp
+	../program-common/event/eventcheckstopalgorithm.cpp
+	../program-common/event/eventrelocation.cpp
 	../program-common/vspmodellogweibullwithnoise.cpp
 	../program-common/vspmodellogdist.cpp
 	../program-common/simpactevent.cpp

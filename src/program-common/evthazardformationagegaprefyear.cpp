@@ -1,6 +1,6 @@
 #include "evthazardformationagegaprefyear.h"
-#include "eventformation.h"
-#include "eventdebut.h"
+#include "event/eventformation.h"
+#include "event/eventdebut.h"
 #include "configsettings.h"
 #include "hazardfunctionformationagegaprefyear.h"
 #include "jsonconfig.h"

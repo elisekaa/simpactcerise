@@ -4,7 +4,7 @@
 #include "configsettings.h"
 #include "configwriter.h"
 #include "configdistributionhelper.h"
-#include "eventhivtransmission.h"
+#include "event/eventhivtransmission.h"
 #include "configfunctions.h"
 #include "jsonconfig.h"
 #include "logsystem.h"
