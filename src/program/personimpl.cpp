@@ -1,5 +1,5 @@
 #include "personimpl.h"
-#include "person.h"
+#include "pop/person.h"
 #include "jsonconfig.h"
 
 PersonImpl::PersonImpl(Person &p) : m_person(p)

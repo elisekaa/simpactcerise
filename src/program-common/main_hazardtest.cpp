@@ -1,5 +1,5 @@
 #include "gslrandomnumbergenerator.h"
-#include "simpactpopulation.h"
+#include "pop/simpactpopulation.h"
 #include "hazardfunctionformationsimple.h"
 #include "hazardfunctionformationagegap.h"
 #include "hazardfunctionexp.h"

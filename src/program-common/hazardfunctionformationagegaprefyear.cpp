@@ -1,5 +1,5 @@
 #include "hazardfunctionformationagegaprefyear.h"
-#include "person.h"
+#include "pop/person.h"
 #include "event/eventdebut.h"
 #include <iostream>
 #include <assert.h>

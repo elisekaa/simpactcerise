@@ -1,5 +1,5 @@
 #include "coarsemap.h"
-#include "person.h"
+#include "pop/person.h"
 #include "configfunctions.h"
 #include "jsonconfig.h"
 #include "configsettings.h"

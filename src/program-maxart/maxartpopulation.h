@@ -2,7 +2,7 @@
 
 #define MAXARTPOPULATION_H
 
-#include "simpactpopulation.h"
+#include "pop/simpactpopulation.h"
 #include <assert.h>
 
 class MaxARTPopulation : public SimpactPopulation

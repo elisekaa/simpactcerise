@@ -3,7 +3,7 @@
 #define HAZARDFUNCTIONFORMATIONAGEGAPREFYEAR_H
 
 #include "hazardfunctionexp.h"
-#include "person.h"
+#include "pop/person.h"
 #include <cmath>
 
 class HazardFunctionFormationAgeGapRefYear : public HazardFunctionExp

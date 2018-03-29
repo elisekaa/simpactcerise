@@ -3,8 +3,8 @@
 #define SIMPACTEVENT_H
 
 #include "populationevent.h"
-#include "simpactpopulation.h" 
-#include "person.h"
+#include "pop/simpactpopulation.h"
+#include "pop/person.h"
 #include "configsettings.h"
 #include "configwriter.h"
 #include "logsystem.h"

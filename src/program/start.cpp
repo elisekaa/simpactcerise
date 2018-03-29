@@ -1,4 +1,4 @@
-#include "simpactpopulation.h"
+#include "pop/simpactpopulation.h"
 #include <iostream>
 
 using namespace std;

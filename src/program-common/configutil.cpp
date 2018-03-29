@@ -1,7 +1,7 @@
 #include "configutil.h"
 #include "configsettings.h"
 #include "configwriter.h"
-#include "simpactpopulation.h"
+#include "pop/simpactpopulation.h"
 #include "logsystem.h"
 #include "util.h"
 #include "populationdistributioncsv.h"

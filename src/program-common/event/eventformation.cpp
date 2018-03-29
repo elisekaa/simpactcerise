@@ -3,7 +3,7 @@
 #include "eventhivtransmission.h"
 #include "eventhsv2transmission.h"
 #include "eventdebut.h"
-#include "simpactpopulation.h"
+#include "pop/simpactpopulation.h"
 #include "simpactevent.h"
 #include "evthazardformationsimple.h"
 #include "evthazardformationagegap.h"

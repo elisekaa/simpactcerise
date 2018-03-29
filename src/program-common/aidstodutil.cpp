@@ -1,6 +1,6 @@
 #include "aidstodutil.h"
 #include "event/eventaidsmortality.h"
-#include "person.h"
+#include "pop/person.h"
 
 AIDSTimeOfDeathUtility::AIDSTimeOfDeathUtility()
 {

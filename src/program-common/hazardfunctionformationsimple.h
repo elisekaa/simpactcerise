@@ -3,7 +3,7 @@
 #define HAZARDFUNCTIONFORMATIONSIMPLE_H
 
 #include "hazardfunction.h"
-#include "person.h"
+#include "pop/person.h"
 #include <cmath>
 
 class HazardFunctionFormationSimple : public HazardFunction

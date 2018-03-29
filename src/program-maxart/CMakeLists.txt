@@ -9,11 +9,11 @@ set(SOURCES_SIMPACT
 	eventmonitoring.cpp
 	../program-common/coarsemap.cpp
 	../program-common/logsystem.cpp
-	../program-common/person.cpp
-	../program-common/person_relations.cpp
-	../program-common/person_hiv.cpp
-	../program-common/person_hsv2.cpp
-	../program-common/simpactpopulation.cpp
+	../program-common/pop/person.cpp
+	../program-common/pop/person_relations.cpp
+	../program-common/pop/person_hiv.cpp
+	../program-common/pop/person_hsv2.cpp
+	../program-common/pop/simpactpopulation.cpp
 	../program-common/event/eventmortalitybase.cpp
 	../program-common/event/eventmortality.cpp
 	../program-common/event/eventaidsmortality.cpp

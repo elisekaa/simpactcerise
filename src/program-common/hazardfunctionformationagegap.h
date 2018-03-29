@@ -3,7 +3,7 @@
 #define HAZARDFUNCTIONFORMATIONAGEGAP_H
 
 #include "hazardfunction.h"
-#include "person.h"
+#include "pop/person.h"
 #include <assert.h>
 #include <cmath>
 
