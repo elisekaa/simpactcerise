@@ -2,7 +2,7 @@
 
 #define EVENTMONITORING_H
 
-#include "simpactevent.h"
+#include "event/simpactevent.h"
 
 class ConfigSettings;
 class ConfigWriter;

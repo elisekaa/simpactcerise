@@ -5,7 +5,7 @@
 #include "configdistributionhelper.h"
 #include "debugwarning.h"
 #include "logsystem.h"
-#include "simpactevent.h"
+#include "event/simpactevent.h"
 #include "discretedistribution2d.h"
 #include "jsonconfig.h"
 #include "configfunctions.h"

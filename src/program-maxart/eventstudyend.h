@@ -2,7 +2,7 @@
 
 #define EVENTSTUDYEND_H
 
-#include "simpactevent.h"
+#include "event/simpactevent.h"
 
 class ConfigSettings;
 

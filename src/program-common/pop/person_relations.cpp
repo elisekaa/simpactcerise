@@ -4,7 +4,7 @@
 #include "probabilitydistribution2d.h"
 #include "configdistributionhelper.h"
 #include "util.h"
-#include "simpactevent.h"
+#include "event/simpactevent.h"
 #include "configfunctions.h"
 #include "jsonconfig.h"
 #include <limits>

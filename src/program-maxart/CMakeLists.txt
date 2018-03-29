@@ -39,7 +39,7 @@ set(SOURCES_SIMPACT
 	../program-common/event/eventrelocation.cpp
 	../program-common/vspmodellogweibullwithnoise.cpp
 	../program-common/vspmodellogdist.cpp
-	../program-common/simpactevent.cpp
+	../program-common/event/simpactevent.cpp
 	../program-common/evthazardformationsimple.cpp
 	../program-common/evthazardformationagegap.cpp
 	../program-common/evthazardformationagegaprefyear.cpp

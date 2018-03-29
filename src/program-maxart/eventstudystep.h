@@ -2,7 +2,7 @@
 
 #define EVENTSTUDYSTEP_H
 
-#include "simpactevent.h"
+#include "event/simpactevent.h"
 #include "logfile.h"
 
 class ConfigSettings;
