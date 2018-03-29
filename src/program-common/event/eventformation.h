@@ -16,9 +16,9 @@ public:
 	EventFormation(Person *pPerson1, Person *pPerson2, double lastDissTime, double formationScheduleTime);
 	~EventFormation();
 
-	std::string getDescription(double tNow) const;
-	void writeLogs(const SimpactPopulation &pop, double tNow) const;
-	void fire(Algorithm *pAlgorithm, State *pState, double t);
+	std::string getDescription(double tNow) const override;
+	void writeLogs(const SimpactPopulation &pop, double tNow) const override;
+	void fire(Algorithm *pAlgorithm, State *pState, double t) override;
 
 	double getLastDissolutionTime() const								{ return m_lastDissolutionTime; }
 
@@ -27,8 +27,8 @@ public:
 protected:
 	static EvtHazard *getHazard(ConfigSettings &config, const std::string &prefix, bool msm);
 
-	double calculateInternalTimeInterval(const State *pState, double t0, double dt);
-	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0);
+	double calculateInternalTimeInterval(const State *pState, double t0, double dt) override;
+	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0) override;
 	bool isUseless(const PopulationStateInterface &population) override;
 
 	const double m_lastDissolutionTime;

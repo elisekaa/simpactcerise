@@ -10,13 +10,13 @@ public:
 	EventSyncReferenceYear();
 	~EventSyncReferenceYear();
 
-	std::string getDescription(double tNow) const;
-	void writeLogs(const SimpactPopulation &pop, double tNow) const;
+	std::string getDescription(double tNow) const override;
+	void writeLogs(const SimpactPopulation &pop, double tNow) const override;
 
-	void fire(Algorithm *pAlgorithm, State *pState, double t);
+	void fire(Algorithm *pAlgorithm, State *pState, double t) override;
 
 	// Everything needs to be recalculated after this
-	bool isEveryoneAffected() const														{ return true; }
+	bool isEveryoneAffected() const override														{ return true; }
 
 	static void processConfig(ConfigSettings &config, GslRandomNumberGenerator *pRndGen);
 	static void obtainConfig(ConfigWriter &config);
@@ -24,7 +24,7 @@ public:
 	static bool isEnabled()																{ return s_interval > 0; }
 	static double getInterval()															{ return s_interval; }
 private:
-	double getNewInternalTimeDifference(GslRandomNumberGenerator *pRndGen, const State *pState);
+	double getNewInternalTimeDifference(GslRandomNumberGenerator *pRndGen, const State *pState) override;
 
 	static double s_interval;
 };

@@ -14,18 +14,18 @@ public:
 	EventHSV2Transmission(Person *pPerson1, Person *pPerson2);
 	~EventHSV2Transmission();
 
-	std::string getDescription(double tNow) const;
-	void writeLogs(const SimpactPopulation &pop, double tNow) const;
+	std::string getDescription(double tNow) const override;
+	void writeLogs(const SimpactPopulation &pop, double tNow) const override;
 
-	void fire(Algorithm *pAlgorithm, State *pState, double t);
+	void fire(Algorithm *pAlgorithm, State *pState, double t) override;
 
 	static void processConfig(ConfigSettings &config, GslRandomNumberGenerator *pRndGen);
 	static void obtainConfig(ConfigWriter &config);
 
 	static void infectPerson(SimpactPopulation &population, Person *pOrigin, Person *pTarget, double t);
 protected:
-	double calculateInternalTimeInterval(const State *pState, double t0, double dt);
-	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0);
+	double calculateInternalTimeInterval(const State *pState, double t0, double dt) override;
+	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0) override;
 	bool isUseless(const PopulationStateInterface &population) override;
 	double calculateHazardFactor(const SimpactPopulation &population, double t0);
 
