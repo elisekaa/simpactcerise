@@ -7,7 +7,7 @@
 #include "person_relations.h"
 #include "person_hiv.h"
 #include "person_hsv2.h"
-#include "probabilitydistribution2d.h"
+#include "distribution/probabilitydistribution2d.h"
 #include "util.h"
 #include <stdlib.h>
 #include <iostream>

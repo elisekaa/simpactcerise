@@ -4,7 +4,7 @@
 #include "hazardfunctionformationagegap.h"
 #include "hazardfunctionexp.h"
 #include "event/eventdiagnosis.h"
-#include "uniformdistribution.h"
+#include "distribution/uniformdistribution.h"
 #include <cmath>
 #include <iostream>
 

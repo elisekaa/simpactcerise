@@ -21,7 +21,7 @@
 #include "populationstatesimple.h"
 #include "person.h"
 #include "gslrandomnumbergenerator.h"
-#include "fixedvaluedistribution2d.h"
+#include "distribution/fixedvaluedistribution2d.h"
 #include "util.h"
 #include "jsonconfig.h"
 

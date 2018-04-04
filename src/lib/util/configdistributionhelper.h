@@ -6,8 +6,8 @@
  * \file configdistributionhelper.h
  */
 
-#include "probabilitydistribution.h"
-#include "probabilitydistribution2d.h"
+#include "distribution/probabilitydistribution.h"
+#include "distribution/probabilitydistribution2d.h"
 #include <string>
 
 class ConfigSettings;

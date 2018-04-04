@@ -3,8 +3,8 @@
 #include "util.h"
 #include "piecewiselinearfunction.h"
 #include "tiffdensityfile.h"
-#include "discretedistribution2d.h"
-#include "binormaldistribution.h"
+#include "distribution/discretedistribution2d.h"
+#include "distribution/binormaldistribution.h"
 #include <iostream>
 #include <fstream>
 

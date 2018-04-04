@@ -6,7 +6,7 @@
 #include "debugwarning.h"
 #include "logsystem.h"
 #include "event/simpactevent.h"
-#include "discretedistribution2d.h"
+#include "distribution/discretedistribution2d.h"
 #include "jsonconfig.h"
 #include "configfunctions.h"
 #include <stdlib.h>

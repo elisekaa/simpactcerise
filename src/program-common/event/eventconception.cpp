@@ -1,6 +1,6 @@
 #include "eventconception.h"
 #include "configdistributionhelper.h"
-#include "probabilitydistribution.h"
+#include "distribution/probabilitydistribution.h"
 #include "eventbirth.h"
 #include "jsonconfig.h"
 #include "configfunctions.h"

@@ -1,7 +1,7 @@
 #include "vspmodellogdist.h"
 #include "gslrandomnumbergenerator.h"
-#include "probabilitydistribution.h"
-#include "probabilitydistribution2d.h"
+#include "distribution/probabilitydistribution.h"
+#include "distribution/probabilitydistribution2d.h"
 #include "util.h"
 #include <assert.h>
 #include <iostream>

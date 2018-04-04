@@ -1,5 +1,5 @@
 #include "populationdistribution.h"
-#include "discretedistribution.h"
+#include "distribution/discretedistribution.h"
 #include "csvfile.h"
 #include <iostream>
 

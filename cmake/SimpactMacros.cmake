@@ -113,9 +113,9 @@ macro(simpact_setup)
 		${PROJECT_SOURCE_DIR}/src/lib/util/util.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/csvfile.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/mutex.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/discretedistribution.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/discretedistributionfast.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/discretedistribution2d.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/discretedistribution.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/discretedistributionfast.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/discretedistribution2d.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/populationdistributioncsv.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/populationdistribution.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/configreader.cpp
@@ -130,13 +130,13 @@ macro(simpact_setup)
 		${PROJECT_SOURCE_DIR}/src/lib/util/tiffdensityfile.cpp 
 		${PROJECT_SOURCE_DIR}/src/lib/util/configwriter.cpp 
 		${PROJECT_SOURCE_DIR}/src/lib/util/piecewiselinearfunction.cpp 
-		${PROJECT_SOURCE_DIR}/src/lib/util/normaldistribution.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/normaldistribution.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/jsonconfig.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/binormaldistribution.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/binormaldistribution.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/configfunctions.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/discretedistributionwrapper.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/discretedistributionwrapper.cpp
 		${PROJECT_SOURCE_DIR}/src/lib/util/gridvaluescsv.cpp
-		${PROJECT_SOURCE_DIR}/src/lib/util/discretedistributionwrapper2d.cpp
+		${PROJECT_SOURCE_DIR}/src/lib/util/distribution/discretedistributionwrapper2d.cpp
 		)
 	set(SOURCES_MRNM
 		${PROJECT_SOURCE_DIR}/src/lib/mnrm/gslrandomnumbergenerator.cpp
