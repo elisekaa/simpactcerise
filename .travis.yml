@@ -90,11 +90,11 @@ language: cpp
 
 script:
   # Create build directory & move into it
-  mkdir build
-  cd build
+  - mkdir build
+  - cd build
   # Build project
-  cmake ..
-  make
+  - cmake ..
+  - make
   # Clean up
-  cd ..
-  rm -rf build
+  - cd ..
+  - rm -rf build
