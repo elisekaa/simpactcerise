@@ -87,3 +87,14 @@ language: cpp
 #  #			STRIDE_BOOST_NO_SYSTEM_PATHS: should be ON to prevent mixing different versions of boost
 #  - STRIDE_BOOST_ROOT=$HOME/boost_1_66_0_cache STRIDE_BOOST_NO_SYSTEM_PATHS=ON make all
 #  - make test
+
+script:
+  # Create build directory & move into it
+  mkdir build
+  cd build
+  # Build project
+  cmake ..
+  make
+  # Clean up
+  cd ..
+  rm -rf build
