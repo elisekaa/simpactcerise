@@ -3,7 +3,7 @@
 #--------------
 *.cache
 *.Debug
-*.o
+*.[oa]
 *.orig
 *.out
 *.Release
@@ -26,7 +26,6 @@ Thumbs.db
 /MakeLocalConfig
 /.settings/
 target*/
-build*/
 build/*
 /CMakeLocal.cmake
 
