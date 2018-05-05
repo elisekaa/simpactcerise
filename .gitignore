@@ -5,13 +5,11 @@
 *.Debug
 *.[oa]
 *.orig
-*.out
 *.Release
 *~
 .\#*
 *.bak
 *.DS_Store
-*._*
 *.directory
 *-eps-converted-to.pdf
 *.Rhistory
