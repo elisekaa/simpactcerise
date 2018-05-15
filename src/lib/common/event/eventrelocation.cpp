@@ -32,10 +32,8 @@ void EventRelocation::fire(Algorithm *pAlgorithm, State *pState, double t)
 	SimpactPopulation &population = SIMPACTPOPULATION(pState);
 	Person *pPerson = getPerson(0);
 	ProbabilityDistribution2D *pLocDist = pPerson->getPopulationDistribution();
-	
-	Point2D oldLocation = pPerson->getLocation();
-	population.removePersonFromCoarseMap(pPerson);
 
+	population.removePersonFromCoarseMap(pPerson);
 	Point2D newLocation = pLocDist->pickPoint();
 	pPerson->setLocation(newLocation, t);
 	population.addPersonToCoarseMap(pPerson);

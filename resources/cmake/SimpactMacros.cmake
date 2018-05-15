@@ -29,41 +29,6 @@ macro(simpact_setup)
 		endif()
 	endif()
 
-	if (WIN32)
-		# Make sure Win32 flag is set and exceptions are enabled to avoid warnings 
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWIN32 /EHsc")
-
-		# If we're using our own precompiled gsl and tiff on windows, try to use
-		# this (in the docs I've specified that you should set CMAKE_INSTALL_PREFIX
-		# accordingly). This is to avoid other libraries getting mixed in there, for
-		# example from Anaconda Python.
-		option(USE_PRECOMPILED_GSL_TIFF "Use the package with precompiled GSL and TIFF libraries" ON)
-		if (USE_PRECOMPILED_GSL_TIFF)
-			set(ZLIB_FOUND 0)
-			set(ZLIB_INCLUDE_DIRS "")
-			set(ZLIB_LIBRARIES "")
-			if (EXISTS "${CMAKE_INSTALL_PREFIX}/lib/gsl.lib")
-				set(GSL_LIBRARIES "${CMAKE_INSTALL_PREFIX}/lib/gsl.lib"
-					          "${CMAKE_INSTALL_PREFIX}/lib/cblas.lib")
-				set(GSL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
-				set(GSL_FOUND 1)
-			else()
-				message(FATAL_ERROR "You specified that the precompiled GSL and TIFF libraries should be used, but gsl.lib could not be found in CMAKE_INSTALL_PREFIX/lib/")
-			endif()
-			if (EXISTS "${CMAKE_INSTALL_PREFIX}/lib/tiff.lib")
-				set(TIFF_LIBRARIES "${CMAKE_INSTALL_PREFIX}/lib/tiff.lib")
-				set(TIFF_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
-				set(TIFF_VERSION_MAJOR 4)
-				set(TIFF_FOUND 1)
-			else()
-				message(FATAL_ERROR "You specified that the precompiled GSL and TIFF libraries should be used, but tiff.lib could not be found in CMAKE_INSTALL_PREFIX/lib/")
-			endif()
-
-			include_directories(${GSL_INCLUDE_DIR})
-			include_directories(${TIFF_INCLUDE_DIR})
-		endif (USE_PRECOMPILED_GSL_TIFF)
-	endif ()
-
 	if (NOT USE_PRECOMPILED_GSL_TIFF)
 		find_package(ZLIB)
 		if (NOT ZLIB_FOUND)

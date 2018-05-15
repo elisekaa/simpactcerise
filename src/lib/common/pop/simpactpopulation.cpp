@@ -542,9 +542,7 @@ void SimpactPopulation::getInterestsForPerson(const Person *pPerson,
 			{
 				CoarseMapCell *pCell = cells[cellPos];
 				cellPos++;
-
 				vector<Person *> &people = pCell->m_personsInCell;
-				int interestsLeft = interests.size() - intPos;
 
 				// For now we'll either add the entire cell or as many people as are still needed
 				// I don't think adding just the first N people will matter (as opposed to choosing
@@ -552,7 +550,6 @@ void SimpactPopulation::getInterestsForPerson(const Person *pPerson,
 				for (size_t i = 0 ; i < people.size() && intPos < interests.size() ; i++)
 				{
 					Person *pPartner = people[i];
-
 					if (pPartner->getGender() != personGender)
 					{
 						interests[intPos] = pPartner;
@@ -572,9 +569,7 @@ void SimpactPopulation::getInterestsForPerson(const Person *pPerson,
 			{
 				CoarseMapCell *pCell = cells[cellPos];
 				cellPos++;
-
 				vector<Person *> &people = pCell->m_personsInCell;
-				int interestsLeft = interestsMSM.size() - intPos;
 
 				// For now we'll either add the entire cell or as many people as are still needed
 				// I don't think adding just the first N people will matter (as opposed to choosing

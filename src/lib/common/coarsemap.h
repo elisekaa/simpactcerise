@@ -45,8 +45,10 @@ private:
 	CoarseMapCell *getCell(Person *pPerson, bool canRearrange);
 
 	const int m_subDivX, m_subDivY;
-	double m_minX, m_maxX;
-	double m_minY, m_maxY;
+	double m_minX;
+	double m_maxX;
+	double m_minY;
+	double m_maxY;
 
 	double m_mapMinX, m_mapMinY;
 	double m_cellWidth, m_cellHeight;

@@ -4,6 +4,7 @@
 #include "jsonconfig.h"
 #include "configsettings.h"
 #include "configwriter.h"
+
 #include <algorithm>
 #include <limits>
 
@@ -12,17 +13,15 @@
 using namespace std;
 
 CoarseMap::CoarseMap(int subDivX, int subDivY)
-	: m_subDivX(subDivX), m_subDivY(subDivY), 
-	  m_cellWidth(1),
-	  m_cellHeight(1),
-	  m_maxX(-numeric_limits<double>::infinity()),
-	  m_maxY(-numeric_limits<double>::infinity()),
+	: m_subDivX(subDivX), m_subDivY(subDivY),
 	  m_minX(numeric_limits<double>::infinity()),
-	  m_minY(numeric_limits<double>::infinity())
-{
-	//cerr << "CoarseMap:" << m_subDivX << " " << m_subDivY << " " <<  m_offsetX << " " << m_offsetY
-	//	 << " " << m_width << " " << m_height << endl;
+	  m_maxX(-numeric_limits<double>::infinity()),
+	  m_minY(numeric_limits<double>::infinity()),
+	  m_maxY(-numeric_limits<double>::infinity()),
+	  m_cellWidth(1),
+	  m_cellHeight(1)
 
+{
 	assert(subDivX > 0 && subDivY > 0);
 }
 
@@ -45,15 +44,12 @@ void CoarseMap::initiallizeGrid(vector<CoarseMapCell *> &cells, int subDivX, int
 	assert(cells.size() == 0);
 
 	cells.resize(subDivX*subDivY);
-
 	for (int y = 0 ; y < subDivY ; y++)
 	{
 		double Y = ((double)y + 0.5) * cellHeight + offY;
-		
 		for (int x = 0 ; x < subDivX ; x++)
 		{
 			double X = ((double)x + 0.5) * cellWidth + offX;
-		
 			cells[x+y*subDivX] = new CoarseMapCell(Point2D(X, Y));
 		}
 	}
@@ -64,20 +60,12 @@ CoarseMapCell *CoarseMap::getCell(Person *pPerson, bool canRearrange)
 	assert(pPerson);
 	Point2D location = pPerson->getLocation();
 
-	if (location.x < m_maxX && location.x >= m_minX && location.y < m_maxY && location.y >= m_minY)
-	{
+	if (location.x < m_maxX && location.x >= m_minX && location.y < m_maxY && location.y >= m_minY) {
 		// Ok, previous grid should be valid
-	}
-	else
-	{
-		if (!canRearrange)
+	} else {
+		if (!canRearrange) {
 			abortWithMessage("Internal error: invalid cell coordinates, but not allowed to rearrange");
-
-		//static int rearrangeCount = 0;
-		//
-		//rearrangeCount++;
-		//cerr << "Rearranging " << rearrangeCount << endl;
-
+		}
 		if (location.x < m_minX) m_minX = location.x;
 		if (location.x > m_maxX) m_maxX = location.x;
 		if (location.y < m_minY) m_minY = location.y;
@@ -86,27 +74,24 @@ CoarseMapCell *CoarseMap::getCell(Person *pPerson, bool canRearrange)
 		// Let's add a bit to the region
 		double dx = (m_maxX-m_minX)/20.0;
 		double dy = (m_maxY-m_minY)/20.0;
-
 		m_minX -= dx;
 		m_maxX += dx;
-
 		m_minY -= dy;
 		m_maxY += dy;
-
 		dx = m_maxX-m_minX;
 		dy = m_maxY-m_minY;
-
 		m_cellWidth = dx/(double)m_subDivX;
 		m_cellHeight = dy/(double)m_subDivY;
 
-		if (m_cellWidth == 0)
+		if (m_cellWidth == 0) {
 			m_cellWidth = 1.0;
-		if (m_cellHeight == 0)
+		}
+		if (m_cellHeight == 0) {
 			m_cellHeight = 1.0;
+		}
 
 		vector<CoarseMapCell *> oldCells = m_cells;
 		m_cells.resize(0);
-
 		initiallizeGrid(m_cells, m_subDivX, m_subDivY, m_cellWidth, m_cellHeight, m_minX, m_minY);
 		
 		// move the old grid entries to the new grid

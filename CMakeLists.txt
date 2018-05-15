@@ -1,19 +1,66 @@
-cmake_minimum_required(VERSION 2.8)
-if (CMAKE_VERSION VERSION_LESS "2.8.12")
-	message("Version is lower than 2.8.12, don't need to set CMP0022")
+#############################################################################
+#  This file is part of the Stride software.
+#  It is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or any
+#  later version.
+#  The software is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License,
+#  along with the software. If not, see <http://www.gnu.org/licenses/>.
+#  see http://www.gnu.org/licenses/.
+#
+#  Copyright 2018, Kuylen E et. al.
+#############################################################################
+#
+#  CMake config.
+#
+#############################################################################
+cmake_minimum_required(VERSION 3.5)
+include(CMakeConfig.cmake)
+include(CMakeLocal.cmake OPTIONAL)
+
+#============================================================================
+# Configuration for CMake, for build & install.
+#============================================================================
+project(simpactcerise)
+set(VERSION 0.21.0)
+
+#============================================================================
+# Configuration for Git.
+#============================================================================
+find_package(Git)
+if(GIT_FOUND)
+    GIT_WC_INFO(${CMAKE_SOURCE_DIR} SIMPACT)
 else()
-	cmake_policy(SET CMP0022 OLD) # Don't show warning
+    # This is done to eliminate blank output of undefined CMake variables.
+    set(GIT_FOUND FALSE)
+    set(SIMPACT_WC_REVISION_HASH       "0000-0000-000")
+    set(SIMPACT_WC_LAST_CHANGED_DATE   "0000 0000 0000")
 endif()
 
-project(simpact-cyan)
-set(VERSION 0.21.0)
-include(${PROJECT_SOURCE_DIR}/cmake/SimpactMacros.cmake)
+#============================================================================
+# Configuration for CPP.
+#============================================================================
+include(CMakeCPP.cmake)
 
-simpact_setup()
+#============================================================================
+# Add subdirs
+#============================================================================
+include_directories(src/program)
+include_directories(src/lib/common)
+include_directories(src/lib/core)
+include_directories(src/lib/mnrm)
+include_directories(src/lib/util)
+include_directories(src/lib/util/experimental)
+add_subdirectory(src/lib/common)
+add_subdirectory(src/lib/core)
 
-# This contains the main simpact program
-add_subdirectory(src)
+#============================================================================
+# Overview report:
+#============================================================================
+include(CMakeReport.cmake)
 
-# Install everything from the data dir in e.g. /usr/local/share/simpact-cyan/
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/data/ DESTINATION ${CMAKE_INSTALL_PREFIX}/share/simpact-cyan/)
-install(FILES ${PROJECT_SOURCE_DIR}/python/pysimpactcyan.py DESTINATION ${CMAKE_INSTALL_PREFIX}/share/simpact-cyan/python/)
+#############################################################################
