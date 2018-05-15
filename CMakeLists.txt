@@ -49,14 +49,7 @@ include(CMakeCPP.cmake)
 #============================================================================
 # Add subdirs
 #============================================================================
-include_directories(src/program)
-include_directories(src/lib/common)
-include_directories(src/lib/core)
-include_directories(src/lib/mnrm)
-include_directories(src/lib/util)
-include_directories(src/lib/util/experimental)
-add_subdirectory(src/lib/common)
-add_subdirectory(src/lib/core)
+add_subdirectory(main)
 
 #============================================================================
 # Overview report:
