@@ -8,18 +8,18 @@ dist: trusty
 cache:
   directories:
     - $HOME/.ccache
+    - $HOME/deps
 
 addons:
   apt:
     update: true
-    packages: &default_packages
-      - gsl-bin
-      - libgsl0ldbl
-      - libgsl0-dev
     sources: &default_sources
       - ubuntu-toolchain-r-test
     packages: &default_packages
 #      # - libhdf5-dev
+      - gsl-bin
+      - libgsl0ldbl
+      - libgsl0-dev
 
 matrix:
   include:
@@ -77,6 +77,13 @@ before_install:
       brew upgrade cmake
       brew install ccache
       brew install gsl
+    fi
+    #--------- Linux
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      export GSL_ROOT_DIR=$HOME/deps/gsl-2.4
+      wget -q http://ftpmirror.gnu.org/gsl/gsl-2.4.tar.gz && tar xf gsl-2.4.tar.gz > /dev/null 2>&1
+      cd gsl-2.4 && ./configure --prefix=$GSL_ROOT_DIR && make && make install
     fi
 
 script:
