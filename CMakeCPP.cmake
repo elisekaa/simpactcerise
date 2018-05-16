@@ -69,8 +69,8 @@ endif()
 # GSL
 #----------------------------------------------------------------------------
 find_package(GSL)
-include_directories(GSL_INCLUDE_DIRS)
-set(LIBS "GSL_LIBRARIES ${LIBS}")
+include_directories(SYSTEM ${GSL_INCLUDE_DIRS})
+set(LIBS "${GSL_LIBRARIES} ${LIBS}")
 
 #----------------------------------------------------------------------------
 # OpenMP
