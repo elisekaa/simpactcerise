@@ -1,5 +1,10 @@
 #include "logfile.h"
+
+#include <csignal>
+#include <cstdlib>
 #include <iostream>
+
+#define NUMSIG 256
 
 using namespace std;
 
@@ -13,18 +18,6 @@ void writeUnexpectedTermination()
 
         LogFile::writeToAllLogFiles(msg);
 }
-
-#ifdef WIN32
-
-// Signals currently not supported on Windows
-void installSignalHandlers() {}
-
-#else
-
-#include <signal.h>
-#include <stdlib.h>
-
-#define NUMSIG 256
 
 typedef void (*SignalHandler)(int);
 
@@ -54,4 +47,3 @@ void installSignalHandlers()
         }
 }
 
-#endif // WIN32

@@ -12,13 +12,14 @@
 #include "populationutil.h"
 #include "signalhandlers.h"
 #include "version.h"
-#include <assert.h>
+
+#include <cassert>
 #include <cmath>
 #include <iostream>
 #include <limits>
 #include <memory>
 #include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace std;
 

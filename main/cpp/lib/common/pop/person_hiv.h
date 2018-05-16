@@ -2,7 +2,7 @@
 
 #define PERSON_HIV_H
 
-#include "aidstodutil.h"
+#include "AidsTimeOfDeathUtility.h"
 #include "util.h"
 
 class Person;

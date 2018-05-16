@@ -9,10 +9,11 @@
 #include "person_relations.h"
 #include "personbase.h"
 #include "util.h"
+
 #include <cmath>
 #include <iostream>
 #include <set>
-#include <stdlib.h>
+#include <cstdlib>
 #include <vector>
 
 class PersonImpl;
@@ -26,14 +27,14 @@ class DiscreteDistribution2D;
 class ProbabilityDistribution;
 class VspModel;
 
-Man*   MAN(Person* pPerson);
-Woman* WOMAN(Person* pPerson);
-
 class Person : public PersonBase
 {
 public:
+        ///
         Person(double dateOfBirth, Gender g);
-        ~Person();
+
+        ///
+        ~Person() override;
 
         PersonImpl* getImplementationSpecificPart() { return m_pPersonImpl; }
 
@@ -145,15 +146,15 @@ private:
 class Man : public Person
 {
 public:
-        Man(double dateOfBirth);
-        ~Man();
+        explicit Man(double dateOfBirth);
+        ~Man() override;
 };
 
 class Woman : public Person
 {
 public:
-        Woman(double dateOfBirth);
-        ~Woman();
+        explicit Woman(double dateOfBirth);
+        ~Woman() override;
 
         void setPregnant(bool f) { m_pregnant = f; }
         bool isPregnant() const { return m_pregnant; }

@@ -4,9 +4,10 @@
 #include "personbase.h"
 #include "populationalgorithmadvanced.h"
 #include "populationstateadvanced.h"
+
 #include <iostream>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <string>
 
 inline PersonalEventList* PersonalEventList::personalEventList(PersonBase* pPerson)
 {

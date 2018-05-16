@@ -47,7 +47,7 @@ set(SRC
     #
     signalhandlers.cpp
     configutil.cpp
-    aidstodutil.cpp
+    AidsTimeOfDeathUtility.cpp
     configsettingslog.cpp
 )
 

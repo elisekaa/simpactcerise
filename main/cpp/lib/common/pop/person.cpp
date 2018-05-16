@@ -9,8 +9,9 @@
 #include "jsonconfig.h"
 #include "logsystem.h"
 #include "personimpl.h"
+
 #include <limits>
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace std;
 
