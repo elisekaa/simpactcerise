@@ -61,4 +61,3 @@ private:
         double m_prevHazard;
         double m_prevTime;
 };
-

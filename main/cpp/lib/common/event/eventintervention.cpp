@@ -5,6 +5,8 @@
 #include "gslrandomnumbergenerator.h"
 #include "jsonconfig.h"
 #include "util.h"
+
+#include <cstddef>
 #include <iostream>
 
 using namespace std;

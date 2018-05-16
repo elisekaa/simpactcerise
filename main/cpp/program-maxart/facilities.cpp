@@ -8,7 +8,9 @@
 #include "logfile.h"
 #include "point2d.h"
 #include "util.h"
+
 #include <cmath>
+#include <cstddef>
 #include <limits>
 #include <map>
 #include <vector>

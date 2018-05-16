@@ -1,7 +1,9 @@
 #include "logfile.h"
 #include "util.h"
-#include <stdarg.h>
-#include <string.h>
+
+#include <cstdarg>
+#include <cstddef>
+#include <string>
 
 using namespace std;
 

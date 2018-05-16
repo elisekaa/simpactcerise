@@ -1,9 +1,11 @@
 #include "discretedistribution.h"
 #include "gslrandomnumbergenerator.h"
 #include "util.h"
+
 #include <cmath>
+#include <cstddef>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 DiscreteDistribution::DiscreteDistribution(const std::vector<double>& binStarts, const std::vector<double>& histValues,
                                            bool floor, GslRandomNumberGenerator* pRndGen)

@@ -1,6 +1,8 @@
 #include "piecewiselinearfunction.h"
 #include "util.h"
-#include <assert.h>
+
+#include <cassert>
+#include <cstddef>
 
 using namespace std;
 

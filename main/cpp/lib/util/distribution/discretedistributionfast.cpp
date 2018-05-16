@@ -1,6 +1,8 @@
 #include "discretedistributionfast.h"
 #include "gslrandomnumbergenerator.h"
-#include <assert.h>
+
+#include <cassert>
+#include <cstddef>
 
 using namespace std;
 

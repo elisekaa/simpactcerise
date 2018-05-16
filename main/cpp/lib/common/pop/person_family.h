@@ -1,8 +1,7 @@
-#ifndef PERSON_FAMILY_H
+#pragma once
 
-#define PERSON_FAMILY_H
-
-#include <assert.h>
+#include <cassert>
+#include <cstddef>
 #include <vector>
 
 class Person;
@@ -15,19 +14,21 @@ Woman* WOMAN(Person* pPerson);
 class Person_Family
 {
 public:
-        Person_Family()
-        {
-                m_pFather = 0;
-                m_pMother = 0;
-        }
-        ~Person_Family() {}
+        ///
+        Person_Family() : m_pFather(nullptr), m_pMother(nullptr) {}
 
+        ///
+        ~Person_Family() = default;
+
+        ///
         void setFather(Man* pFather)
         {
                 assert(m_pFather == 0);
                 assert(pFather != 0);
                 m_pFather = pFather;
         }
+
+        ///
         void setMother(Woman* pMother)
         {
                 assert(m_pMother == 0);
@@ -35,7 +36,10 @@ public:
                 m_pMother = pMother;
         }
 
-        Man*   getFather() const { return m_pFather; }
+        ///
+        Man* getFather() const { return m_pFather; }
+
+        ///
         Woman* getMother() const { return m_pMother; }
 
         // TODO: currently, the death of a parent or the death of a child does
@@ -58,7 +62,6 @@ inline void Person_Family::addChild(Person* pPerson)
 {
         assert(pPerson != 0);
         assert(!hasChild(pPerson));
-
         m_children.push_back(pPerson);
 }
 
@@ -67,14 +70,11 @@ inline void Person_Family::addChild(Person* pPerson)
 inline bool Person_Family::hasChild(Person* pPerson) const
 {
         assert(pPerson != 0);
-
         for (size_t i = 0; i < m_children.size(); i++) {
                 assert(m_children[i] != 0);
-
                 if (m_children[i] == pPerson)
                         return true;
         }
-
         return false;
 }
 
@@ -82,9 +82,6 @@ inline Person* Person_Family::getChild(int idx)
 {
         assert(idx >= 0 && idx < (int)m_children.size());
         Person* pChild = m_children[idx];
-
         assert(pChild != 0);
         return pChild;
 }
-
-#endif // PERSON_FAMILY_H

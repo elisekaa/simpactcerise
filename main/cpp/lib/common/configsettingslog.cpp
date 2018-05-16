@@ -2,8 +2,10 @@
 #include "configsettings.h"
 #include "logfile.h"
 #include "util.h"
+
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
+#include <cstddef>
 #include <iostream>
 #include <list>
 

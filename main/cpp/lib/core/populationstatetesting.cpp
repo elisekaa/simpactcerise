@@ -1,6 +1,8 @@
 #include "populationstatetesting.h"
 #include "personaleventlisttesting.h"
 
+#include <cstddef>
+
 PopulationStateTesting::PopulationStateTesting() { m_init = false; }
 
 PopulationStateTesting::~PopulationStateTesting() {}

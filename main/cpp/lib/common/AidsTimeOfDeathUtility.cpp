@@ -23,10 +23,8 @@
 #include "pop/person.h"
 
 AidsTimeOfDeathUtility::AidsTimeOfDeathUtility()
-        : m_internalTimeRemaining(-1.0), m_infectionTime(-1.0), m_timeOfDeath(-1.0), m_prevHazard(-1.0),
-          m_prevTime(-1.0)
+    : m_internalTimeRemaining(-1.0), m_infectionTime(-1.0), m_timeOfDeath(-1.0), m_prevHazard(-1.0), m_prevTime(-1.0)
 {
-
 }
 
 void AidsTimeOfDeathUtility::changeTimeOfDeath(double currentTime, const Person* pPerson)

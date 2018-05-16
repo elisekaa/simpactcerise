@@ -25,6 +25,8 @@
 #include "populationstatetesting.h"
 #include "util.h"
 
+#include <cstddef>
+
 using namespace std;
 
 SimpactPopulationConfig::SimpactPopulationConfig()

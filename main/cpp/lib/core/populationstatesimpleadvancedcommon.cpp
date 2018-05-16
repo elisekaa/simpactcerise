@@ -2,6 +2,8 @@
 #include "personaleventlist.h"
 #include "personbase.h"
 
+#include <cstddef>
+
 PopulationStateSimpleAdvancedCommon::PopulationStateSimpleAdvancedCommon() : m_numGlobalDummies(1) {}
 
 PopulationStateSimpleAdvancedCommon::~PopulationStateSimpleAdvancedCommon()

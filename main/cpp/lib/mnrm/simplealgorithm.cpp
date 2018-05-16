@@ -6,7 +6,9 @@
 #include "gslrandomnumbergenerator.h"
 #include "simplealgorithm.h"
 #include "util.h"
-#include <assert.h>
+
+#include <cassert>
+#include <cstddef>
 #include <iostream>
 #include <limits>
 

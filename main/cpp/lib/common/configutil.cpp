@@ -8,6 +8,8 @@
 #include "pop/simpactpopulation.h"
 #include "populationdistributioncsv.h"
 #include "util.h"
+
+#include <cstddef>
 #include <iostream>
 #include <vector>
 

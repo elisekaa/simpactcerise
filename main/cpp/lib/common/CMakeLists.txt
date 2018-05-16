@@ -1,5 +1,6 @@
 set(SRC
     pop/person.cpp
+    pop/person_family.h
     pop/person_relations.cpp
     pop/person_hiv.cpp
     pop/person_hsv2.cpp

@@ -9,9 +9,11 @@
 #include "populationalgorithmadvanced.h"
 #include "populationstateadvanced.h"
 #include "util.h"
+
+#include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <stdio.h>
-#include <stdlib.h>
 
 // FOR DEBUGGING
 #include <map>

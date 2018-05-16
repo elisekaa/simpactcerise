@@ -11,6 +11,8 @@
 #include "piecewiselinearfunction.h"
 #include "point2d.h"
 #include "util.h"
+
+#include <cstddef>
 #include <iostream>
 
 using namespace std;

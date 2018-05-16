@@ -1,5 +1,7 @@
 #include "jsonconfig.h"
+
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 
 using namespace std;

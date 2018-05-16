@@ -1,6 +1,8 @@
 #include "configsettings.h"
+
+#include <cstddef>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 
 #define __STDC_FORMAT_MACROS // Need this for PRId64
 #include <inttypes.h>

@@ -1,9 +1,11 @@
 #include "tiffdensityfile.h"
-#include <iostream>
+
 #include <stdint.h>
 #include <string.h>
 #include <tiffio.h>
 
+#include <cstddef>
+#include <iostream>
 using namespace std;
 
 TIFFDensityFile::TIFFDensityFile()

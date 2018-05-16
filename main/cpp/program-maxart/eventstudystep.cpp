@@ -5,6 +5,8 @@
 #include "jsonconfig.h"
 #include "maxartpopulation.h"
 #include "util.h"
+
+#include <cstddef>
 #include <vector>
 
 using namespace std;

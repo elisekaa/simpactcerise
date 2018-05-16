@@ -1,13 +1,13 @@
 #include "util.h"
-//#include "matfile.h"
-//#include "matclass.h"
-#include <assert.h>
+
+#include <cassert>
+#include <cstdarg>
+#include <cstddef>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <limits>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <string>
 
 using namespace std;
 
