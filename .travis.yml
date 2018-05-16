@@ -83,7 +83,7 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       export GSL_ROOT_DIR=$HOME/deps/gsl-2.4
       wget -q http://ftpmirror.gnu.org/gsl/gsl-2.4.tar.gz && tar xf gsl-2.4.tar.gz > /dev/null 2>&1
-      cd gsl-2.4 && ./configure --prefix=$GSL_ROOT_DIR && make && make install
+      cd gsl-2.4 && ./configure --prefix=$GSL_ROOT_DIR && make && make install && cd $TRAVIS_BUILD_DIR
     fi
 
 script:
