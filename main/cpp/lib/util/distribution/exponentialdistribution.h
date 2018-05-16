@@ -17,22 +17,27 @@
 class ExponentialDistribution : public ProbabilityDistribution
 {
 public:
-	/** The constructor specifies parameters for a gamma distribution. */
-	ExponentialDistribution(double a, GslRandomNumberGenerator *pRng) : ProbabilityDistribution(pRng) 	{ assert(a > 0); m_a = a; }
+        /** The constructor specifies parameters for a gamma distribution. */
+        ExponentialDistribution(double a, GslRandomNumberGenerator* pRng) : ProbabilityDistribution(pRng)
+        {
+                assert(a > 0);
+                m_a = a;
+        }
 
-	double pickNumber() const;
-	double getA() const											{ return m_a; }
+        double pickNumber() const;
+        double getA() const { return m_a; }
+
 private:
-	double m_a;
+        double m_a;
 };
 
 inline double ExponentialDistribution::pickNumber() const
 {
-	double z = getRandomNumberGenerator()->pickRandomDouble();
-	double y = -std::log(z);
-	double x = y/m_a;
+        double z = getRandomNumberGenerator()->pickRandomDouble();
+        double y = -std::log(z);
+        double x = y / m_a;
 
-	return x;
+        return x;
 }
 
 #endif // EXPONENTIALDISTRIBUTION_H

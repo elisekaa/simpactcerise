@@ -13,7 +13,7 @@ using namespace std;
 
 void abortWithMessage(const std::string &msg);
 
-PersonCXX::PersonCXX(double dateOfBirth, bool man) : PersonBase((man)?Male:Female, dateOfBirth) 
+PersonCXX::PersonCXX(double dateOfBirth, bool man) : PersonBase((man)?Male:Female, dateOfBirth)
 {
 	m_pObj = 0;
 }
@@ -40,7 +40,7 @@ PyObject *PersonCXX::getPythonObject()
 	return m_pObj;
 }
 
-SimpactPopulationCXX::SimpactPopulationCXX(PopulationAlgorithmInterface *alg, PopulationStateInterface *state, PyObject *pObj) 
+SimpactPopulationCXX::SimpactPopulationCXX(PopulationAlgorithmInterface *alg, PopulationStateInterface *state, PyObject *pObj)
 	: PopulationStateExtra(), m_state(*state), m_alg(*alg)
 {
 	m_pObj = pObj;

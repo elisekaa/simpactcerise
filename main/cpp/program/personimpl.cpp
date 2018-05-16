@@ -1,14 +1,10 @@
 #include "personimpl.h"
-#include "pop/person.h"
 #include "jsonconfig.h"
+#include "pop/person.h"
 
-PersonImpl::PersonImpl(Person &p) : m_person(p)
-{
-}
+PersonImpl::PersonImpl(Person& p) : m_person(p) {}
 
-PersonImpl::~PersonImpl()
-{
-}
+PersonImpl::~PersonImpl() {}
 
 JSONConfig personImplJSONConfig(R"JSON(
         "PersonGeoDist": {
@@ -16,10 +12,8 @@ JSONConfig personImplJSONConfig(R"JSON(
             "params": [
                 [ "person.geo.dist2d", "distTypes2D" ]
             ],
-            "info": [ 
+            "info": [
                 "The distribution specified by 'person.geo.dist2d' is used to assign (x,y)",
                 "location coordinates to a person."
             ]
         })JSON");
-
-

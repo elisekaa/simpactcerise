@@ -40,7 +40,7 @@ public:
 
 	int getNumberOfPersons() const { return PopulationEvent::getNumberOfPersons(); }
 	PersonCXX *getPerson(int idx) { return static_cast<PersonCXX*>(PopulationEvent::getPerson(idx)); }
-	
+
 	bool isEveryoneAffected() const;
 	void markOtherAffectedPeople(const PopulationStateInterface &population);
 protected:

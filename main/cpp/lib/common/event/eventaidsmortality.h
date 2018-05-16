@@ -9,42 +9,42 @@
 class EventAIDSMortality : public EventMortalityBase
 {
 public:
-	EventAIDSMortality(Person *pPerson);
-	~EventAIDSMortality();
+        EventAIDSMortality(Person* pPerson);
+        ~EventAIDSMortality();
 
-	std::string getDescription(double tNow) const;
-	void writeLogs(const SimpactPopulation &pop, double tNow) const;
-	void fire(Algorithm *pAlgorithm, State *pState, double t);
+        std::string getDescription(double tNow) const;
+        void        writeLogs(const SimpactPopulation& pop, double tNow) const;
+        void        fire(Algorithm* pAlgorithm, State* pState, double t);
 
-	static void processConfig(ConfigSettings &config, GslRandomNumberGenerator *pRndGen);
-	static void obtainConfig(ConfigWriter &config);
+        static void processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
+        static void obtainConfig(ConfigWriter& config);
 
-	static double getExpectedSurvivalTime(const Person *pPerson);
+        static double getExpectedSurvivalTime(const Person* pPerson);
+
 private:
-	double getNewInternalTimeDifference(GslRandomNumberGenerator *pRndGen, const State *pState);
-	double calculateInternalTimeInterval(const State *pState, double t0, double dt);
-	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0);
-	void checkFireTime(double t0);
+        double getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState);
+        double calculateInternalTimeInterval(const State* pState, double t0, double dt);
+        double solveForRealTimeInterval(const State* pState, double Tdiff, double t0);
+        void   checkFireTime(double t0);
 
-	EventVariableFireTime_Helper m_eventHelper;
+        EventVariableFireTime_Helper m_eventHelper;
 
-	// TODO: use access functions
-	static double m_C;
-	static double m_k;
+        // TODO: use access functions
+        static double m_C;
+        static double m_k;
 };
 
-inline double EventAIDSMortality::getExpectedSurvivalTime(const Person *pPerson)
+inline double EventAIDSMortality::getExpectedSurvivalTime(const Person* pPerson)
 {
-	assert(pPerson);
-	double Vsp = pPerson->hiv().getSetPointViralLoad();
-	double log10Offset = pPerson->getSurvivalTimeLog10Offset();
-	assert(Vsp > 0);
+        assert(pPerson);
+        double Vsp         = pPerson->hiv().getSetPointViralLoad();
+        double log10Offset = pPerson->getSurvivalTimeLog10Offset();
+        assert(Vsp > 0);
 
-	double tSurvival = m_C/std::pow(Vsp, -m_k) * std::pow(10.0, log10Offset);
-	assert(tSurvival > 0);
+        double tSurvival = m_C / std::pow(Vsp, -m_k) * std::pow(10.0, log10Offset);
+        assert(tSurvival > 0);
 
-	return tSurvival;
+        return tSurvival;
 }
 
 #endif // EVENTMORTALITY_H
-

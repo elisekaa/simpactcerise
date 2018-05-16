@@ -3,7 +3,7 @@
 
 using namespace std;
 
-SimpactPopulation *createSimpactPopulation(PopulationAlgorithmInterface &alg, PopulationStateInterface &state)
+SimpactPopulation* createSimpactPopulation(PopulationAlgorithmInterface& alg, PopulationStateInterface& state)
 {
-	return new MaxARTPopulation(alg, state);
+        return new MaxARTPopulation(alg, state);
 }

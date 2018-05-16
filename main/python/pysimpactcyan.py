@@ -38,7 +38,7 @@ def _getExpandedSettingsOptions(executable):
 
     configOptions = json.loads(jsonData)
     configNames = configOptions["configNames"]
-    
+
     distTypesNames = [ ]
     for n in configOptions:
         if n != "configNames":
@@ -55,7 +55,7 @@ def _getExpandedSettingsOptions(executable):
 
         params = configNames[n]['params']
         for i in range(len(params)):
-            p = params[i] 
+            p = params[i]
             pName = p[0]
             pValue = p[1]
 
@@ -127,7 +127,7 @@ def _processConfigPart(cfg, userConfig, configNames, requiredKeys):
         depObj = configNames[depObjName]
         depKey = deps[1]
         depVal = deps[2]
-        
+
         #print "processConfigPart", depObjName
         #pprint.pprint(depObj)
         if not _processConfigPart(depObj, userConfig, configNames, requiredKeys):
@@ -138,7 +138,7 @@ def _processConfigPart(cfg, userConfig, configNames, requiredKeys):
         if not depKey in userConfig:
             pprint.pprint(userConfig)
             raise Exception("Key %s was not set" % depKey)
-        
+
         if userConfig[depKey] != depVal:
             return False # Dependency not fulfilled
 
@@ -160,12 +160,12 @@ def _processConfigPart(cfg, userConfig, configNames, requiredKeys):
             requiredKeys[key] = None
 
         # See if we should check defaults
-        if not key in userConfig: 
+        if not key in userConfig:
             #if val is None:
             #    raise Exception("Key %s is not set" % key)
 
             userConfig[key] = val
-        
+
     return True
 
 def createConfigLines(executable, inputConfig, checkNone = True, ignoreKeys = [ ]):
@@ -208,7 +208,7 @@ def createConfigLines(executable, inputConfig, checkNone = True, ignoreKeys = [ 
     # In principle this should contain the same info as userConfig at the end,
     # but we'll introduce some ordering here so we can feed it back to R in a better
     # way
-    resultingConfig = [ ] 
+    resultingConfig = [ ]
 
     names = [ key for key in configNames ]
     names.sort()
@@ -225,7 +225,7 @@ def createConfigLines(executable, inputConfig, checkNone = True, ignoreKeys = [ 
         for p in params:
             k = p[0]
             if k in requiredKeys:
-                
+
                 v = userConfig[k]
                 ns = 60-len(k)
                 k += " "*ns
@@ -316,13 +316,13 @@ def _replaceVariables(value, variables):
                 else:
                     newValue += value[prevIdx:nextIdx+1]
                     prevIdx = nextIdx + 1
-    
+
     newValue += value[prevIdx:]
 
     return newValue.strip()
 
 def _getSimpactPathBasedOnModule():
-    
+
     def endSlash(dirName):
         if not dirName.endswith(os.sep): # Make sure it ends with "/" or "\"
             dirName += os.sep
@@ -337,7 +337,7 @@ def _getSimpactPathBasedOnModule():
             full = os.path.join(p, moduleName + ".py")
             if os.path.exists(full): # Ok, our simpact module exists in this directory
                 full = os.path.abspath(full)
-                dirName = os.path.dirname(full) 
+                dirName = os.path.dirname(full)
                 baseName = os.path.basename(dirName) # should be 'python'
                 if baseName.lower() == "python":
                     dirName = endSlash(os.path.dirname(dirName))
@@ -470,7 +470,7 @@ class PySimpactCyan(object):
 
         if destDir is None:
             destDir = os.path.abspath(os.path.dirname(configFile))
-    
+
         closeOutput = False
         origDir = os.getcwd()
         try:
@@ -491,7 +491,7 @@ class PySimpactCyan(object):
 
             if self._dataDirectory is not None:
                 newEnv["SIMPACT_DATA_DIR"] = str(self._dataDirectory)
-            
+
             if not quiet:
                 print("Results will be stored in directory '%s'" % os.getcwd())
                 print("Running simpact executable '{}' ...".format(fullPath))
@@ -500,7 +500,7 @@ class PySimpactCyan(object):
             try:
                 proc.wait() # Wait for the process to finish
             except:
-                try: 
+                try:
                     proc.kill()
                 except:
                     pass
@@ -706,7 +706,7 @@ class PySimpactCyan(object):
                 ret += "_"
         return ret
 
-    def run(self, config, destDir, agedist = None, parallel = False, opt = True, release = True, seed = -1, 
+    def run(self, config, destDir, agedist = None, parallel = False, opt = True, release = True, seed = -1,
             interventionConfig = None, dryRun = False, identifierFormat = "%T-%y-%m-%d-%H-%M-%S_%p_%r%r%r%r%r%r%r%r-",
             dataFiles = { }, quiet = False):
 
@@ -779,7 +779,7 @@ class PySimpactCyan(object):
 
         if intTimes:
 
-            config["intervention.enabled"] = "yes"            
+            config["intervention.enabled"] = "yes"
 
             isFirstTime = True
             ivTimeString = ""
@@ -789,14 +789,14 @@ class PySimpactCyan(object):
                 if not isFirstTime:
                     ivTimeString += ","
                     ivIDString += ","
-                
+
                 ivTimeString += str(t)
                 ivIDString += str(count)
                 ivIDs.append(str(count))
 
                 isFirstTime = False
                 count += 1
-                
+
             config["intervention.times"] = ivTimeString
             config["intervention.fileids"] = ivIDString
 
@@ -847,7 +847,7 @@ class PySimpactCyan(object):
             if dataFiles:
                 f.write("$SIMPACT_INDATA_PREFIX = %s\n" % (idStr + "data-"))
             if self._dataDirectory:
-                f.write("$SIMPACT_DATA_DIR = %s\n" % self._dataDirectory)	
+                f.write("$SIMPACT_DATA_DIR = %s\n" % self._dataDirectory)
             f.write("\n")
 
             for l in lines:
@@ -897,13 +897,13 @@ class PySimpactCyan(object):
         # Create the return structure
         results = { }
         replaceVars = { }
-        
+
         # These are things that should be replaced
-        if self._dataDirectory: 
+        if self._dataDirectory:
             replaceVars["SIMPACT_DATA_DIR"] = self._dataDirectory
         replaceVars["SIMPACT_OUTPUT_PREFIX"] = idStr
         replaceVars["SIMPACT_INDATA_PREFIX"] = os.path.join(destDir, idStr + "data-")
-        
+
         # These are the output log files in a generic way
         outFileSpec = ".outfile."
         for n in finalConfig:
@@ -972,7 +972,7 @@ def main():
         line = line.strip()
         if line:
             parts = [ p.strip() for p in line.split('=') ]
-            
+
             key, value = parts[0], parts[1]
             userConfig[key] = value
 

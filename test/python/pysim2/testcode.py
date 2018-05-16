@@ -18,7 +18,7 @@ class EventTest(simpact.SimpactEvent):
 
     def calculateInternalTimeInterval(self, algAndState, t0, dt):
         return dt
-    
+
     def solveForRealTimeInterval(self, algAndState, Tdiff, t0):
         return Tdiff
 
@@ -76,8 +76,8 @@ def main():
         print(r)
     except Exception as e:
         print("Exception:", e)
-        
-    
+
+
     print("End time:", pop.getTime())
 
 

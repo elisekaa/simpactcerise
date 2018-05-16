@@ -15,15 +15,20 @@ class GslRandomNumberGenerator;
 class ProbabilityDistribution
 {
 public:
-	ProbabilityDistribution(GslRandomNumberGenerator *pRng)				{ assert(pRng != 0); m_pRng = pRng; }
-	virtual ~ProbabilityDistribution()						{ }
+        ProbabilityDistribution(GslRandomNumberGenerator* pRng)
+        {
+                assert(pRng != 0);
+                m_pRng = pRng;
+        }
+        virtual ~ProbabilityDistribution() {}
 
-	/** Pick a number according to a specific distrubution, specified in a subclass 
-	 *  of ProbabilityDistribution . */
-	virtual double pickNumber() const = 0;
-	GslRandomNumberGenerator *getRandomNumberGenerator() const			{ return m_pRng; }
+        /** Pick a number according to a specific distrubution, specified in a subclass
+         *  of ProbabilityDistribution . */
+        virtual double            pickNumber() const = 0;
+        GslRandomNumberGenerator* getRandomNumberGenerator() const { return m_pRng; }
+
 private:
-	mutable GslRandomNumberGenerator *m_pRng;
+        mutable GslRandomNumberGenerator* m_pRng;
 };
 
 #endif // PROBABILITYDISTRIBUTION_H

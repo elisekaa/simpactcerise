@@ -7,9 +7,9 @@ sys.path.append(os.path.realpath(os.path.join(os.path.realpath(__file__),"../../
 import histogram
 import subprocess
 
-settings = [ 
-    { 
-        "type": "fixed", 
+settings = [
+    {
+        "type": "fixed",
         "params": [ ("value", 0.5) ],
         "plotrange": (-1, 1),
         "f": "samples=100000;s=0.01;f(x,p) = 1.0/(sqrt(2.0*pi)*s)*exp(-(x-p)**2/(2*s**2))"
@@ -20,13 +20,13 @@ settings = [
         "plotrange": (-2, 5),
         "f": "H(x) = (x/abs(x)+1.0)/2.0 ; f(x,a,b) = 1.0/(b-a)*H(x-a)*H(b-x)"
     },
-    {   
+    {
         "type": "beta",
         "params": [ ("a", 2), ("b", 5), ("min", -2), ("max", 3) ],
         "plotrange": (-3,4),
         "f": "H(x) = (x/abs(x)+1.0)/2.0; f(x,a,b,k,l) = gamma(a+b)/(gamma(a)*gamma(b))*((x-k)/(l-k))**(a-1.0)*(1.0-((x-k)/(l-k)))**(b-1.0)*H(x-k)*H(l-x)/(l-k)"
     },
-    {   
+    {
         "type": "gamma",
         "params": [ ("a", 5), ("b", 1.5) ],
         "plotrange": (0, 15),
@@ -43,7 +43,7 @@ settings = [
 for s in settings:
 
     # Write config file for these settings
-        
+
     lines = [ ]
     lines.append("test.dist.type = " + s["type"])
     for p in s["params"]:

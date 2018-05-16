@@ -10,14 +10,13 @@
  * constructor of a class which is instantiated often.
  */
 
-#define DEBUGWARNING(x) \
-{\
-	static bool showedWarning = false; \
-	if (!showedWarning) \
-	{\
-		showedWarning = true;\
-		std::cerr << "# DEBUG WARNING: " << (x) << std::endl;\
-	}\
-}\
+#define DEBUGWARNING(x)                                                                                                \
+        {                                                                                                              \
+                static bool showedWarning = false;                                                                     \
+                if (!showedWarning) {                                                                                  \
+                        showedWarning = true;                                                                          \
+                        std::cerr << "# DEBUG WARNING: " << (x) << std::endl;                                          \
+                }                                                                                                      \
+        }
 
 #endif // DEBUGWARNING_H

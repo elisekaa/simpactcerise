@@ -1,27 +1,24 @@
 #include "maxartpopulation.h"
 #include "eventstudystart.h"
 
-MaxARTPopulation::MaxARTPopulation(PopulationAlgorithmInterface &alg, PopulationStateInterface &state)
-	: SimpactPopulation(alg, state)
+MaxARTPopulation::MaxARTPopulation(PopulationAlgorithmInterface& alg, PopulationStateInterface& state)
+    : SimpactPopulation(alg, state)
 {
-	m_studyStage = PreStudy;
+        m_studyStage = PreStudy;
 }
 
-MaxARTPopulation::~MaxARTPopulation()
-{
-}
+MaxARTPopulation::~MaxARTPopulation() {}
 
 bool_t MaxARTPopulation::scheduleInitialEvents()
 {
-	bool_t r;
-	if (!(r = SimpactPopulation::scheduleInitialEvents()))
-		return r;
+        bool_t r;
+        if (!(r = SimpactPopulation::scheduleInitialEvents()))
+                return r;
 
-	if (EventStudyStart::isMaxARTStudyEnabled())
-	{
-		EventStudyStart *pEvt = new EventStudyStart(); // global event
-		onNewEvent(pEvt);
-	}
+        if (EventStudyStart::isMaxARTStudyEnabled()) {
+                EventStudyStart* pEvt = new EventStudyStart(); // global event
+                onNewEvent(pEvt);
+        }
 
-	return true;
+        return true;
 }

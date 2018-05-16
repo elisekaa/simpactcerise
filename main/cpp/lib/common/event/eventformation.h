@@ -10,33 +10,33 @@ class EvtHazard;
 class EventFormation : public SimpactEvent
 {
 public:
-	// set last dissolution time to -1 if irrelevant
-	// formationScheduleTime will be used to check if the event is still relevant
-	// (may become irrelevant because someone moved)
-	EventFormation(Person *pPerson1, Person *pPerson2, double lastDissTime, double formationScheduleTime);
-	~EventFormation();
+        // set last dissolution time to -1 if irrelevant
+        // formationScheduleTime will be used to check if the event is still relevant
+        // (may become irrelevant because someone moved)
+        EventFormation(Person* pPerson1, Person* pPerson2, double lastDissTime, double formationScheduleTime);
+        ~EventFormation();
 
-	std::string getDescription(double tNow) const override;
-	void writeLogs(const SimpactPopulation &pop, double tNow) const override;
-	void fire(Algorithm *pAlgorithm, State *pState, double t) override;
+        std::string getDescription(double tNow) const override;
+        void        writeLogs(const SimpactPopulation& pop, double tNow) const override;
+        void        fire(Algorithm* pAlgorithm, State* pState, double t) override;
 
-	double getLastDissolutionTime() const								{ return m_lastDissolutionTime; }
+        double getLastDissolutionTime() const { return m_lastDissolutionTime; }
 
-	static void processConfig(ConfigSettings &config, GslRandomNumberGenerator *pRndGen);
-	static void obtainConfig(ConfigWriter &config);
+        static void processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
+        static void obtainConfig(ConfigWriter& config);
+
 protected:
-	static EvtHazard *getHazard(ConfigSettings &config, const std::string &prefix, bool msm);
+        static EvtHazard* getHazard(ConfigSettings& config, const std::string& prefix, bool msm);
 
-	double calculateInternalTimeInterval(const State *pState, double t0, double dt) override;
-	double solveForRealTimeInterval(const State *pState, double Tdiff, double t0) override;
-	bool isUseless(const PopulationStateInterface &population) override;
+        double calculateInternalTimeInterval(const State* pState, double t0, double dt) override;
+        double solveForRealTimeInterval(const State* pState, double Tdiff, double t0) override;
+        bool   isUseless(const PopulationStateInterface& population) override;
 
-	const double m_lastDissolutionTime;
-	const double m_formationScheduleTime;
+        const double m_lastDissolutionTime;
+        const double m_formationScheduleTime;
 
-	static EvtHazard *m_pHazard;
-	static EvtHazard *m_pHazardMSM;
+        static EvtHazard* m_pHazard;
+        static EvtHazard* m_pHazardMSM;
 };
 
 #endif // EVENTFORMATION_H
-

@@ -14,34 +14,36 @@
 class LogFile
 {
 public:
-	LogFile();
-	virtual ~LogFile();
+        LogFile();
+        virtual ~LogFile();
 
-	/** Opens the specified file for writing. */
-	bool_t open(const std::string &fileName);
+        /** Opens the specified file for writing. */
+        bool_t open(const std::string& fileName);
 
-	bool isOpen() const											{ return m_pFile != 0; }
+        bool isOpen() const { return m_pFile != 0; }
 
-	/** Returns the filename from the 'open' call. */
-	std::string getFileName() const								{ return m_fileName; }
+        /** Returns the filename from the 'open' call. */
+        std::string getFileName() const { return m_fileName; }
 
-	/** Writes the specified parameters (similar to printf) to the logfile, automatically appending a newline character (\\n). */
-	void print(const char *format, ...);
+        /** Writes the specified parameters (similar to printf) to the logfile, automatically appending a newline
+         * character (\\n). */
+        void print(const char* format, ...);
 
-	/** Writes the specified parameters (similar to printf) to the logfile. */
-	void printNoNewLine(const char *format, ...);
+        /** Writes the specified parameters (similar to printf) to the logfile. */
+        void printNoNewLine(const char* format, ...);
 
-	/** Finalizes and closes the log file. */
-	void close();
+        /** Finalizes and closes the log file. */
+        void close();
 
-	/** Method to write something to all currently open log files, useful when program aborts
-	 *  and a message should appear in all logs. */
-	static void writeToAllLogFiles(const std::string &str);
+        /** Method to write something to all currently open log files, useful when program aborts
+         *  and a message should appear in all logs. */
+        static void writeToAllLogFiles(const std::string& str);
+
 private:
-	FILE *m_pFile;
-	std::string m_fileName;
+        FILE*       m_pFile;
+        std::string m_fileName;
 
-	static std::vector<LogFile *> s_allLogFiles;
+        static std::vector<LogFile*> s_allLogFiles;
 };
 
 #endif // LOGFILE_H

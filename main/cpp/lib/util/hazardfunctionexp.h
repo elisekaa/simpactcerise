@@ -15,38 +15,41 @@
 class HazardFunctionExp : public HazardFunction
 {
 public:
-	/** Constructor which specifies the parameters in exp(A+Bt). */
-	HazardFunctionExp(double A = 0, double B = 0) : m_A(A), m_B(B)				{ }
-	~HazardFunctionExp()									{ }
+        /** Constructor which specifies the parameters in exp(A+Bt). */
+        HazardFunctionExp(double A = 0, double B = 0) : m_A(A), m_B(B) {}
+        ~HazardFunctionExp() {}
 
-	double evaluate(double t);
-	double calculateInternalTimeInterval(double t0, double dt);
-	double solveForRealTimeInterval(double t0, double Tdiff);
+        double evaluate(double t);
+        double calculateInternalTimeInterval(double t0, double dt);
+        double solveForRealTimeInterval(double t0, double Tdiff);
+
 protected:
-	void setAB(double A, double B)								{ m_A = A; m_B = B; }
+        void setAB(double A, double B)
+        {
+                m_A = A;
+                m_B = B;
+        }
+
 private:
-	double m_A, m_B;
+        double m_A, m_B;
 };
 
-inline double HazardFunctionExp::evaluate(double t)
-{
-	return std::exp(m_A + m_B * t);
-}
+inline double HazardFunctionExp::evaluate(double t) { return std::exp(m_A + m_B * t); }
 
 inline double HazardFunctionExp::calculateInternalTimeInterval(double t0, double dt)
 {
-	if (m_B == 0)
-		return dt*std::exp(m_A);
-	
-	return (std::exp(m_A + m_B*t0)/m_B)*(std::exp(m_B * dt) - 1.0);
+        if (m_B == 0)
+                return dt * std::exp(m_A);
+
+        return (std::exp(m_A + m_B * t0) / m_B) * (std::exp(m_B * dt) - 1.0);
 }
 
 inline double HazardFunctionExp::solveForRealTimeInterval(double t0, double Tdiff)
 {
-	if (m_B == 0)
-		return Tdiff/std::exp(m_A);
+        if (m_B == 0)
+                return Tdiff / std::exp(m_A);
 
-	return (1.0/m_B)*std::log((m_B*Tdiff)/std::exp(m_A + m_B*t0) + 1.0);
+        return (1.0 / m_B) * std::log((m_B * Tdiff) / std::exp(m_A + m_B * t0) + 1.0);
 }
 
 #endif // HAZARDFUNCTIONEXP_H

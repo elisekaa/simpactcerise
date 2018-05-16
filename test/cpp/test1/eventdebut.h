@@ -7,14 +7,15 @@
 class EventDebut : public SimpactEvent
 {
 public:
-	EventDebut(Person *pPerson);
-	~EventDebut();
+        EventDebut(Person* pPerson);
+        ~EventDebut();
 
-	std::string getDescription(double tNow) const;
+        std::string getDescription(double tNow) const;
 
-	void fire(Algorithm *pAlg, State *pState, double t);
+        void fire(Algorithm* pAlg, State* pState, double t);
+
 private:
-	double getNewInternalTimeDifference(GslRandomNumberGenerator *pRndGen, const State *pState);
+        double getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState);
 };
 
 #endif // EVENTDEBUT_H

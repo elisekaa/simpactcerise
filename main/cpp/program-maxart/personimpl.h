@@ -7,11 +7,11 @@ class Person;
 class PersonImpl
 {
 public:
-	PersonImpl(Person &p);
-	~PersonImpl();
+        PersonImpl(Person& p);
+        ~PersonImpl();
+
 protected:
-	Person &m_person;
+        Person& m_person;
 };
 
 #endif // PERSONIMPL_H
-

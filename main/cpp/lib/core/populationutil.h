@@ -8,8 +8,9 @@
 class PopulationUtil
 {
 public:
-	static bool_t selectAlgorithmAndState(const std::string &algo, GslRandomNumberGenerator &rng, bool parallel,
-		                       PopulationAlgorithmInterface **ppAlgo, PopulationStateInterface **ppState);
+        static bool_t selectAlgorithmAndState(const std::string& algo, GslRandomNumberGenerator& rng, bool parallel,
+                                              PopulationAlgorithmInterface** ppAlgo,
+                                              PopulationStateInterface**     ppState);
 };
 
 #endif // POPULATIONUTIL_H

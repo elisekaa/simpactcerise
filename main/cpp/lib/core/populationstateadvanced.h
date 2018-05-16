@@ -8,9 +8,9 @@
 
 #include "algorithm.h"
 #include "mutex.h"
+#include "personaleventlist.h"
 #include "personbase.h"
 #include "populationstatesimpleadvancedcommon.h"
-#include "personaleventlist.h"
 #include <assert.h>
 #include <vector>
 
@@ -21,32 +21,32 @@ class PopulationAlgorithmAdvanced;
  *  from PopulationStateInterface are implemented. */
 class PopulationStateAdvanced : public PopulationStateSimpleAdvancedCommon
 {
-public: 
-	PopulationStateAdvanced();
-	~PopulationStateAdvanced();
+public:
+        PopulationStateAdvanced();
+        ~PopulationStateAdvanced();
 
-	bool_t init(bool parallel);
+        bool_t init(bool parallel);
 
-	// For internal use (by PersonalEventList)
-	void lockPerson(PersonBase *pPerson) const;
-	void unlockPerson(PersonBase *pPerson) const;
+        // For internal use (by PersonalEventList)
+        void lockPerson(PersonBase* pPerson) const;
+        void unlockPerson(PersonBase* pPerson) const;
+
 private:
-	int64_t getNextPersonID();
-	void setListIndex(PersonBase *pPerson, int idx);
-	int getListIndex(PersonBase *pPerson);
-	void addAlgorithmInfo(PersonBase *pPerson);
+        int64_t getNextPersonID();
+        void    setListIndex(PersonBase* pPerson, int idx);
+        int     getListIndex(PersonBase* pPerson);
+        void    addAlgorithmInfo(PersonBase* pPerson);
 
-	bool m_init;
-	bool m_parallel;
+        bool m_init;
+        bool m_parallel;
 
-	int64_t m_nextPersonID;
+        int64_t m_nextPersonID;
 #ifndef DISABLEOPENMP
-	Mutex m_nextPersonIDMutex;
-	mutable std::vector<Mutex> m_personMutexes;
+        Mutex                      m_nextPersonIDMutex;
+        mutable std::vector<Mutex> m_personMutexes;
 #endif // !DISABLEOPENMP
 
-	friend class PopulationAlgorithmAdvanced;
+        friend class PopulationAlgorithmAdvanced;
 };
 
 #endif // POPULATIONSTATEADVANCED_H
-

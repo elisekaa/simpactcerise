@@ -25,8 +25,8 @@ if platform.system() != "Windows":
     libraries = [ "gsl", "gslcblas" ]
 else:
     libDirs = [ "c:\\local\\lib\\" ]
-    extraIncludes = [ "c:\\local\\include" ] 
-    extraDefines = [ ("WIN32", None) ] 
+    extraIncludes = [ "c:\\local\\include" ]
+    extraDefines = [ ("WIN32", None) ]
     libraries = [ "gsl", "cblas" ]
 
 simpactFiles = [ "simpactbindings.cpp",
@@ -62,7 +62,7 @@ data = open("simpacttemplate.pyx", "rt").read()
 open(modFile, "wt").write(data)
 
 extensions = [
-    Extension(modName, 
+    Extension(modName,
         [ modFile ] + simpactFiles,
         include_dirs = [ "../../lib/core", "../../lib/mnrm", "../../lib/util/" ] + extraIncludes,
         libraries = libraries,

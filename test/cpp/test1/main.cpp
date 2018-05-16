@@ -1,95 +1,92 @@
 #include "gslrandomnumbergenerator.h"
-#include "populationdistributioncsv.h"
 #include "person.h"
-#include "simpactpopulation.h"
+#include "populationdistributioncsv.h"
 #include "populationutil.h"
+#include "simpactpopulation.h"
 #include <assert.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <cmath>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 class PopulationDistributionConstant : public PopulationDistribution
 {
 public:
-	PopulationDistributionConstant(double ageMale, double ageFemale, GslRandomNumberGenerator *pRnd) : PopulationDistribution(pRnd)
-	{
-		m_ageMale = ageMale;
-		m_ageFemale = ageFemale;
-	}
+        PopulationDistributionConstant(double ageMale, double ageFemale, GslRandomNumberGenerator* pRnd)
+            : PopulationDistribution(pRnd)
+        {
+                m_ageMale   = ageMale;
+                m_ageFemale = ageFemale;
+        }
 
-	~PopulationDistributionConstant()
-	{
-	}
+        ~PopulationDistributionConstant() {}
 
-	double pickAge(bool male) const
-	{
-		if (male)
-			return m_ageMale;
+        double pickAge(bool male) const
+        {
+                if (male)
+                        return m_ageMale;
 
-		return m_ageFemale;
-	}
+                return m_ageFemale;
+        }
+
 private:
-	double m_ageMale, m_ageFemale;
+        double m_ageMale, m_ageFemale;
 };
 
-void usage(const std::string &progName)
+void usage(const std::string& progName)
 {
-	std::cerr << "Usage: " << progName << " numMen numWomen parallel(0/1) tMax(years) algo(simple/opt)" << std::endl;
-	exit(-1);
+        std::cerr << "Usage: " << progName << " numMen numWomen parallel(0/1) tMax(years) algo(simple/opt)"
+                  << std::endl;
+        exit(-1);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	if (argc != 6)
-		usage(argv[0]);
+        if (argc != 6)
+                usage(argv[0]);
 
-	int numMen = atoi(argv[1]);
-	int numWomen = atoi(argv[2]);
-	int intParallel = atoi(argv[3]);
-	bool parallel = (intParallel == 1);
-	double tMax = strtod(argv[4], 0);
-	std::string algo(argv[5]);
+        int         numMen      = atoi(argv[1]);
+        int         numWomen    = atoi(argv[2]);
+        int         intParallel = atoi(argv[3]);
+        bool        parallel    = (intParallel == 1);
+        double      tMax        = strtod(argv[4], 0);
+        std::string algo(argv[5]);
 
-	GslRandomNumberGenerator rng;
-	SimpactPopulationConfig config;
+        GslRandomNumberGenerator rng;
+        SimpactPopulationConfig  config;
 
-	std::cerr << "WARNING: using fixed starting age" << std::endl;
-	PopulationDistributionConstant ageDist(30.0, 30.0, &rng);
+        std::cerr << "WARNING: using fixed starting age" << std::endl;
+        PopulationDistributionConstant ageDist(30.0, 30.0, &rng);
 
-	config.setInitialMen(numMen);
-	config.setInitialWomen(numWomen);
+        config.setInitialMen(numMen);
+        config.setInitialWomen(numWomen);
 
-	PopulationAlgorithmInterface *pAlgo = 0;
-	PopulationStateInterface *pState = 0;
-	
-	bool_t r = PopulationUtil::selectAlgorithmAndState(algo, rng, parallel, &pAlgo, &pState);
-	if (!r)
-	{
-		std::cerr << "Couldn't create requested algorithm: " << r.getErrorString() << std::endl;
-		return -1;
-	}
+        PopulationAlgorithmInterface* pAlgo  = 0;
+        PopulationStateInterface*     pState = 0;
 
-	SimpactPopulation pop(*pAlgo, *pState);
-	if (!(r = pop.init(config, ageDist)))
-	{
-		std::cerr << r.getErrorString() << std::endl;
-		return -1;
-	}
+        bool_t r = PopulationUtil::selectAlgorithmAndState(algo, rng, parallel, &pAlgo, &pState);
+        if (!r) {
+                std::cerr << "Couldn't create requested algorithm: " << r.getErrorString() << std::endl;
+                return -1;
+        }
 
-	int64_t maxEvents = -1;
+        SimpactPopulation pop(*pAlgo, *pState);
+        if (!(r = pop.init(config, ageDist))) {
+                std::cerr << r.getErrorString() << std::endl;
+                return -1;
+        }
 
-	if (!(r = pAlgo->run(tMax, maxEvents)))
-	{
-		std::cerr << "# Error running simulation: " << r.getErrorString() << std::endl;
-		std::cerr << "# Current simulation time is " << pAlgo->getTime() << std::endl;
-	}
+        int64_t maxEvents = -1;
 
-	std::cerr << "# Number of events executed is " << maxEvents << std::endl;
+        if (!(r = pAlgo->run(tMax, maxEvents))) {
+                std::cerr << "# Error running simulation: " << r.getErrorString() << std::endl;
+                std::cerr << "# Current simulation time is " << pAlgo->getTime() << std::endl;
+        }
 
-	delete pState;
-	delete pAlgo;
+        std::cerr << "# Number of events executed is " << maxEvents << std::endl;
 
-	return 0;
+        delete pState;
+        delete pAlgo;
+
+        return 0;
 }
-

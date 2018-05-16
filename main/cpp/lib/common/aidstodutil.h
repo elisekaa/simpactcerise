@@ -1,8 +1,6 @@
-#ifndef AIDSTODUTIL_H
+#pragma once
 
-#define AIDSTODUTIL_H
-
-#include <assert.h>
+#include <cassert>
 
 // This will do a hazard-like calculation. It would be easier if we could
 // just use a similar hazard in the AIDS based mortality event, but this
@@ -11,22 +9,37 @@
 
 class Person;
 
-class AIDSTimeOfDeathUtility
+class AidsTimeOfDeathUtility
 {
 public:
-	AIDSTimeOfDeathUtility();
-	~AIDSTimeOfDeathUtility();
+        ///
+        AidsTimeOfDeathUtility();
 
-	void changeTimeOfDeath(double currentTime, const Person *pPerson);
-	double getTimeOfDeath() const							{ assert(m_timeOfDeath >= 0); return m_timeOfDeath; }
-	double getInfectionTime() const							{ assert(m_infectionTime >= 0); return m_infectionTime; }
+        ///
+        ~AidsTimeOfDeathUtility();
+
+        ///
+        void   changeTimeOfDeath(double currentTime, const Person* pPerson);
+
+        ///
+        double getTimeOfDeath() const
+        {
+                assert(m_timeOfDeath >= 0);
+                return m_timeOfDeath;
+        }
+
+        ///
+        double getInfectionTime() const
+        {
+                assert(m_infectionTime >= 0);
+                return m_infectionTime;
+        }
+
 private:
-	double m_internalTimeRemaining;
-	double m_infectionTime;
-	double m_timeOfDeath;
-	double m_prevHazard;
-	double m_prevTime;
+        double m_internalTimeRemaining;
+        double m_infectionTime;
+        double m_timeOfDeath;
+        double m_prevHazard;
+        double m_prevTime;
 };
-
-#endif // AIDSTODUTIL_H
 

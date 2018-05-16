@@ -6,8 +6,8 @@
  * \file populationdistributioncsv.h
  */
 
-#include "populationdistribution.h"
 #include "booltype.h"
+#include "populationdistribution.h"
 
 class DiscreteDistribution;
 
@@ -17,26 +17,27 @@ class DiscreteDistribution;
 class PopulationDistributionCSV : public PopulationDistribution
 {
 public:
-	/** Constructor of the class, which needs the random number generator
-	 *  to use. */
-	PopulationDistributionCSV(GslRandomNumberGenerator *pRndGen);
-	~PopulationDistributionCSV();
+        /** Constructor of the class, which needs the random number generator
+         *  to use. */
+        PopulationDistributionCSV(GslRandomNumberGenerator* pRndGen);
+        ~PopulationDistributionCSV();
 
-	/** Load the age distribution from the specified file. 
-	 *  The file should look something like this:
-	 *
-	 * 	"Start of age bin", "Number of men in bin", "Number of women in bin"
-	 *	..., ..., ...
-	 */
-	bool_t load(const std::string &csvFile);
+        /** Load the age distribution from the specified file.
+         *  The file should look something like this:
+         *
+         * 	"Start of age bin", "Number of men in bin", "Number of women in bin"
+         *	..., ..., ...
+         */
+        bool_t load(const std::string& csvFile);
 
-	/** Clears the previously loaded data. */
-	void clear();
+        /** Clears the previously loaded data. */
+        void clear();
 
-	double pickAge(bool male) const;
+        double pickAge(bool male) const;
+
 private:
-	DiscreteDistribution *m_pMaleDist;
-	DiscreteDistribution *m_pFemaleDist;
+        DiscreteDistribution* m_pMaleDist;
+        DiscreteDistribution* m_pFemaleDist;
 };
 
 #endif // POPULATIONDISTRIBUTIONCSV_H

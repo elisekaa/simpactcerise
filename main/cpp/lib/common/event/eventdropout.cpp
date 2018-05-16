@@ -1,95 +1,93 @@
 #include "eventdropout.h"
-#include "eventdiagnosis.h"
+#include "configdistributionhelper.h"
+#include "configfunctions.h"
 #include "configsettings.h"
 #include "configwriter.h"
-#include "configdistributionhelper.h"
+#include "eventdiagnosis.h"
 #include "gslrandomnumbergenerator.h"
 #include "jsonconfig.h"
-#include "configfunctions.h"
 #include "util.h"
 #include <iostream>
 
 using namespace std;
 
-EventDropout::EventDropout(Person *pPerson, double treatmentStartTime) : SimpactEvent(pPerson)
+EventDropout::EventDropout(Person* pPerson, double treatmentStartTime) : SimpactEvent(pPerson)
 {
-	assert(treatmentStartTime >= 0);
-	m_treatmentStartTime = treatmentStartTime;
+        assert(treatmentStartTime >= 0);
+        m_treatmentStartTime = treatmentStartTime;
 }
 
-EventDropout::~EventDropout()
-{
-}
+EventDropout::~EventDropout() {}
 
 string EventDropout::getDescription(double tNow) const
 {
-	return strprintf("Dropout event for %s", getPerson(0)->getName().c_str());
+        return strprintf("Dropout event for %s", getPerson(0)->getName().c_str());
 }
 
-void EventDropout::writeLogs(const SimpactPopulation &pop, double tNow) const
+void EventDropout::writeLogs(const SimpactPopulation& pop, double tNow) const
 {
-	Person *pPerson = getPerson(0);
-	writeEventLogStart(true, "dropout", tNow, pPerson, 0);
+        Person* pPerson = getPerson(0);
+        writeEventLogStart(true, "dropout", tNow, pPerson, 0);
 }
 
-void EventDropout::fire(Algorithm *pAlgorithm, State *pState, double t)
+void EventDropout::fire(Algorithm* pAlgorithm, State* pState, double t)
 {
-	SimpactPopulation &population = SIMPACTPOPULATION(pState);
-	Person *pPerson = getPerson(0);
+        SimpactPopulation& population = SIMPACTPOPULATION(pState);
+        Person*            pPerson    = getPerson(0);
 
-	// Write to treatment log
-	pPerson->writeToTreatmentLog(t, false);
+        // Write to treatment log
+        pPerson->writeToTreatmentLog(t, false);
 
-	// Viral load goes back to the pre-treatment state
-	pPerson->hiv().resetViralLoad(t);
+        // Viral load goes back to the pre-treatment state
+        pPerson->hiv().resetViralLoad(t);
 
-	// HIV diagnosis event must be scheduled again so the person can possibly start treatment again
-	EventDiagnosis *pEvtDiag = new EventDiagnosis(pPerson);
-	population.onNewEvent(pEvtDiag);
+        // HIV diagnosis event must be scheduled again so the person can possibly start treatment again
+        EventDiagnosis* pEvtDiag = new EventDiagnosis(pPerson);
+        population.onNewEvent(pEvtDiag);
 }
 
-double EventDropout::getNewInternalTimeDifference(GslRandomNumberGenerator *pRndGen, const State *pState)
+double EventDropout::getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState)
 {
-	// TODO: this is just a temporaty solution, until a real hazard has been defined
-	
-	int count = 0;
-	int maxCount = 1024;
-	double dt = -1;
+        // TODO: this is just a temporaty solution, until a real hazard has been defined
 
-	assert(s_pDropoutDistribution);
+        int    count    = 0;
+        int    maxCount = 1024;
+        double dt       = -1;
 
-	while (dt < 0 && count++ < maxCount)
-		dt = s_pDropoutDistribution->pickNumber();
+        assert(s_pDropoutDistribution);
 
-	if (dt < 0)
-		abortWithMessage("EventDropout: couldn't find a positive time interval for next event");
+        while (dt < 0 && count++ < maxCount)
+                dt = s_pDropoutDistribution->pickNumber();
 
-	return dt;
+        if (dt < 0)
+                abortWithMessage("EventDropout: couldn't find a positive time interval for next event");
+
+        return dt;
 }
 
-double EventDropout::calculateInternalTimeInterval(const State *pState, double t0, double dt)
+double EventDropout::calculateInternalTimeInterval(const State* pState, double t0, double dt)
 {
-	// TODO: this will need to change when using a real hazard
-	return dt;
+        // TODO: this will need to change when using a real hazard
+        return dt;
 }
 
-double EventDropout::solveForRealTimeInterval(const State *pState, double Tdiff, double t0)
+double EventDropout::solveForRealTimeInterval(const State* pState, double Tdiff, double t0)
 {
-	// TODO: this will need to change when using a real hazard
-	return Tdiff;
+        // TODO: this will need to change when using a real hazard
+        return Tdiff;
 }
 
-ProbabilityDistribution *EventDropout::s_pDropoutDistribution = 0;
+ProbabilityDistribution* EventDropout::s_pDropoutDistribution = 0;
 
-void EventDropout::processConfig(ConfigSettings &config, GslRandomNumberGenerator *pRndGen)
+void EventDropout::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-	delete s_pDropoutDistribution;
-	s_pDropoutDistribution = getDistributionFromConfig(config, pRndGen, "dropout.interval");
+        delete s_pDropoutDistribution;
+        s_pDropoutDistribution = getDistributionFromConfig(config, pRndGen, "dropout.interval");
 }
 
-void EventDropout::obtainConfig(ConfigWriter &config)
+void EventDropout::obtainConfig(ConfigWriter& config)
 {
-	addDistributionToConfig(s_pDropoutDistribution, config, "dropout.interval");
+        addDistributionToConfig(s_pDropoutDistribution, config, "dropout.interval");
 }
 
 ConfigFunctions dropoutConfigFunctions(EventDropout::processConfig, EventDropout::obtainConfig, "EventDropout");
@@ -97,11 +95,10 @@ ConfigFunctions dropoutConfigFunctions(EventDropout::processConfig, EventDropout
 JSONConfig dropoutJSONConfig(R"JSON(
         "EventDropout_Timing": {
             "depends": null,
-            "params": [ 
+            "params": [
                 [ "dropout.interval.dist", "distTypes", [ "uniform", [ [ "min", 0.25  ], [ "max", 10.0 ] ] ] ]
             ],
             "info": [
                 "Distribution to schedule dropout events."
             ]
         })JSON");
-

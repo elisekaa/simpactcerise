@@ -8,10 +8,10 @@
 
 #include "algorithm.h"
 #include "mutex.h"
-#include "personbase.h"
-#include "populationinterfaces.h"
-#include "populationevent.h"
 #include "personaleventlisttesting.h"
+#include "personbase.h"
+#include "populationevent.h"
+#include "populationinterfaces.h"
 #include <assert.h>
 
 class GslRandomNumberGenerator;
@@ -22,12 +22,12 @@ class PopulationStateTesting;
 /**
  * This class provides functions for a population-based simulation using
  * the modified Next Reaction Method (mNRM). Being population-based, the
- * state of the simulation mostly consists of the (living) people. 
+ * state of the simulation mostly consists of the (living) people.
  *
  * This implementation uses an algorithm by deriving
  * from Algorithm directly and overriding the functions Algorithm::getNextScheduledEvent
  * and Algorithm::advanceEventTimes. It is always good to compare the results
- * of the ones from PopulationAlgorithmSimple to assure the correct working 
+ * of the ones from PopulationAlgorithmSimple to assure the correct working
  * of this more optimized version.
  *
  * Before calling PopulationAlgorithmInterface::run, you'll need to introduce
@@ -43,8 +43,8 @@ class PopulationStateTesting;
  * To know how to use this population based algorithm, it can be useful to understand
  * the way it works. The figure below illustrates how everything is organized. In
  * essence, a population (stored in an instance of PopulationStateAdvanced)
- * is just a collection of people (represented by some class derived from PersonBase), 
- * and each person stores a list of events that are relevant to him. 
+ * is just a collection of people (represented by some class derived from PersonBase),
+ * and each person stores a list of events that are relevant to him.
  *
  * ![](optalg.png)
  *
@@ -63,7 +63,7 @@ class PopulationStateTesting;
  * in their lists are affected and that their events will require a recalculation of
  * the fire times. In case other people are affected as well (who you don't know
  * beforehand), this can be specified using the functions PopulationEvent::isEveryoneAffected
- * or PopulationEvent::markOtherAffectedPeople. If such additional people are specified 
+ * or PopulationEvent::markOtherAffectedPeople. If such additional people are specified
  * as well, those people's event fire times will be recalculated as well. Using PopulationEvent::areGlobalEventsAffected
  * you can indicate that the fire times of global events should be recalculated.
  *
@@ -82,66 +82,71 @@ class PopulationStateTesting;
 class PopulationAlgorithmTesting : public Algorithm, public PopulationAlgorithmInterface
 {
 public:
-	/** Constructor of the class, indicating if a parallel version
-	 *  should be used, which random number generator should be
-	 *  used and which simulation state. */
-	PopulationAlgorithmTesting(PopulationStateTesting &state, GslRandomNumberGenerator &rng, bool parallel);
-	~PopulationAlgorithmTesting();
+        /** Constructor of the class, indicating if a parallel version
+         *  should be used, which random number generator should be
+         *  used and which simulation state. */
+        PopulationAlgorithmTesting(PopulationStateTesting& state, GslRandomNumberGenerator& rng, bool parallel);
+        ~PopulationAlgorithmTesting();
 
-	bool_t init();
+        bool_t init();
 
-	bool isParallel() const							{ return m_parallel; }
-	bool_t run(double &tMax, int64_t &maxEvents, double startTime = 0);
-	void onNewEvent(PopulationEvent *pEvt);
+        bool   isParallel() const { return m_parallel; }
+        bool_t run(double& tMax, int64_t& maxEvents, double startTime = 0);
+        void   onNewEvent(PopulationEvent* pEvt);
 
-	// TODO: shield these from the user somehow? These functions should not be used
-	//       directly by the user, they are used internally by the algorithm
-	void scheduleForRemoval(PopulationEvent *pEvt);
+        // TODO: shield these from the user somehow? These functions should not be used
+        //       directly by the user, they are used internally by the algorithm
+        void scheduleForRemoval(PopulationEvent* pEvt);
 
-	double getTime() const															{ return Algorithm::getTime(); }
-	GslRandomNumberGenerator *getRandomNumberGenerator() const						{ return Algorithm::getRandomNumberGenerator(); }
+        double                    getTime() const { return Algorithm::getTime(); }
+        GslRandomNumberGenerator* getRandomNumberGenerator() const { return Algorithm::getRandomNumberGenerator(); }
 
-	void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface *pAction)		{ m_pOnAboutToFire = pAction; }
+        void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) { m_pOnAboutToFire = pAction; }
+
 private:
-	bool_t initEventTimes() const;
-	bool_t getNextScheduledEvent(double &dt, EventBase **ppEvt);
-	void advanceEventTimes(EventBase *pScheduledEvent, double dt);
-	void onAboutToFire(EventBase *pEvt)												{ if (m_pOnAboutToFire) m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent *>(pEvt)); }
-	PopulationEvent *getEarliestEvent(const std::vector<PersonBase *> &people);
-	PersonalEventListTesting *personalEventList(PersonBase *pPerson);
+        bool_t initEventTimes() const;
+        bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
+        void   advanceEventTimes(EventBase* pScheduledEvent, double dt);
+        void   onAboutToFire(EventBase* pEvt)
+        {
+                if (m_pOnAboutToFire)
+                        m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
+        }
+        PopulationEvent*          getEarliestEvent(const std::vector<PersonBase*>& people);
+        PersonalEventListTesting* personalEventList(PersonBase* pPerson);
 
-	PopulationStateTesting &m_popState;
-	bool m_init;
+        PopulationStateTesting& m_popState;
+        bool                    m_init;
 
 #ifdef ALGORITHM_SHOW_EVENTS
-	void showEvents(); // FOR DEBUGGING
-#endif // ALGORITHM_SHOW_EVENTS
-	void onAlgorithmLoop(bool finished);
+        void showEvents(); // FOR DEBUGGING
+#endif                     // ALGORITHM_SHOW_EVENTS
+        void onAlgorithmLoop(bool finished);
 
-	int64_t getNextEventID();
+        int64_t getNextEventID();
 
-	std::vector<EventBase *> m_eventsToRemove;
+        std::vector<EventBase*> m_eventsToRemove;
 
-	// For the parallel version
-	bool m_parallel;
+        // For the parallel version
+        bool m_parallel;
 
-	int64_t m_nextEventID;
+        int64_t m_nextEventID;
 
-	PopulationAlgorithmAboutToFireInterface *m_pOnAboutToFire;
+        PopulationAlgorithmAboutToFireInterface* m_pOnAboutToFire;
 };
 
 inline int64_t PopulationAlgorithmTesting::getNextEventID()
 {
-	int64_t id = m_nextEventID++;
-	return id;
+        int64_t id = m_nextEventID++;
+        return id;
 }
 
-inline PersonalEventListTesting *PopulationAlgorithmTesting::personalEventList(PersonBase *pPerson)
+inline PersonalEventListTesting* PopulationAlgorithmTesting::personalEventList(PersonBase* pPerson)
 {
-	assert(pPerson);
-	PersonalEventListTesting *pEvtList = static_cast<PersonalEventListTesting *>(pPerson->getAlgorithmInfo());
-	assert(pEvtList);
-	return pEvtList;
+        assert(pPerson);
+        PersonalEventListTesting* pEvtList = static_cast<PersonalEventListTesting*>(pPerson->getAlgorithmInfo());
+        assert(pEvtList);
+        return pEvtList;
 }
 
 #endif // POPULATIONALGORITHMTESTING_H

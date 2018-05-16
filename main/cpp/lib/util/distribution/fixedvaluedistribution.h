@@ -14,16 +14,18 @@
 class FixedValueDistribution : public ProbabilityDistribution
 {
 public:
-	/** Constructor of the class, in which the value to be always returned is specified. */
-	FixedValueDistribution(double value, GslRandomNumberGenerator *pRndGen) : ProbabilityDistribution(pRndGen)
-											{ m_value = value; }
-	~FixedValueDistribution()							{ }
+        /** Constructor of the class, in which the value to be always returned is specified. */
+        FixedValueDistribution(double value, GslRandomNumberGenerator* pRndGen) : ProbabilityDistribution(pRndGen)
+        {
+                m_value = value;
+        }
+        ~FixedValueDistribution() {}
 
-	double pickNumber() const							{ return m_value; }
-	double getValue() const								{ return m_value; }
+        double pickNumber() const { return m_value; }
+        double getValue() const { return m_value; }
+
 private:
-	double m_value;
+        double m_value;
 };
 
 #endif // FIXEDVALUEDISTRIBUTION_H
-

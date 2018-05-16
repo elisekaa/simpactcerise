@@ -6,12 +6,12 @@
  * \file booltype.h
  */
 
-#include <string>
 #include <string.h>
+#include <string>
 
 #define BOOL_T_LEN 2048
 
-/** 
+/**
  * Type to return true/false with error description.
  *
  * This type is intended to be used as a return value of functions, which
@@ -25,112 +25,98 @@
 class bool_t
 {
 public:
-	/** Just set true or false, but leave the error description undefined in case of 'false'. */
-	bool_t(bool f = true);
+        /** Just set true or false, but leave the error description undefined in case of 'false'. */
+        bool_t(bool f = true);
 
-	/** Set the return value to 'false', and the error string to the specified value. */
-	bool_t(const char *pStr);
+        /** Set the return value to 'false', and the error string to the specified value. */
+        bool_t(const char* pStr);
 
-	/** Set the return value to 'false', and the error string to the specified value. */
-	bool_t(const std::string &err);
+        /** Set the return value to 'false', and the error string to the specified value. */
+        bool_t(const std::string& err);
 
-	/** Copy constructor. */
-	bool_t(const bool_t &b);
+        /** Copy constructor. */
+        bool_t(const bool_t& b);
 
-	/** Assignment operator. */
-	bool_t &operator=(const bool_t &b);
+        /** Assignment operator. */
+        bool_t& operator=(const bool_t& b);
 
-	/** Returns a description of the error. */
-	std::string getErrorString() const;
+        /** Returns a description of the error. */
+        std::string getErrorString() const;
 
-	/** Returns true or false, depending on the contents of this object. */
-	operator bool() const;
+        /** Returns true or false, depending on the contents of this object. */
+        operator bool() const;
 
-	bool success() const;
+        bool success() const;
+
 private:
-	void strncpy(const char *pSrc);
-	void setErrorString(const std::string &err);
-	void setErrorString(const char *pStr);
+        void strncpy(const char* pSrc);
+        void setErrorString(const std::string& err);
+        void setErrorString(const char* pStr);
 
-	char m_errorString[BOOL_T_LEN];
-	static char s_defaultErrMsg[];
-	static char s_defaultSuccessMsg[];
+        char        m_errorString[BOOL_T_LEN];
+        static char s_defaultErrMsg[];
+        static char s_defaultSuccessMsg[];
 };
 
 inline bool_t::bool_t(bool f)
 {
-	if (f)
-		m_errorString[0] = 0;
-	else
-		setErrorString(s_defaultErrMsg);
+        if (f)
+                m_errorString[0] = 0;
+        else
+                setErrorString(s_defaultErrMsg);
 }
 
-inline bool_t::bool_t(const char *pStr)
-{
-	setErrorString(pStr);
-}
+inline bool_t::bool_t(const char* pStr) { setErrorString(pStr); }
 
-inline bool_t::bool_t(const std::string &err)
-{
-	setErrorString(err);
-}
+inline bool_t::bool_t(const std::string& err) { setErrorString(err); }
 
-inline void bool_t::strncpy(const char *pSrc)
+inline void bool_t::strncpy(const char* pSrc)
 {
 #ifndef WIN32
-	::strncpy(m_errorString, pSrc, BOOL_T_LEN);
+        ::strncpy(m_errorString, pSrc, BOOL_T_LEN);
 #else
-	strncpy_s(m_errorString, BOOL_T_LEN, pSrc, _TRUNCATE);
+        strncpy_s(m_errorString, BOOL_T_LEN, pSrc, _TRUNCATE);
 #endif // !WIN32
-	m_errorString[BOOL_T_LEN-1] = 0;
+        m_errorString[BOOL_T_LEN - 1] = 0;
 }
 
-inline bool_t::bool_t(const bool_t &b)
+inline bool_t::bool_t(const bool_t& b)
 {
-	if (b.m_errorString[0] == 0) // No error
-		m_errorString[0] = 0;
-	else
-		strncpy(b.m_errorString);
+        if (b.m_errorString[0] == 0) // No error
+                m_errorString[0] = 0;
+        else
+                strncpy(b.m_errorString);
 }
 
-inline void bool_t::setErrorString(const std::string &s)
+inline void bool_t::setErrorString(const std::string& s) { setErrorString(s.c_str()); }
+
+inline void bool_t::setErrorString(const char* pStr)
 {
-	setErrorString(s.c_str());
+        if (pStr == 0 || pStr[0] == 0)
+                strncpy(s_defaultErrMsg);
+        else
+                strncpy(pStr);
 }
 
-inline void bool_t::setErrorString(const char *pStr)
+inline bool_t& bool_t::operator=(const bool_t& b)
 {
-	if (pStr == 0 || pStr[0] == 0)
-		strncpy(s_defaultErrMsg);
-	else
-		strncpy(pStr);
-}
+        if (b.m_errorString[0] == 0) // No error
+                m_errorString[0] = 0;
+        else
+                strncpy(b.m_errorString);
 
-inline bool_t &bool_t::operator=(const bool_t &b)
-{
-	if (b.m_errorString[0] == 0) // No error
-		m_errorString[0] = 0;
-	else
-		strncpy(b.m_errorString);
-
-	return *this;
+        return *this;
 }
 
 inline std::string bool_t::getErrorString() const
 {
-	if (m_errorString[0] == 0)
-		return s_defaultSuccessMsg;
-	return m_errorString;
+        if (m_errorString[0] == 0)
+                return s_defaultSuccessMsg;
+        return m_errorString;
 }
 
-inline bool_t::operator bool() const
-{
-	return success();
-}
+inline bool_t::operator bool() const { return success(); }
 
-inline bool bool_t::success() const
-{
-	return (m_errorString[0] == 0);
-}
+inline bool bool_t::success() const { return (m_errorString[0] == 0); }
 
 #endif // BOOLTYPE_H

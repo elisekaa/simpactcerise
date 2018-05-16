@@ -10,13 +10,13 @@ class ConfigSettings;
 class EventMortalityBase : public SimpactEvent
 {
 public:
-	EventMortalityBase(Person *pPerson);
-	~EventMortalityBase();
+        EventMortalityBase(Person* pPerson);
+        ~EventMortalityBase();
 
-	// bool isEveryoneAffected() const							{ return true; }
-	void markOtherAffectedPeople(const PopulationStateInterface &population) override;
+        // bool isEveryoneAffected() const							{ return true; }
+        void markOtherAffectedPeople(const PopulationStateInterface& population) override;
 
-	void fire(Algorithm *pAlgorithm, State *pState, double t) override;
+        void fire(Algorithm* pAlgorithm, State* pState, double t) override;
 };
 
 #endif // EVENTMORTALITYBASE_H

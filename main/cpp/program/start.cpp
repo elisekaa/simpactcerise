@@ -3,8 +3,7 @@
 
 using namespace std;
 
-SimpactPopulation *createSimpactPopulation(PopulationAlgorithmInterface &alg, PopulationStateInterface &state)
+SimpactPopulation* createSimpactPopulation(PopulationAlgorithmInterface& alg, PopulationStateInterface& state)
 {
-	return new SimpactPopulation(alg, state);
+        return new SimpactPopulation(alg, state);
 }
-

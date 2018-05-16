@@ -45,7 +45,7 @@ class Person(simpact.Person):
             if r.man is p1 and r.woman is p2:
                 del self.relationships[idx]
                 return
-        
+
         raise Exception("Couldn't find relationship between {} and {} in list of person {}".format(p1.getName(), p2.getName(), self.getName()))
 
     def getNumberOfRelationships(self):
@@ -100,7 +100,7 @@ class EventDissolution(simpact.SimpactEvent):
 
     def __init__(self, person1, person2, formationTime):
         super(EventDissolution, self).__init__(person1, person2)
-        
+
         self.formationTime = formationTime
 
     def getDescription(self, tNow):
@@ -121,14 +121,14 @@ class EventDissolution(simpact.SimpactEvent):
         p1 = self.getPerson(0)
         p2 = self.getPerson(1)
         return ExponentialHazardToInternalTime(p1, p2, t0, dt, self.formationTime,
-                                               self.a0, self.a1, self.a2, self.a3, 
+                                               self.a0, self.a1, self.a2, self.a3,
                                                self.a4, self.a5, self.Dp, self.b)
 
     def solveForRealTimeInterval(self, pop, Tdiff, t0):
         p1 = self.getPerson(0)
         p2 = self.getPerson(1)
         return ExponentialHazardToRealTime(p1, p2, t0, Tdiff, self.formationTime,
-                                               self.a0, self.a1, self.a2, self.a3, 
+                                               self.a0, self.a1, self.a2, self.a3,
                                                self.a4, self.a5, self.Dp, self.b)
 
 class EventFormation(simpact.SimpactEvent):
@@ -157,7 +157,7 @@ class EventFormation(simpact.SimpactEvent):
     def fire(self, pop, t):
         p1 = self.getPerson(0)
         p2 = self.getPerson(1)
-        
+
         r = Relationship(p1, p2, t)
         p1.addRelationship(r)
         p2.addRelationship(r)
@@ -183,7 +183,7 @@ class EventFormation(simpact.SimpactEvent):
             t1 = tBi + debut
             t2 = tBj + debut
             tr = max(t1, t2)
-        
+
         return ExponentialHazardToInternalTime(p1, p2, t0, dt, tr, a0, self.a1, self.a2,
                                                self.a3, self.a4, self.a5, self.Dp, self.b)
 
@@ -203,7 +203,7 @@ class EventFormation(simpact.SimpactEvent):
             t1 = tBi + debut
             t2 = tBj + debut
             tr = max(t1, t2)
-        
+
         return ExponentialHazardToRealTime(p1, p2, t0, Tdiff, tr, a0, self.a1, self.a2,
                                                self.a3, self.a4, self.a5, self.Dp, self.b)
 
@@ -245,7 +245,7 @@ class EventMortality(simpact.SimpactEvent):
 
                 print("%g\tDeath based dissolution between %s and %s" %(t, m.getName(), w.getName()))
 
-        pop.setPersonDied(p) 
+        pop.setPersonDied(p)
 
     def getNewInternalTimeDifference(self, rndGen, pop):
         p = self.getPerson(0)
@@ -279,13 +279,13 @@ def ExponentialHazardToInternalTime(p1, p2, t0, dt, tr, a0, a1, a2, a3, a4, a5, 
     dT = 0
 
     if C == 0:
-        B = math.exp(a0 + a1*Pi + a2*Pj + a3*abs(Pi-Pj) + a4*(t0 - (tBi + tBj)/2.0) + 
+        B = math.exp(a0 + a1*Pi + a2*Pj + a3*abs(Pi-Pj) + a4*(t0 - (tBi + tBj)/2.0) +
                 a5*abs(-tBi+tBj-Dp) - b*tr)
         dT = B*dt;
     else:
         E = math.exp(a0 + a1*Pi + a2*Pj + a3*abs(Pi-Pj) + a4*(t0 - (tBi + tBj)/2.0) +
                 a5*abs(-tBi+tBj-Dp) + b*(t0-tr))
-    
+
         dT = (E/C)*(math.exp(C*dt)-1.0)
     return dT
 

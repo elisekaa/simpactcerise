@@ -43,7 +43,7 @@ class EventBase;
  * for (int i = 0 ; i < events.size() ; i++)
  * {
  *	// This function calcutates the real-world interval that corresponds
- *	// to the stored internal time interval. 
+ *	// to the stored internal time interval.
  * 	double dt = events[i]->solveForRealTimeInterval(this, curTime);
  *
  * 	if (dt < dtMin)
@@ -86,39 +86,40 @@ class EventBase;
 class SimpleAlgorithm : public Algorithm
 {
 public:
-	/** Constructor of this class, specifying whether a parallel version should
-	 *  be used to speed things up a bit, specifying the random number
-	 *  generator as well as the simulation state to use. */
-	SimpleAlgorithm(State &state, GslRandomNumberGenerator &rng, bool parallel);
-	~SimpleAlgorithm();
-protected:
-	/** This function should return the list of events that are currently scheduled. */
-	virtual const std::vector<EventBase *> &getCurrentEvents() const 				{ return m_dummyEventList; }
+        /** Constructor of this class, specifying whether a parallel version should
+         *  be used to speed things up a bit, specifying the random number
+         *  generator as well as the simulation state to use. */
+        SimpleAlgorithm(State& state, GslRandomNumberGenerator& rng, bool parallel);
+        ~SimpleAlgorithm();
 
-	/** This function is called after firing the event \c pEvt, stored at position
-	 *  \c position in the list that was returned by SimpleAlgorithm::getCurrentEvents,
-	 *  and this function should remove at least that event from the list. */
-	virtual void onFiredEvent(EventBase *pEvt, int position)					{ }
+protected:
+        /** This function should return the list of events that are currently scheduled. */
+        virtual const std::vector<EventBase*>& getCurrentEvents() const { return m_dummyEventList; }
+
+        /** This function is called after firing the event \c pEvt, stored at position
+         *  \c position in the list that was returned by SimpleAlgorithm::getCurrentEvents,
+         *  and this function should remove at least that event from the list. */
+        virtual void onFiredEvent(EventBase* pEvt, int position) {}
+
 private:
-	bool_t initEventTimes() const;
-	bool_t getNextScheduledEvent(double &dt, EventBase **ppEvt);
-	void advanceEventTimes(EventBase *pScheduledEvent, double dt);
-	void onFiredEvent(EventBase *pEvt);
+        bool_t initEventTimes() const;
+        bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
+        void   advanceEventTimes(EventBase* pScheduledEvent, double dt);
+        void   onFiredEvent(EventBase* pEvt);
 
 #ifdef ALGORITHM_SHOW_EVENTS
-	virtual void showEvents() { } // For debugging
-#endif // ALGORITHM_SHOW_EVENTS
+        virtual void showEvents() {} // For debugging
+#endif                               // ALGORITHM_SHOW_EVENTS
 
-	std::vector<EventBase *> m_dummyEventList;
-	const std::vector<EventBase *> *m_pTmpEventList;
+        std::vector<EventBase*>        m_dummyEventList;
+        const std::vector<EventBase*>* m_pTmpEventList;
 
-	int m_eventPos;
+        int m_eventPos;
 
-	// for parallel version
-	std::vector<double> m_dtMinValues;
-	std::vector<int> m_minPosValues;
-	bool m_parallel;
+        // for parallel version
+        std::vector<double> m_dtMinValues;
+        std::vector<int>    m_minPosValues;
+        bool                m_parallel;
 };
 
 #endif // SIMPLEALGORITHM_H
-

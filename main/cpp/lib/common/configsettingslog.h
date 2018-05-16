@@ -2,9 +2,9 @@
 
 #define CONFIGSETTINGSLOG_H
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 class ConfigSettings;
 class LogFile;
@@ -12,10 +12,11 @@ class LogFile;
 class ConfigSettingsLog
 {
 public:
-	static void addConfigSettings(double t, const ConfigSettings &s);
-	static void writeConfigSettings(LogFile &s);
+        static void addConfigSettings(double t, const ConfigSettings& s);
+        static void writeConfigSettings(LogFile& s);
+
 private:
-	static std::map<std::string, std::vector<std::string> > m_configLog;
+        static std::map<std::string, std::vector<std::string>> m_configLog;
 };
 
 #endif // CONFIGSETTINGSLOG_H

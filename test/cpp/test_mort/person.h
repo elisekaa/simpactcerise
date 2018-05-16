@@ -7,23 +7,22 @@
 class Person : public PersonBase
 {
 public:
-	Person(double dateOfBirth, Gender g);
-	~Person();
+        Person(double dateOfBirth, Gender g);
+        ~Person();
 };
 
 class Man : public Person
 {
 public:
-	Man(double dateOfBirth);
-	~Man();
+        Man(double dateOfBirth);
+        ~Man();
 };
 
 class Woman : public Person
 {
 public:
-	Woman(double dateOfBirth);
-	~Woman();
+        Woman(double dateOfBirth);
+        ~Woman();
 };
 
 #endif // PERSON_H
-

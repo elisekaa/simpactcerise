@@ -14,12 +14,13 @@
 class PersonAlgorithmInfoSimple : public PersonAlgorithmInfo
 {
 public:
-	PersonAlgorithmInfoSimple()						{ m_listIndex = -1; }
-	~PersonAlgorithmInfoSimple()						{ }
-	void setListIndex(int idx)						{ m_listIndex = idx; }
-	int getListIndex() const						{ return m_listIndex; }
+        PersonAlgorithmInfoSimple() { m_listIndex = -1; }
+        ~PersonAlgorithmInfoSimple() {}
+        void setListIndex(int idx) { m_listIndex = idx; }
+        int  getListIndex() const { return m_listIndex; }
+
 private:
-	int m_listIndex;
+        int m_listIndex;
 };
 
 /** Population state to be used when simulating with the straightforward
@@ -27,20 +28,20 @@ private:
  *  from PopulationStateInterface are implemented. */
 class PopulationStateSimple : public PopulationStateSimpleAdvancedCommon
 {
-public: 
-	PopulationStateSimple();
-	~PopulationStateSimple();
+public:
+        PopulationStateSimple();
+        ~PopulationStateSimple();
 
-	bool_t init();
+        bool_t init();
+
 private:
-	int64_t getNextPersonID();
-	void addAlgorithmInfo(PersonBase *pPerson);
-	void setListIndex(PersonBase *pPerson, int idx);
-	int getListIndex(PersonBase *pPerson);
+        int64_t getNextPersonID();
+        void    addAlgorithmInfo(PersonBase* pPerson);
+        void    setListIndex(PersonBase* pPerson, int idx);
+        int     getListIndex(PersonBase* pPerson);
 
-	bool m_init;
-	int64_t m_nextPersonID;
+        bool    m_init;
+        int64_t m_nextPersonID;
 };
 
 #endif // POPULATIONSTATESIMPLE_H
-
