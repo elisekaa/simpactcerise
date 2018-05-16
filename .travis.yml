@@ -17,9 +17,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages: &default_packages
 #      # - libhdf5-dev
-      - gsl-bin
-      - libgsl0ldbl
-      - libgsl0-dev
 
 matrix:
   include:
