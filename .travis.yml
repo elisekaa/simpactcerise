@@ -13,6 +13,7 @@ addons:
   apt:
     update: true
     packages: &default_packages
+      - gsl-bin
       - libgsl0ldbl
       - libgsl0-dev
     sources: &default_sources
@@ -65,7 +66,6 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ "$CXX_NAME" == "clang++" ]]; then
       brew install --with-clang llvm@6
       brew link --force --overwrite llvm@6
-      brew install gsl
     fi
   # This is required to override Travis's definitions of CC and CXX that lead to old Ubuntu-packaged compilers
   - export CXX="$CXX_NAME"
@@ -76,6 +76,7 @@ before_install:
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew upgrade cmake
       brew install ccache
+      brew install gsl
     fi
 
 script:
