@@ -48,11 +48,9 @@ ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
 IncludeCategories:
   - Regex:           '"'
     Priority:        1
-  - Regex:           '\<boost/'
+  - Regex:           '\<gsl/'
     Priority:        2
   - Regex:           '\<tclap/'
-    Priority:        2
-  - Regex:           '\<trng/'
     Priority:        2
   - Regex:           '\<'
     Priority:        3
