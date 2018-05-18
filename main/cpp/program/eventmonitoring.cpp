@@ -3,7 +3,7 @@
 #include "configfunctions.h"
 #include "configsettings.h"
 #include "configwriter.h"
-#include "eventdropout.h"
+#include "event/eventdropout.h"
 #include "gslrandomnumbergenerator.h"
 #include "jsonconfig.h"
 #include "piecewiselinearfunction.h"
@@ -19,8 +19,6 @@ EventMonitoring::EventMonitoring(Person* pPerson, bool scheduleImmediately) : Si
 {
         m_scheduleImmediately = scheduleImmediately;
 }
-
-EventMonitoring::~EventMonitoring() {}
 
 string EventMonitoring::getDescription(double tNow) const
 {

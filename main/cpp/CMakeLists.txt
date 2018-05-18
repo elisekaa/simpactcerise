@@ -26,5 +26,9 @@ include_directories(lib/util)
 include_directories(lib/util/experimental)
 add_subdirectory(lib/common)
 add_subdirectory(lib/core)
+add_subdirectory(lib/mnrm)
+add_subdirectory(lib/util)
+add_subdirectory(program)
+add_subdirectory(program-maxart)
 
 #############################################################################

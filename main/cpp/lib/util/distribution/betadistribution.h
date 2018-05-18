@@ -1,12 +1,10 @@
-#ifndef BETADISTRIBUTION_H
-
-#define BETADISTRIBUTION_H
-
+#pragma once
 /**
  * \file betadistribution.h
  */
 
 #include "probabilitydistribution.h"
+#include "gslrandomnumbergenerator.h"
 
 /** This class allows you to return a random number from a beta distribution
  *  with parameters specified in the constructor.
@@ -27,7 +25,7 @@ public:
                 m_scale  = (maxVal - minVal);
         }
 
-        double pickNumber() const;
+        double pickNumber() const override;
         double getA() const { return m_a; }
         double getB() const { return m_b; }
         double getMin() const { return m_minVal; }
@@ -43,4 +41,3 @@ inline double BetaDistribution::pickNumber() const
         return x * m_scale + m_minVal;
 }
 
-#endif // BETADISTRIBUTION_H

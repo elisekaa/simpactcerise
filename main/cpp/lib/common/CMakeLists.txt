@@ -6,10 +6,12 @@ set(SRC
     pop/person_hsv2.cpp
     pop/simpactpopulation.cpp
 #
+    #event/eventmonitoring.cpp
     event/eventmortalitybase.cpp
     event/eventmortality.cpp
     event/eventaidsmortality.cpp
     event/eventformation.cpp
+    event/eventdiagnosis.cpp
     event/eventdissolution.cpp
     event/eventdebut.cpp
     event/eventhivtransmission.cpp
@@ -22,7 +24,6 @@ set(SRC
     event/eventaidsstage.cpp
     event/eventconception.cpp
     event/eventbirth.cpp
-    event/eventdiagnosis.cpp
     event/eventdropout.cpp
     event/eventperiodiclogging.cpp
     event/eventsyncpopstats.cpp
@@ -52,7 +53,6 @@ set(SRC
     configsettingslog.cpp
 )
 
-add_library(common ${SRC})
-
+add_library(common OBJECT ${SRC})
 
 unset(SRC)

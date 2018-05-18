@@ -1,0 +1,52 @@
+set(SRC
+    distribution/betadistribution.h
+    distribution/binormaldistribution.cpp
+    distribution/discretedistribution.cpp
+    distribution/discretedistribution2d.cpp
+    distribution/discretedistributionfast.cpp
+    distribution/discretedistributionwrapper.cpp
+    distribution/discretedistributionwrapper2d.cpp
+    distribution/exponentialdistribution.h
+    distribution/fixedvaluedistribution.h
+    distribution/fixedvaluedistribution2d.h
+    distribution/gammadistribution.h
+    distribution/lognormaldistribution.h
+    distribution/normaldistribution.cpp
+    distribution/probabilitydistribution.h
+    distribution/probabilitydistribution2d.h
+    distribution/uniformdistribution.h
+    distribution/uniformdistribution2d.h
+#
+    experimental/discretefunction.cpp
+    experimental/exponentialfunction.cpp
+    experimental/Faddeeva.cc
+    experimental/inverseerfi.cpp
+    experimental/timeintervalmapper.h
+#
+    configdistributionhelper.cpp
+    configfunctions.cpp
+    configreader.cpp
+    configsettings.cpp
+    configwriter.cpp
+    csvfile.cpp
+    debugwarning.h
+    function.h
+    gridvalues.h
+    gridvaluescsv.cpp
+    hazardfunction.cpp
+    jsonconfig.cpp
+    logfile.cpp
+    mutex.cpp
+    piecewiselinearfunction.cpp
+    point2d.h
+    polygon2d.h
+    populationdistribution.cpp
+    populationdistributioncsv.cpp
+    tiffdensityfile.cpp
+    util.cpp
+    version.h
+)
+
+add_library(util OBJECT ${SRC})
+
+unset(SRC)

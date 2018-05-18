@@ -3,6 +3,8 @@
 #define POLYGON2D_H
 
 #include "booltype.h"
+#include "point2d.h"
+
 #include <algorithm>
 #include <vector>
 

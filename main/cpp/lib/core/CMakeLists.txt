@@ -15,7 +15,6 @@ set(SRC
     populationutil.cpp
 )
 
-add_library(core ${SRC})
-
+add_library(core OBJECT ${SRC})
 
 unset(SRC)

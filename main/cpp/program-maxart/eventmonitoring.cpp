@@ -59,8 +59,7 @@ bool EventMonitoring::isEligibleForTreatment(double t, const MaxARTPopulation& p
                 return true;
 
         double          threshold = -1;
-        const Facility* pFac      = getCurrentFacilityAndThreshold(population, threshold);
-        assert(pFac);
+        getCurrentFacilityAndThreshold(population, threshold);
         assert(threshold >= 0);
 
         double cd4count = pPerson->hiv().getCD4Count(t);

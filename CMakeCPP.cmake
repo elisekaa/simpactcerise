@@ -70,7 +70,14 @@ endif()
 #----------------------------------------------------------------------------
 find_package(GSL)
 include_directories(SYSTEM ${GSL_INCLUDE_DIRS})
-set(LIBS "${GSL_LIBRARIES} ${LIBS}")
+set(LIBS ${GSL_LIBRARIES};${LIBS})
+
+#----------------------------------------------------------------------------
+# TIFF
+#----------------------------------------------------------------------------
+find_package(TIFF)
+include_directories(SYSTEM ${TIFF_INCLUDE_DIRS})
+set(LIBS ${TIFF_LIBRARIES};${LIBS})
 
 #----------------------------------------------------------------------------
 # OpenMP

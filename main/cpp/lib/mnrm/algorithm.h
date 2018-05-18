@@ -1,13 +1,11 @@
-#ifndef ALGORITHM_H
-
-#define ALGORITHM_H
-
+#pragma once
 /**
  * \file algorithm.h
  */
 
 #include "booltype.h"
-#include <stdint.h>
+
+#include <cstdint>
 #include <vector>
 
 //#define ALGORITHM_SHOW_EVENTS
@@ -19,11 +17,16 @@ class EventBase;
 class Algorithm;
 class Mutex;
 
-/** This is a base class describing the simulation state of an mNRM algorithm. */
+/**
+ * This is a base class describing the simulation state of an mNRM algorithm.
+ */
 class State
 {
 public:
+        ///
         State();
+
+        ///
         virtual ~State();
 
         /**
@@ -41,17 +44,20 @@ public:
          */
         void setTime(double t) { m_time = t; }
 
-        // Protected by a mutex
+        /// Protected by a mutex
         void setAbortAlgorithm(const std::string& reason) const;
 
-        // Will only be called from the main simulation thread
+        /// Will only be called from the main simulation thread
         void        clearAbort();
+
+        ///
         bool        shouldAbortAlgorithm() const { return m_abort; }
+
+        ///
         std::string getAbortReason() const;
 
 private:
-        double m_time;
-
+        double              m_time;
         mutable bool        m_abort;
         mutable Mutex*      m_pAbortMutex;
         mutable std::string m_abortReason;
@@ -152,36 +158,36 @@ public:
          */
         bool_t evolve(double& tMax, int64_t& maxEvents, double startTime = 0, bool initEvents = true);
 
-        /** This function returns the current time of the simulation. */
+        /// This function returns the current time of the simulation.
         double getTime() const { return m_time; }
 
-        /** Returns the random number generator that was specified in the constructor. */
+        /// Returns the random number generator that was specified in the constructor.
         GslRandomNumberGenerator* getRandomNumberGenerator() const { return m_pRndGen; }
 
 protected:
-        /** Returns the simulation state instance that was specified in the constructor. */
+        /// Returns the simulation state instance that was specified in the constructor.
         State* getState() const { return m_pState; }
 
-        /** Generate the internal times for the events present in the algorithm (called
-         *  by State::evolve depending on the value of the initEvents parameter). */
+        /// Generate the internal times for the events present in the algorithm (called
+        /// by State::evolve depending on the value of the initEvents parameter).
         virtual bool_t initEventTimes() const;
 
-        /** Store the next event to be fired in \c ppEvt and store the real world time that will
-         *  have passed until it fires in \c dt. */
+        /// Store the next event to be fired in \c ppEvt and store the real
+        /// world time that will have passed until it fires in \c dt.
         virtual bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
 
-        /** Advance the times of the necessary events to the time when \c dt has passed,
-         *  ignoring pScheduledEvent since this is the one we will be firing. */
+        /// Advance the times of the necessary events to the time when \c dt has passed,
+        /// ignoring pScheduledEvent since this is the one we will be firing.
         virtual void advanceEventTimes(EventBase* pScheduledEvent, double dt);
 
-        /** Called right before pEvt is fired. */
+        /// Called right before pEvt is fired.
         virtual void onAboutToFire(EventBase* pEvt) {}
 
-        /** Called after pEvt is fired. */
+        /// Called after pEvt is fired.
         virtual void onFiredEvent(EventBase* pEvt) {}
 
-        /** Called at the end of each algorithm loop, with \c finished set to true if
-         *  the loop will be exited. */
+        /// Called at the end of each algorithm loop, with \c finished
+        /// set to true if the loop will be exited.
         virtual void onAlgorithmLoop(bool finished) {}
 
 private:
@@ -190,4 +196,3 @@ private:
         double                            m_time;
 };
 
-#endif // ALGORITHM_H
