@@ -80,6 +80,16 @@ include_directories(SYSTEM ${TIFF_INCLUDE_DIRS})
 set(LIBS ${TIFF_LIBRARIES};${LIBS})
 
 #----------------------------------------------------------------------------
+# Spdlog Library (logging)
+#----------------------------------------------------------------------------
+include_directories(SYSTEM ${CMAKE_HOME_DIRECTORY}/main/resources/lib/spdlog/include)
+
+#----------------------------------------------------------------------------
+# TCLAP
+#----------------------------------------------------------------------------
+include_directories(SYSTEM ${CMAKE_HOME_DIRECTORY}/main/resources/lib/tclap/include)
+
+#----------------------------------------------------------------------------
 # OpenMP
 #----------------------------------------------------------------------------
 if(NOT STRIDE_FORCE_NO_OPENMP)
