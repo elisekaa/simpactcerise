@@ -26,9 +26,9 @@ include_directories(util/experimental)
 
 add_subdirectory(common)
 add_subdirectory(core)
+add_subdirectory(cyan)
+add_subdirectory(maxart)
 add_subdirectory(mnrm)
 add_subdirectory(util)
-add_subdirectory(program)
-add_subdirectory(program-maxart)
 
 #############################################################################
