@@ -1,6 +1,4 @@
-#ifndef EVENTMONITORING_H
-
-#define EVENTMONITORING_H
+#pragma once
 
 #include "event/simpactevent.h"
 
@@ -13,12 +11,12 @@ class MaxARTPopulation;
 class EventMonitoring : public SimpactEvent
 {
 public:
-        EventMonitoring(Person* pPerson, bool scheduleImmediately = false);
-        ~EventMonitoring();
+        explicit EventMonitoring(Person* pPerson, bool scheduleImmediately = false);
+        ~EventMonitoring() override;
 
-        std::string getDescription(double tNow) const;
-        void        writeLogs(const SimpactPopulation& pop, double tNow) const;
-        void        fire(Algorithm* pAlgorithm, State* pState, double t);
+        std::string getDescription(double tNow) const override;
+        void        writeLogs(const SimpactPopulation& pop, double tNow) const override;
+        void        fire(Algorithm* pAlgorithm, State* pState, double t) override;
 
         static void processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
         static void obtainConfig(ConfigWriter& config);
@@ -26,7 +24,7 @@ public:
 private:
         bool            isEligibleForTreatment(double t, const MaxARTPopulation& population);
         bool            isWillingToStartTreatment(double t, GslRandomNumberGenerator* pRndGen);
-        double          getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState);
+        double          getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState) override;
         const Facility* getCurrentFacilityAndThreshold(const MaxARTPopulation& population, double& threshold) const;
         const Facility* getCurrentFacility() const;
 
@@ -42,4 +40,3 @@ private:
         static PieceWiseLinearFunction* s_pRecheckInterval;
 };
 
-#endif // EVENTMONITORING_H

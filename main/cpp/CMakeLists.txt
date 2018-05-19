@@ -18,17 +18,16 @@
 #============================================================================
 # Add subdirs
 #============================================================================
-include_directories(program)
-include_directories(lib/common)
-include_directories(lib/core)
-include_directories(lib/mnrm)
-include_directories(lib/util)
-include_directories(lib/util/experimental)
+include_directories(common)
+include_directories(core)
+include_directories(mnrm)
+include_directories(util)
+include_directories(util/experimental)
 
-add_subdirectory(lib/common)
-add_subdirectory(lib/core)
-add_subdirectory(lib/mnrm)
-add_subdirectory(lib/util)
+add_subdirectory(common)
+add_subdirectory(core)
+add_subdirectory(mnrm)
+add_subdirectory(util)
 add_subdirectory(program)
 add_subdirectory(program-maxart)
 

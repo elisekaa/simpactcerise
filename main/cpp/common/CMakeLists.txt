@@ -55,9 +55,9 @@ set(SRC
 )
 
 add_library(common_cyan OBJECT ${SRC})
-target_include_directories(common_cyan PUBLIC program)
+target_include_directories(common_cyan PUBLIC ../program)
 
 add_library(common_maxart OBJECT ${SRC})
-target_include_directories(common_maxart PUBLIC program-maxart)
+target_include_directories(common_maxart PUBLIC ../program-maxart)
 
 unset(SRC)
