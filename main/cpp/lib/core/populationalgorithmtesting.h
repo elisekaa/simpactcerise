@@ -105,9 +105,9 @@ public:
 
 private:
         bool_t initEventTimes() const;
-        bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
-        void   advanceEventTimes(EventBase* pScheduledEvent, double dt);
-        void   onAboutToFire(EventBase* pEvt)
+        bool_t getNextScheduledEvent(double& dt, Event** ppEvt);
+        void   advanceEventTimes(Event* pScheduledEvent, double dt);
+        void   onAboutToFire(Event* pEvt)
         {
                 if (m_pOnAboutToFire)
                         m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
@@ -125,7 +125,7 @@ private:
 
         int64_t getNextEventID();
 
-        std::vector<EventBase*> m_eventsToRemove;
+        std::vector<Event*> m_eventsToRemove;
 
         // For the parallel version
         bool m_parallel;

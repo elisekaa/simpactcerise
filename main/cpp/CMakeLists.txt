@@ -24,6 +24,7 @@ include_directories(lib/core)
 include_directories(lib/mnrm)
 include_directories(lib/util)
 include_directories(lib/util/experimental)
+
 add_subdirectory(lib/common)
 add_subdirectory(lib/core)
 add_subdirectory(lib/mnrm)

@@ -13,55 +13,10 @@
 //#define ALGORITHM_DEBUG_TIMER
 
 class GslRandomNumberGenerator;
-class EventBase;
+class Event;
 class Algorithm;
 class Mutex;
-
-/**
- * This is a base class describing the simulation state of an mNRM algorithm.
- */
-class State
-{
-public:
-        ///
-        State();
-
-        ///
-        virtual ~State();
-
-        /**
-         * Retrieve the current simulation time, which is stored by the Algorithm
-         * instance in use (note that until Algorithm::evolve is first called, the
-         * time has it's initial value of zero, may be important when starting the
-         * simulation from another time).
-         */
-        double getTime() const { return m_time; }
-
-        /**
-         * Set the simulation time, which is normally only done by the Algorithm
-         * in use (but may be necessary when starting the simulation from a time
-         * different than zero, see State::getTime).
-         */
-        void setTime(double t) { m_time = t; }
-
-        /// Protected by a mutex
-        void setAbortAlgorithm(const std::string& reason) const;
-
-        /// Will only be called from the main simulation thread
-        void        clearAbort();
-
-        ///
-        bool        shouldAbortAlgorithm() const { return m_abort; }
-
-        ///
-        std::string getAbortReason() const;
-
-private:
-        double              m_time;
-        mutable bool        m_abort;
-        mutable Mutex*      m_pAbortMutex;
-        mutable std::string m_abortReason;
-};
+class State;
 
 /**
  *  This class contains the core algorithm (as shown on the main page of the documentation)
@@ -174,17 +129,17 @@ protected:
 
         /// Store the next event to be fired in \c ppEvt and store the real
         /// world time that will have passed until it fires in \c dt.
-        virtual bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
+        virtual bool_t getNextScheduledEvent(double& dt, Event** ppEvt);
 
         /// Advance the times of the necessary events to the time when \c dt has passed,
         /// ignoring pScheduledEvent since this is the one we will be firing.
-        virtual void advanceEventTimes(EventBase* pScheduledEvent, double dt);
+        virtual void advanceEventTimes(Event* pScheduledEvent, double dt);
 
         /// Called right before pEvt is fired.
-        virtual void onAboutToFire(EventBase* pEvt) {}
+        virtual void onAboutToFire(Event* pEvt) {}
 
         /// Called after pEvt is fired.
-        virtual void onFiredEvent(EventBase* pEvt) {}
+        virtual void onFiredEvent(Event* pEvt) {}
 
         /// Called at the end of each algorithm loop, with \c finished
         /// set to true if the loop will be exited.

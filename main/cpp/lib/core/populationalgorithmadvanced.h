@@ -111,9 +111,9 @@ public:
 
 private:
         bool_t             initEventTimes() const;
-        bool_t             getNextScheduledEvent(double& dt, EventBase** ppEvt);
-        void               advanceEventTimes(EventBase* pScheduledEvent, double dt);
-        void               onAboutToFire(EventBase* pEvt);
+        bool_t             getNextScheduledEvent(double& dt, Event** ppEvt);
+        void               advanceEventTimes(Event* pScheduledEvent, double dt);
+        void               onAboutToFire(Event* pEvt);
         PopulationEvent*   getEarliestEvent(const std::vector<PersonBase*>& people);
         PersonalEventList* personalEventList(PersonBase* pPerson);
 
@@ -130,7 +130,7 @@ private:
 #ifndef DISABLEOPENMP
         Mutex m_eventsToRemoveMutex;
 #endif // !DISABLEOPENMP
-        std::vector<EventBase*> m_eventsToRemove;
+        std::vector<Event*> m_eventsToRemove;
 
         // For the parallel version
         bool m_parallel;
@@ -175,7 +175,7 @@ inline PersonalEventList* PopulationAlgorithmAdvanced::personalEventList(PersonB
         return pEvtList;
 }
 
-inline void PopulationAlgorithmAdvanced::onAboutToFire(EventBase* pEvt)
+inline void PopulationAlgorithmAdvanced::onAboutToFire(Event* pEvt)
 {
 #ifdef STATE_SHOW_EVENTS
         std::cerr << getTime() << "\t" << static_cast<PopulationEvent*>(pEvt)->getDescription(getTime()) << std::endl;

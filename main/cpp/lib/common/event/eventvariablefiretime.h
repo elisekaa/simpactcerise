@@ -1,9 +1,8 @@
-#ifndef EVENTVARIABLEFIRETIME_H
-
-#define EVENTVARIABLEFIRETIME_H
+#pragma once
 
 #include "simpactevent.h"
-#include <assert.h>
+
+#include <cassert>
 
 // Helper class which can come in handy to avoid the virtual inheritance scenario
 class EventVariableFireTime_Helper
@@ -25,11 +24,11 @@ public:
         }
 
         double getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState);
-        double calculateInternalTimeInterval(const State* pState, double t0, double dt, const EventBase* pEvt);
-        double solveForRealTimeInterval(const State* pState, double Tdiff, double t0, const EventBase* pEvt);
+        double calculateInternalTimeInterval(const State* pState, double t0, double dt, const Event* pEvt);
+        double solveForRealTimeInterval(const State* pState, double Tdiff, double t0, const Event* pEvt);
 
 private:
-        void calculateScaleFactor(double currentTime, const EventBase* pEvt);
+        void calculateScaleFactor(double currentTime, const Event* pEvt);
 
         double m_fireTime;
         double m_alpha;
@@ -89,7 +88,7 @@ inline double EventVariableFireTime_Helper::getNewInternalTimeDifference(GslRand
 }
 
 inline double EventVariableFireTime_Helper::calculateInternalTimeInterval(const State* pState, double t0, double dt,
-                                                                          const EventBase* pEvt)
+                                                                          const Event* pEvt)
 {
         if (m_alpha < 0) // marker to indicate that recalculation is needed
                 calculateScaleFactor(t0, pEvt);
@@ -99,7 +98,7 @@ inline double EventVariableFireTime_Helper::calculateInternalTimeInterval(const 
 }
 
 inline double EventVariableFireTime_Helper::solveForRealTimeInterval(const State* pState, double Tdiff, double t0,
-                                                                     const EventBase* pEvt)
+                                                                     const Event* pEvt)
 {
         if (m_alpha < 0) // marker to indicate that recalculation is needed
                 calculateScaleFactor(t0, pEvt);
@@ -108,7 +107,7 @@ inline double EventVariableFireTime_Helper::solveForRealTimeInterval(const State
         return dt;
 }
 
-inline void EventVariableFireTime_Helper::calculateScaleFactor(double currentTime, const EventBase* pEvt)
+inline void EventVariableFireTime_Helper::calculateScaleFactor(double currentTime, const Event* pEvt)
 {
         assert(m_alpha < 0);
         assert(pEvt);
@@ -122,4 +121,3 @@ inline void EventVariableFireTime_Helper::calculateScaleFactor(double currentTim
         m_alpha = dTleft / dtLeft;
 }
 
-#endif // EVENTVARIABLEFIRETIME_H

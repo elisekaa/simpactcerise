@@ -1,6 +1,4 @@
-#ifndef SIMPACTEVENT_H
-
-#define SIMPACTEVENT_H
+#pragma once
 
 #include "configsettings.h"
 #include "configwriter.h"
@@ -27,4 +25,3 @@ public:
                                        const Person* pPerson2);
 };
 
-#endif // SIMPACTEVENT_H

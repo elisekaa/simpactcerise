@@ -10,7 +10,7 @@
 #include <vector>
 
 class GslRandomNumberGenerator;
-class EventBase;
+class Event;
 
 /** A very naive implementation of the necessary functions from the Algorithm
  *  class.
@@ -94,25 +94,25 @@ public:
 
 protected:
         /** This function should return the list of events that are currently scheduled. */
-        virtual const std::vector<EventBase*>& getCurrentEvents() const { return m_dummyEventList; }
+        virtual const std::vector<Event*>& getCurrentEvents() const { return m_dummyEventList; }
 
         /** This function is called after firing the event \c pEvt, stored at position
          *  \c position in the list that was returned by SimpleAlgorithm::getCurrentEvents,
          *  and this function should remove at least that event from the list. */
-        virtual void onFiredEvent(EventBase* pEvt, int position) {}
+        virtual void onFiredEvent(Event* pEvt, int position) {}
 
 private:
         bool_t initEventTimes() const;
-        bool_t getNextScheduledEvent(double& dt, EventBase** ppEvt);
-        void   advanceEventTimes(EventBase* pScheduledEvent, double dt);
-        void   onFiredEvent(EventBase* pEvt);
+        bool_t getNextScheduledEvent(double& dt, Event** ppEvt);
+        void   advanceEventTimes(Event* pScheduledEvent, double dt);
+        void   onFiredEvent(Event* pEvt);
 
 #ifdef ALGORITHM_SHOW_EVENTS
         virtual void showEvents() {} // For debugging
 #endif                               // ALGORITHM_SHOW_EVENTS
 
-        std::vector<EventBase*>        m_dummyEventList;
-        const std::vector<EventBase*>* m_pTmpEventList;
+        std::vector<Event*>        m_dummyEventList;
+        const std::vector<Event*>* m_pTmpEventList;
 
         int m_eventPos;
 

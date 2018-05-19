@@ -1,7 +1,7 @@
 #ifndef DISABLEOPENMP
 #include <omp.h>
 #endif // !DISABLEOPENMP
-#include "debugtimer.h"
+
 #include "debugwarning.h"
 #include "parallel.h"
 #include "personaleventlist.h"
@@ -115,7 +115,7 @@ bool_t PopulationAlgorithmAdvanced::initEventTimes() const
                "initialized";
 }
 
-bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, EventBase** ppEvt)
+bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         if (!m_init)
                 return "Not initialized";
@@ -206,7 +206,7 @@ bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, EventBase*
 
 // all affected event times should be recalculated, again note that an event pointer
 // can be present in both the a man's list and a woman's list
-void PopulationAlgorithmAdvanced::advanceEventTimes(EventBase* pScheduledEvent, double dt)
+void PopulationAlgorithmAdvanced::advanceEventTimes(Event* pScheduledEvent, double dt)
 {
         assert(m_init);
 

@@ -106,7 +106,7 @@ void PersonalEventListTesting::processUnsortedEvents(PopulationAlgorithmTesting&
                                 // assert(pEvt->needsEventTimeCalculation());
 
                                 if (pEvt->needsEventTimeCalculation()) {
-                                        EventBase* pEvtBase = pEvt;
+                                        Event* pEvtBase = pEvt;
                                         pEvtBase->solveForRealTimeInterval(pState, t0);
                                 }
                         }

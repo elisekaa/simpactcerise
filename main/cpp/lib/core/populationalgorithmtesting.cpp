@@ -1,14 +1,14 @@
 #include "populationalgorithmtesting.h"
-#include "debugtimer.h"
 #include "debugwarning.h"
 #include "parallel.h"
 #include "personaleventlist.h"
 #include "personbase.h"
 #include "populationstatetesting.h"
 #include "util.h"
+
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 // FOR DEBUGGING
 #include <map>
@@ -93,7 +93,7 @@ bool_t PopulationAlgorithmTesting::initEventTimes() const
                "initialized";
 }
 
-bool_t PopulationAlgorithmTesting::getNextScheduledEvent(double& dt, EventBase** ppEvt)
+bool_t PopulationAlgorithmTesting::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         if (!m_init)
                 return "Not initialized";
@@ -173,7 +173,7 @@ bool_t PopulationAlgorithmTesting::getNextScheduledEvent(double& dt, EventBase**
 
 // all affected event times should be recalculated, again note that an event pointer
 // can be present in both the a man's list and a woman's list
-void PopulationAlgorithmTesting::advanceEventTimes(EventBase* pScheduledEvent, double dt)
+void PopulationAlgorithmTesting::advanceEventTimes(Event* pScheduledEvent, double dt)
 {
         assert(m_init);
 

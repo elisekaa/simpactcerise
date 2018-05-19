@@ -1,24 +1,23 @@
-#ifndef POPULATIONINTERFACES_H
-
-#define POPULATIONINTERFACES_H
-
+#pragma once
 /**
  * \file populationinterfaces.h
  */
 
-#include "algorithm.h"
+#include "State.h"
 #include "booltype.h"
 
 class PersonBase;
 class PopulationEvent;
+class GslRandomNumberGenerator;
 
 /** Base class to allow some extra information to be stored in each
  *  state that implements PopulationStateInterface (see PopulationStateInterface::setExtraStateInfo). */
 class PopulationStateExtra
 {
 public:
-        PopulationStateExtra() {}
-        virtual ~PopulationStateExtra() {}
+        PopulationStateExtra() =default;
+
+        virtual ~PopulationStateExtra() =default;
 };
 
 /** Interface for a simulation state for the population-based algorithm, specifying
@@ -27,7 +26,8 @@ class PopulationStateInterface : public State
 {
 public:
         PopulationStateInterface() { m_pExtraState = 0; }
-        ~PopulationStateInterface() {}
+
+        ~PopulationStateInterface() override = default;
 
         /** Returns a list to the current living members in the population, introduced
          *  into the simulation using PopulationStateInterface::addNewPerson. */
@@ -149,4 +149,3 @@ public:
         virtual ~PersonAlgorithmInfo() {}
 };
 
-#endif // POPULATIONINTERFACES_H

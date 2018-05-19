@@ -1,42 +1,15 @@
 #include "algorithm.h"
-#include "debugtimer.h"
 #include "debugwarning.h"
-#include "eventbase.h"
+#include "Event.h"
 #include "gslrandomnumbergenerator.h"
 #include "mutex.h"
-#include <assert.h>
+#include "State.h"
+
+#include <cassert>
 #include <iostream>
 #include <limits>
 
 using namespace std;
-
-State::State()
-{
-        m_time        = 0;
-        m_abort       = false;
-        m_pAbortMutex = new Mutex();
-}
-
-State::~State() { delete m_pAbortMutex; }
-
-void State::setAbortAlgorithm(const std::string& reason) const
-{
-        m_pAbortMutex->lock();
-        if (!m_abort) // Keep the first abort reason
-        {
-                m_abort       = true;
-                m_abortReason = reason;
-        }
-        m_pAbortMutex->unlock();
-}
-
-void State::clearAbort()
-{
-        m_abort       = false;
-        m_abortReason = "";
-}
-
-std::string State::getAbortReason() const { return m_abortReason; }
 
 Algorithm::Algorithm(State& state, GslRandomNumberGenerator& rng)
 {
@@ -83,7 +56,7 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
 
                 // Ask for the next scheduled event and for the time until it takes place
                 double     dtMin               = -1;
-                EventBase* pNextScheduledEvent = 0;
+                Event* pNextScheduledEvent = 0;
 
 #ifdef ALGORITHM_DEBUG_TIMER
                 pLoopTimer->start();
@@ -157,12 +130,12 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
 
 bool_t Algorithm::initEventTimes() const { return "Algorithm::initEventTimes: not implemented in base class"; }
 
-bool_t Algorithm::getNextScheduledEvent(double& dt, EventBase** ppEvt)
+bool_t Algorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         return "Algorithm::getNextScheduledEvent: not implemented in base class";
 }
 
-void Algorithm::advanceEventTimes(EventBase* pScheduledEvent, double dtMin)
+void Algorithm::advanceEventTimes(Event* pScheduledEvent, double dtMin)
 {
         // Not implemented in base class
 }

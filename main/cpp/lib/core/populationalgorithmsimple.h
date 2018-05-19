@@ -67,12 +67,12 @@ public:
 
 private:
         bool_t                         initEventTimes() const;
-        const std::vector<EventBase*>& getCurrentEvents() const { return m_allEvents; }
-        void                           onFiredEvent(EventBase* pEvt, int position);
+        const std::vector<Event*>& getCurrentEvents() const { return m_allEvents; }
+        void                           onFiredEvent(Event* pEvt, int position);
         int64_t                        getNextEventID();
-        void                           onAboutToFire(EventBase* pEvt);
+        void                           onAboutToFire(Event* pEvt);
 
-        std::vector<EventBase*> m_allEvents;
+        std::vector<Event*> m_allEvents;
         PopulationStateSimple&  m_popState;
         bool                    m_init;
 
@@ -81,7 +81,7 @@ private:
 #endif                     // ALGORITHM_SHOW_EVENTS
         void onAlgorithmLoop(bool finished);
 
-        std::vector<EventBase*> m_eventsToRemove;
+        std::vector<Event*> m_eventsToRemove;
 
         // For the parallel version
         bool    m_parallelRequested;
@@ -96,7 +96,7 @@ inline int64_t PopulationAlgorithmSimple::getNextEventID()
         return id;
 }
 
-inline void PopulationAlgorithmSimple::onAboutToFire(EventBase* pEvt)
+inline void PopulationAlgorithmSimple::onAboutToFire(Event* pEvt)
 {
 #ifdef STATE_SHOW_EVENTS
         std::cerr << getTime() << "\t" << static_cast<PopulationEvent*>(pEvt)->getDescription(getTime()) << std::endl;

@@ -1,19 +1,25 @@
-#ifndef VSPMODEL_H
+#pragma once
 
-#define VSPMODEL_H
-
-#include <assert.h>
+#include <cassert>
 
 class GslRandomNumberGenerator;
 
 class VspModel
 {
 public:
-        VspModel(GslRandomNumberGenerator* pRndGen) : m_pRndGen(pRndGen) { assert(pRndGen != 0); }
-        virtual ~VspModel() {}
+        ///
+        explicit VspModel(GslRandomNumberGenerator* pRndGen) : m_pRndGen(pRndGen) { assert(pRndGen != 0); }
 
+        ///
+        virtual ~VspModel() = default;
+
+        ///
         virtual double            pickSetPointViralLoad()                      = 0;
+
+        ///
         virtual double            inheritSetPointViralLoad(double VspInfector) = 0;
+
+        ///
         GslRandomNumberGenerator* getRandomNumberGenerator() const
         {
                 assert(m_pRndGen != 0);
@@ -24,4 +30,3 @@ private:
         mutable GslRandomNumberGenerator* m_pRndGen;
 };
 
-#endif // VSPMODEL_H

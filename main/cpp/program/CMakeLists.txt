@@ -6,7 +6,7 @@ set(SRC
 
 add_executable(cyan
 	${SRC}
-	$<TARGET_OBJECTS:common>
+	$<TARGET_OBJECTS:common_cyan>
 	$<TARGET_OBJECTS:core>
 	$<TARGET_OBJECTS:mnrm>
 	$<TARGET_OBJECTS:util>

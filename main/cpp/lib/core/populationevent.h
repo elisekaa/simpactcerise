@@ -6,7 +6,7 @@
  * \file populationevent.h
  */
 
-#include "eventbase.h"
+#include "Event.h"
 #include <assert.h>
 #include <iostream>
 #include <stdlib.h>
@@ -60,7 +60,7 @@ class PopulationStateInterface;
  *  Other conditions which can cause an event to become useless can be checked in the
  *  optional function PopulationEvent::isUseless.
  */
-class PopulationEvent : public EventBase
+class PopulationEvent : public Event
 {
 public:
         /** Constructs a 'global' event.

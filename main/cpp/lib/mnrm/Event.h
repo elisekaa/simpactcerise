@@ -1,16 +1,15 @@
-#ifndef EVENTBASE_H
-
-#define EVENTBASE_H
+#pragma once
 
 /**
  * \file eventbase.h
  */
 
 #include "algorithm.h"
-#include <assert.h>
+
+#include <cassert>
 #include <cmath>
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 class GslRandomNumberGenerator;
 
@@ -52,11 +51,11 @@ class GslRandomNumberGenerator;
  *  use the trivial \f$ \Delta T = dt \f$ mapping onto real world times, you won't need to implement them to
  *  make the event fire at the correct time.
  */
-class EventBase
+class Event
 {
 public:
-        EventBase();
-        virtual ~EventBase();
+        Event();
+        virtual ~Event();
 
         // None of these public functions should be used directly in a simulation, they
         // are meant to be used in the implementation of a simulation type
@@ -158,7 +157,7 @@ private:
 #endif // !NDEBUG
 };
 
-inline double EventBase::solveForRealTimeInterval(const State* pState, double t0)
+inline double Event::solveForRealTimeInterval(const State* pState, double t0)
 {
         if (!needsEventTimeCalculation()) {
                 double dt = m_tEvent - t0;
@@ -195,7 +194,7 @@ inline double EventBase::solveForRealTimeInterval(const State* pState, double t0
         return dt;
 }
 
-inline void EventBase::subtractInternalTimeInterval(const State* pState, double t1)
+inline void Event::subtractInternalTimeInterval(const State* pState, double t1)
 {
         assert(m_Tdiff >= 0); // Could be the case for simultaneous events
         assert(m_tLastCalc >= 0);
@@ -237,5 +236,3 @@ inline void EventBase::subtractInternalTimeInterval(const State* pState, double 
 
         setNeedEventTimeCalculation();
 }
-
-#endif // EVENTBASE_H

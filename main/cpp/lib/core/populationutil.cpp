@@ -16,19 +16,19 @@ bool_t PopulationUtil::selectAlgorithmAndState(const string& algo, GslRandomNumb
                 if (!parallel) // The new version appears to be better only for the serial version
                 {
                         // TODO: figure out how to get this to work better in this algorithm
-                        // EventBase::setCheckInverse(true); // Only does something in release mode
+                        // Event::setCheckInverse(true); // Only does something in release mode
                         PopulationStateTesting* pPopState = new PopulationStateTesting();
                         *ppState                          = pPopState;
                         *ppAlgo                           = new PopulationAlgorithmTesting(*pPopState, rng, parallel);
                 } else {
                         // TODO: figure out how to get this to work better in this algorithm
-                        // EventBase::setCheckInverse(true); // Only does something in release mode
+                        // Event::setCheckInverse(true); // Only does something in release mode
                         PopulationStateAdvanced* pPopState = new PopulationStateAdvanced();
                         *ppState                           = pPopState;
                         *ppAlgo                            = new PopulationAlgorithmAdvanced(*pPopState, rng, parallel);
                 }
         } else if (algo == "simple") {
-                EventBase::setCheckInverse(true); // Only does something in release mode
+                Event::setCheckInverse(true); // Only does something in release mode
                 PopulationStateSimple* pPopState = new PopulationStateSimple();
                 *ppState                         = pPopState;
                 *ppAlgo                          = new PopulationAlgorithmSimple(*pPopState, rng, parallel);

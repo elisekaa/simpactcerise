@@ -102,7 +102,7 @@ void PopulationAlgorithmSimple::onNewEvent(PopulationEvent* pEvt)
         m_allEvents.push_back(pEvt);
 }
 
-void PopulationAlgorithmSimple::onFiredEvent(EventBase* pEvt, int position)
+void PopulationAlgorithmSimple::onFiredEvent(Event* pEvt, int position)
 {
         int lastEvent = m_allEvents.size() - 1;
 

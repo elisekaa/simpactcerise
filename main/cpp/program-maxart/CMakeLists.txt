@@ -11,7 +11,7 @@ set(SRC
 
 add_executable(maxart
     ${SRC}
-    $<TARGET_OBJECTS:common>
+    $<TARGET_OBJECTS:common_maxart>
     $<TARGET_OBJECTS:core>
     $<TARGET_OBJECTS:mnrm>
     $<TARGET_OBJECTS:util>

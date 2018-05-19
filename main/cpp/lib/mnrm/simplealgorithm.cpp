@@ -2,7 +2,7 @@
 #include <omp.h>
 #endif // !DISABLEOPENMP
 
-#include "eventbase.h"
+#include "Event.h"
 #include "gslrandomnumbergenerator.h"
 #include "simplealgorithm.h"
 #include "util.h"
@@ -37,7 +37,7 @@ SimpleAlgorithm::~SimpleAlgorithm() {}
 
 bool_t SimpleAlgorithm::initEventTimes() const
 {
-        const std::vector<EventBase*>& events  = getCurrentEvents();
+        const std::vector<Event*>& events  = getCurrentEvents();
         GslRandomNumberGenerator*      pRndGen = getRandomNumberGenerator();
         State*                         pState  = getState();
 
@@ -50,14 +50,14 @@ bool_t SimpleAlgorithm::initEventTimes() const
         return true;
 }
 
-bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, EventBase** ppEvt)
+bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         // Get the currently enabled events
         // Note that when new events were added after firing one,
         // the generateNewInternalTimeDifference function should
         // already be called for them to generate the next step in
         // the unit-rate poisson process
-        const std::vector<EventBase*>& events = getCurrentEvents();
+        const std::vector<Event*>& events = getCurrentEvents();
         State*                         pState = getState();
 
         if (events.size() < 1)
@@ -115,7 +115,7 @@ bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, EventBase** ppEvt)
         m_eventPos      = eventPos;
         m_pTmpEventList = &events;
 
-        EventBase* pNextEvent = events[eventPos];
+        Event* pNextEvent = events[eventPos];
         dt                    = dtMin;
 
 #ifdef ALGORITHM_SHOW_EVENTS
@@ -126,9 +126,9 @@ bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, EventBase** ppEvt)
         return true;
 }
 
-void SimpleAlgorithm::advanceEventTimes(EventBase* pScheduledEvent, double dtMin)
+void SimpleAlgorithm::advanceEventTimes(Event* pScheduledEvent, double dtMin)
 {
-        const std::vector<EventBase*>& events = *m_pTmpEventList;
+        const std::vector<Event*>& events = *m_pTmpEventList;
         State*                         pState = getState();
 
         assert(pScheduledEvent == events[m_eventPos]);
@@ -160,4 +160,4 @@ void SimpleAlgorithm::advanceEventTimes(EventBase* pScheduledEvent, double dtMin
         }
 }
 
-void SimpleAlgorithm::onFiredEvent(EventBase* pEvt) { onFiredEvent(pEvt, m_eventPos); }
+void SimpleAlgorithm::onFiredEvent(Event* pEvt) { onFiredEvent(pEvt, m_eventPos); }

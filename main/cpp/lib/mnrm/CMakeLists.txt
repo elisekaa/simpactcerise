@@ -1,10 +1,10 @@
 set(SRC
     algorithm.cpp
     booltype.cpp
-    debugtimer.cpp
-    eventbase.cpp
+    Event.cpp
     gslrandomnumbergenerator.cpp
     simplealgorithm.cpp
+    State.cpp
 )
 
 add_library(mnrm OBJECT ${SRC})
