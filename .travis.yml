@@ -71,8 +71,9 @@ before_install:
     #--------- OSX
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew upgrade cmake
-      brew install ccache gsl libtiff
+      brew upgrade cmake libtiff
+      brew install ccache gsl
+      export PATH=/usr/local/opt/ccache/libexec:$PATH
     fi
     #--------- Linux
   - |
@@ -83,8 +84,8 @@ before_install:
       #
       export TIFF_ROOT_DIR=$HOME/deps/tiff
       export CMAKE_LIBRARY_PATH=$TIFF_ROOT_DIR
-      wget -q http://download.osgeo.org/libtiff/tiff-3.9.7.tar.gz && tar xf tiff-3.9.7.tar.gz > /dev/null 2>&1
-      cd tiff-3.9.7 && ./configure --prefix=$TIFF_ROOT_DIR && make && make install && cd $TRAVIS_BUILD_DIR
+      wget -q http://download.osgeo.org/libtiff/tiff-4.0.9.tar.gz && tar xf tiff-4.0.9.tar.gz > /dev/null 2>&1
+      cd tiff-4.0.9 && ./configure --prefix=$TIFF_ROOT_DIR && make && make install && cd $TRAVIS_BUILD_DIR
     fi
 
 script:
