@@ -1,6 +1,4 @@
-#ifndef POPULATIONALGORITHMSIMPLE_H
-
-#define POPULATIONALGORITHMSIMPLE_H
+#pragma once
 
 /**
  * \file populationalgorithmsimple.h
@@ -49,25 +47,32 @@ public:
         /// which random number generator should be used and which simulation state.
         PopulationAlgorithmSimple(PopulationStateSimple& state, GslRandomNumberGenerator& rng, bool parallel);
 
+        ///
         ~PopulationAlgorithmSimple() override;
 
+        ///
         ExitStatus init() override;
 
+        ///
         ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0);
 
+        ///
         void onNewEvent(PopulationEvent* pEvt) override;
 
         // TODO: shield these from the user somehow? These functions should not be used
         //       directly by the user, they are used internally by the algorithm
         void scheduleForRemoval(PopulationEvent* pEvt);
 
+        ///
         double getTime() const override { return SimpleAlgorithm::getTime(); }
 
+        ///
         void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) override
         {
                 m_pOnAboutToFire = pAction;
         }
 
+        ///
         GslRandomNumberGenerator* getRandomNumberGenerator() const override
         {
                 return SimpleAlgorithm::getRandomNumberGenerator();
@@ -121,5 +126,3 @@ inline void PopulationAlgorithmSimple::onAboutToFire(Event* pEvt)
         if (m_pOnAboutToFire)
                 m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
 }
-
-#endif // POPULATIONALGORITHMSIMPLE_H

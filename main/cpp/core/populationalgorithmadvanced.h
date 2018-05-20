@@ -13,10 +13,7 @@
 #include "populationevent.h"
 
 #include <cassert>
-
-#ifdef STATE_SHOW_EVENTS
 #include <iostream>
-#endif // STATE_SHOW_EVENTS
 
 class GslRandomNumberGenerator;
 class PersonBase;
@@ -120,10 +117,9 @@ private:
         PopulationStateAdvanced& m_popState;
         bool                     m_init;
 
-#ifdef ALGORITHM_SHOW_EVENTS
         void showEvents(); // FOR DEBUGGING
-#endif                     // ALGORITHM_SHOW_EVENTS
-        void onAlgorithmLoop(bool finished);
+
+        void onAlgorithmLoop(bool finished) override;
 
         int64_t getNextEventID();
 

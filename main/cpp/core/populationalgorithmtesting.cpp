@@ -216,7 +216,7 @@ void PopulationAlgorithmTesting::advanceEventTimes(Event* pScheduledEvent, doubl
                 for (int i = 0; i < num; i++) {
                         PersonBase* pPerson = m_people[i];
                         assert(pPerson != 0);
-                        assert(pPerson->getGender() == PersonBase::GlobalEventDummy);
+                        assert(pPerson->getGender() == PersonBase::GlobalEventPerson);
                         personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
                 }
         }
@@ -266,7 +266,7 @@ void PopulationAlgorithmTesting::onNewEvent(PopulationEvent* pEvt)
         if (numPersons == 0) // A global event
         {
                 PersonBase* pGlobalEventPerson = m_people[0];
-                assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventDummy);
+                assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventPerson);
 
                 pEvt->setGlobalEventPerson(pGlobalEventPerson);
                 personalEventList(pGlobalEventPerson)->registerPersonalEvent(pEvt);

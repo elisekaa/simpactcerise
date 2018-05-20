@@ -1,7 +1,9 @@
 #include "eventhsv2transmission.h"
+#include "TimeLimitedHazard.h"
 #include "configfunctions.h"
 #include "jsonconfig.h"
 #include "util.h"
+
 #include <cmath>
 #include <iostream>
 
@@ -16,8 +18,6 @@ EventHSV2Transmission::EventHSV2Transmission(Person* pPerson1, Person* pPerson2)
         // gender here
         assert(pPerson1->hsv2().isInfected() && !pPerson2->hsv2().isInfected());
 }
-
-EventHSV2Transmission::~EventHSV2Transmission() {}
 
 string EventHSV2Transmission::getDescription(double tNow) const
 {
@@ -112,7 +112,7 @@ double EventHSV2Transmission::calculateInternalTimeInterval(const State* pState,
         double  tMax    = getTMax(pOrigin, pTarget);
 
         HazardFunctionHSV2Transmission h0(pOrigin, pTarget);
-        TimeLimitedHazardFunction      h(h0, tMax);
+        TimeLimitedHazard              h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -124,7 +124,7 @@ double EventHSV2Transmission::solveForRealTimeInterval(const State* pState, doub
         double  tMax    = getTMax(pOrigin, pTarget);
 
         HazardFunctionHSV2Transmission h0(pOrigin, pTarget);
-        TimeLimitedHazardFunction      h(h0, tMax);
+        TimeLimitedHazard              h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }
@@ -201,7 +201,7 @@ int EventHSV2Transmission::getH(const Person* pPerson1)
 
 EventHSV2Transmission::HazardFunctionHSV2Transmission::HazardFunctionHSV2Transmission(const Person* pPerson1,
                                                                                       const Person* pPerson2)
-    : HazardFunctionExp(getA(pPerson1, pPerson2), s_b)
+    : HazardExp(getA(pPerson1, pPerson2), s_b)
 {
 }
 

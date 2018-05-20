@@ -2,12 +2,12 @@
 
 #define HAZARDFUNCTIONFORMATIONAGEGAP_H
 
-#include "hazardfunction.h"
+#include "Hazard.h"
 #include "pop/person.h"
 #include <assert.h>
 #include <cmath>
 
-class HazardFunctionFormationAgeGap : public HazardFunction
+class HazardFunctionFormationAgeGap : public Hazard
 {
 public:
         HazardFunctionFormationAgeGap(const Person* pPerson1, const Person* pPerson2, double tr, double a0, double a1,

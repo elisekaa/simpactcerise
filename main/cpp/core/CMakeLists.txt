@@ -1,4 +1,5 @@
 set(SRC
+    GlobalEventDummy.h
     parallel.h
     personaleventlist.cpp
     personaleventlisttesting.cpp

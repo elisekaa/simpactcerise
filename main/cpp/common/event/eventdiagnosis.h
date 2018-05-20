@@ -1,13 +1,13 @@
 #pragma once
 
-#include "hazardfunctionexp.h"
+#include "HazardExp.h"
 #include "simpactevent.h"
 
 class ConfigSettings;
 class ConfigWriter;
 class ProbabilityDistribution;
 
-class HazardFunctionDiagnosis : public HazardFunctionExp
+class HazardFunctionDiagnosis : public HazardExp
 {
 public:
         HazardFunctionDiagnosis(Person* pPerson, double baseline, double ageFactor, double genderFactor,

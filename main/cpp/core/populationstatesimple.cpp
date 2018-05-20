@@ -1,12 +1,14 @@
 #include "populationstatesimple.h"
+#include "GlobalEventDummy.h"
 
 ExitStatus PopulationStateSimple::init()
 {
-        if (m_init)
+        if (m_init) {
                 return ExitStatus("Already initialized");
+        }
 
-        assert(m_people.size() == 0);
-        assert(m_deceasedPersons.size() == 0);
+        assert(m_people.empty());
+        assert(m_deceasedPersons.empty());
         m_numMen       = 0;
         m_numWomen     = 0;
         m_nextPersonID = 0;
@@ -15,7 +17,7 @@ ExitStatus PopulationStateSimple::init()
         m_people.resize(m_numGlobalDummies);
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
-                m_people[i] = new GlobalEventDummyPerson();
+                m_people[i] = new GlobalEventDummy();
                 auto pInfo  = new PersonAlgorithmInfoSimple();
                 m_people[i]->setAlgorithmInfo(pInfo);
                 pInfo->setListIndex(i);

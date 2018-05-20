@@ -1,11 +1,11 @@
 #include "populationstatetesting.h"
+#include "GlobalEventDummy.h"
 #include "personaleventlisttesting.h"
+#include "personbase.h"
 
 #include <cstddef>
 
 PopulationStateTesting::PopulationStateTesting() { m_init = false; }
-
-PopulationStateTesting::~PopulationStateTesting() {}
 
 ExitStatus PopulationStateTesting::init(bool parallel)
 {
@@ -26,7 +26,7 @@ ExitStatus PopulationStateTesting::init(bool parallel)
         m_people.resize(m_numGlobalDummies);
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
-                m_people[i]   = new GlobalEventDummyPerson();
+                m_people[i]   = new GlobalEventDummy();
                 auto pEvtList = new PersonalEventListTesting(m_people[i]);
                 m_people[i]->setAlgorithmInfo(pEvtList);
                 pEvtList->setListIndex(i);

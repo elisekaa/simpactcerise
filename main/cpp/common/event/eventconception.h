@@ -1,8 +1,6 @@
-#ifndef EVENTCONCEPTION_H
+#pragma once
 
-#define EVENTCONCEPTION_H
-
-#include "hazardfunctionexp.h"
+#include "HazardExp.h"
 #include "simpactevent.h"
 
 class ProbabilityDistribution;
@@ -25,7 +23,7 @@ private:
         double solveForRealTimeInterval(const State* pState, double Tdiff, double t0) override;
         bool   isUseless(const PopulationStateInterface& population) override;
 
-        class HazardFunctionConception : public HazardFunctionExp
+        class HazardFunctionConception : public HazardExp
         {
         public:
                 HazardFunctionConception(const Person* pMan, const Person* pWoman, double WSF, double tRef);
@@ -46,5 +44,3 @@ private:
 
         static double getTMax(const Person* pPerson1, const Person* pPerson2);
 };
-
-#endif // EVENTCONCEPTION_H

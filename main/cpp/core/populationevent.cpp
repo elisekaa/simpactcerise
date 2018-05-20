@@ -1,5 +1,4 @@
 #include "populationevent.h"
-#include "personbase.h"
 
 #include <cassert>
 #include <cstdlib>
@@ -35,7 +34,7 @@ void PopulationEvent::setGlobalEventPerson(PersonBase* pDummyPerson)
         assert(!m_deleted);
 #endif // POPULATIONEVENT_FAKEDELETE
         assert(m_numPersons == 0);
-        assert(pDummyPerson != 0 && pDummyPerson->getGender() == PersonBase::GlobalEventDummy);
+        assert(pDummyPerson != 0 && pDummyPerson->getGender() == PersonBase::GlobalEventPerson);
 
         m_pPersons[0] = pDummyPerson;
         m_numPersons  = 1;
@@ -44,9 +43,7 @@ void PopulationEvent::setGlobalEventPerson(PersonBase* pDummyPerson)
 PopulationEvent::PopulationEvent(PersonBase* pPerson)
 {
         assert(pPerson != 0);
-
         commonConstructor();
-
         m_pPersons[0] = pPerson;
         m_numPersons  = 1;
 }
@@ -54,15 +51,11 @@ PopulationEvent::PopulationEvent(PersonBase* pPerson)
 PopulationEvent::PopulationEvent(PersonBase* pPerson1, PersonBase* pPerson2)
 {
         assert(pPerson1 != 0 && pPerson2 != 0);
-
         commonConstructor();
-
         m_pPersons[0] = pPerson1;
         m_pPersons[1] = pPerson2;
         m_numPersons  = 2;
 }
-
-PopulationEvent::~PopulationEvent() {}
 
 bool PopulationEvent::isNoLongerUseful(const PopulationStateInterface& population)
 {
@@ -81,20 +74,3 @@ bool PopulationEvent::isNoLongerUseful(const PopulationStateInterface& populatio
 
         return isUseless(population);
 }
-
-#ifndef NDEBUG
-PersonBase* PopulationEvent::getPerson(int idx) const
-{
-#ifdef POPULATIONEVENT_FAKEDELETE
-        assert(!m_deleted);
-#endif // POPULATIONEVENT_FAKEDELETE
-
-        assert(m_numPersons >= 0 && m_numPersons <= POPULATIONEVENT_MAXPERSONS);
-        assert(idx < (int)m_numPersons);
-
-        PersonBase* pPerson = m_pPersons[idx];
-        assert(pPerson != 0);
-        assert(!pPerson->hasDied());
-        return pPerson;
-}
-#endif

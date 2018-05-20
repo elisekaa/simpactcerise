@@ -1,9 +1,11 @@
 #include "evthazarddissolution.h"
+#include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventdissolution.h"
-#include "hazardfunctionformationsimple.h"
+#include "HazardFormationSimple.h"
 #include "jsonconfig.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -29,39 +31,30 @@ EvtHazardDissolution::EvtHazardDissolution(bool msm, double a0, double a1, doubl
         m_tMax = tMax;
 }
 
-EvtHazardDissolution::~EvtHazardDissolution() {}
-
 double EvtHazardDissolution::getTMax(Person* pPerson1, Person* pPerson2)
 {
         assert(pPerson1 != 0 && pPerson2 != 0);
-
-        double tb1 = pPerson1->getDateOfBirth();
-        double tb2 = pPerson2->getDateOfBirth();
-
+        double tb1  = pPerson1->getDateOfBirth();
+        double tb2  = pPerson2->getDateOfBirth();
         double tMax = tb1;
-
         if (tb2 < tMax)
                 tMax = tb2;
 
         assert(m_tMax > 0);
         tMax += m_tMax;
-
         return tMax;
 }
 
 double EvtHazardDissolution::calculateInternalTimeInterval(const SimpactPopulation& population,
                                                            const SimpactEvent& event, double t0, double dt)
 {
-        Person* pPerson1 = event.getPerson(0);
-        Person* pPerson2 = event.getPerson(1);
-
-        double tMax = getTMax(pPerson1, pPerson2);
-
-        const EventDissolution& eventDiss = static_cast<const EventDissolution&>(event);
-        double                  tr        = eventDiss.getFormationTime();
-
-        HazardFunctionFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazardFunction     h(h0, tMax);
+        Person*                       pPerson1  = event.getPerson(0);
+        Person*                       pPerson2  = event.getPerson(1);
+        double                        tMax      = getTMax(pPerson1, pPerson2);
+        const auto&                   eventDiss = dynamic_cast<const EventDissolution&>(event);
+        double                        tr        = eventDiss.getFormationTime();
+        HazardFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
+        TimeLimitedHazard             h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -74,11 +67,11 @@ double EvtHazardDissolution::solveForRealTimeInterval(const SimpactPopulation& p
 
         double tMax = getTMax(pPerson1, pPerson2);
 
-        const EventDissolution& eventDiss = static_cast<const EventDissolution&>(event);
-        double                  tr        = eventDiss.getFormationTime();
+        const auto& eventDiss = dynamic_cast<const EventDissolution&>(event);
+        double      tr        = eventDiss.getFormationTime();
 
-        HazardFunctionFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazardFunction     h(h0, tMax);
+        HazardFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
+        TimeLimitedHazard             h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }

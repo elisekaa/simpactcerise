@@ -1,15 +1,12 @@
-#ifndef PERSONALEVENTLIST_H
-
-#define PERSONALEVENTLIST_H
+#pragma once
 
 #include "ExitStatus.h"
 #include "PersonAlgorithmInfo.h"
 #include "populationevent.h"
+
 #include <list>
 #include <set>
 #include <vector>
-
-//#define PERSONALEVENTLIST_EXTRA_DEBUGGING
 
 class PersonBase;
 class PopulationStateAdvanced;
@@ -22,41 +19,46 @@ public:
         explicit PersonalEventList(PersonBase* pPerson);
 
         ///
-        ~PersonalEventList();
+        ~PersonalEventList() override;
 
+        ///
         void registerPersonalEvent(PopulationEvent* pEvt);
+
+        ///
         void processUnsortedEvents(PopulationAlgorithmAdvanced& alg, PopulationStateAdvanced& pop, double t0);
+
+        ///
         void advanceEventTimes(PopulationAlgorithmAdvanced& alg, const PopulationStateAdvanced& pop, double t1);
+
+        ///
         void adjustingEvent(PopulationEvent* pEvt);
+
+        ///
         void removeTimedEvent(PopulationEvent* pEvt);
 
         ///
         PopulationEvent* getEarliestEvent();
 
+        ///
         void setListIndex(int i) { m_listIndex = i; }
-        int  getListIndex() const { return m_listIndex; }
+
+        ///
+        int getListIndex() const { return m_listIndex; }
 
 private:
         static PersonalEventList* personalEventList(PersonBase* pPerson);
-#ifndef PERSONALEVENTLIST_EXTRA_DEBUGGING
-        void checkEarliestEvent() {}
-        void checkEvents() {}
-#else
+
+private:
         void checkEarliestEvent();
         void checkEvents();
-#endif // PERSONALEVENTLIST_EXTRA_DEBUGGING
 
+private:
         std::vector<PopulationEvent*> m_timedEvents;
         std::vector<PopulationEvent*> m_untimedEvents;
+        PopulationEvent*              m_pEarliestEvent;
+        PersonBase*                   m_pPerson;
+        int                           m_listIndex;
 
-        PopulationEvent* m_pEarliestEvent;
-        PersonBase*      m_pPerson;
-
-        int m_listIndex;
-
-#ifdef ALGORITHM_SHOW_EVENTS
+private:
         friend class PopulationAlgorithmAdvanced;
-#endif // ALGORITHM_SHOW_EVENTS
 };
-
-#endif // PERSONALEVENTLIST_H

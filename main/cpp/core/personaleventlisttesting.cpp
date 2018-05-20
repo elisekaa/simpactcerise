@@ -4,9 +4,10 @@
 #include "personbase.h"
 #include "populationalgorithmtesting.h"
 #include "populationstatetesting.h"
+
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
-#include <stdlib.h>
-#include <string.h>
 
 inline int getResponsiblePersonIndex(PopulationEvent* pEvt)
 {
@@ -403,7 +404,6 @@ void PersonalEventListTesting::removeSecondaryEvent(PopulationEvent* pEvt)
 {
         checkEarliestEvent();
         checkEvents();
-
         assert(pEvt != 0);
         assert(!pEvt->isDeleted());
 
@@ -412,12 +412,9 @@ void PersonalEventListTesting::removeSecondaryEvent(PopulationEvent* pEvt)
         PersonBase* pResponsiblePerson = pEvt->getPerson(resposibleIdx);
         assert(pResponsiblePerson != m_pPerson); // make sure it's in the secondary list
 #endif
-
-        int idx     = pEvt->getEventIndex(m_pPerson);
-        int lastIdx = m_secondaryEvents.size() - 1;
-
+        const auto idx     = pEvt->getEventIndex(m_pPerson);
+        const auto lastIdx = m_secondaryEvents.size() - 1;
         assert(m_secondaryEvents[idx] == pEvt);
-
         if (m_secondaryEvents[lastIdx] != pEvt) {
                 m_secondaryEvents[idx] = m_secondaryEvents[lastIdx];
                 m_secondaryEvents[idx]->setEventIndex(m_pPerson, idx);
@@ -428,53 +425,45 @@ void PersonalEventListTesting::removeSecondaryEvent(PopulationEvent* pEvt)
         checkEvents();
 }
 
-#ifdef PERSONALEVENTLIST_EXTRA_DEBUGGING
-
 void PersonalEventListTesting::checkEarliestEvent() // FOR DEBUGGING
 {
-        if (m_pEarliestEvent == 0)
+#ifndef NDEBUG
+        if (m_pEarliestEvent == 0) {
                 return;
-
-        // For debugging:
-        {
-                PopulationEvent* pE0      = m_timedEventsPrimary[0];
-                double           bestTime = pE0->getEventTime();
-
-                assert(bestTime >= 0);
-
-                int num = m_timedEventsPrimary.size();
-
-                for (int i = 1; i < num; i++) {
-                        PopulationEvent* pCheckEvt = m_timedEventsPrimary[i];
-                        double           t         = pCheckEvt->getEventTime();
-
-                        if (t < bestTime) {
-                                bestTime = t;
-                                pE0      = pCheckEvt;
-                        }
-                }
-
-                if (m_pEarliestEvent != pE0) {
-                        std::cerr << "Mismatch between stored earliest event and real earliest event" << std::endl;
-                        std::cerr << "m_pEarliestEvent->getEventTime() = " << m_pEarliestEvent->getEventTime()
-                                  << std::endl;
-                        std::cerr << "realEarliestEvent->getEventTime() = " << pE0->getEventTime() << std::endl;
-                }
-
-                assert(m_pEarliestEvent == pE0);
         }
+        PopulationEvent* pE0      = m_timedEventsPrimary[0];
+        double           bestTime = pE0->getEventTime();
+        assert(bestTime >= 0);
+        const auto num = m_timedEventsPrimary.size();
+        for (size_t i = 1; i < num; i++) {
+                PopulationEvent* pCheckEvt = m_timedEventsPrimary[i];
+                double           t         = pCheckEvt->getEventTime();
+
+                if (t < bestTime) {
+                        bestTime = t;
+                        pE0      = pCheckEvt;
+                }
+        }
+        if (m_pEarliestEvent != pE0) {
+                std::cerr << "Mismatch between stored earliest event and real earliest event" << std::endl;
+                std::cerr << "m_pEarliestEvent->getEventTime() = " << m_pEarliestEvent->getEventTime() << std::endl;
+                std::cerr << "realEarliestEvent->getEventTime() = " << pE0->getEventTime() << std::endl;
+        }
+        assert(m_pEarliestEvent == pE0);
+#endif
 }
 
 void PersonalEventListTesting::checkEvents()
 {
-        for (int i = 0; i < m_timedEventsPrimary.size(); i++)
-                assert(m_timedEventsPrimary[i] != 0);
-
-        for (int i = 0; i < m_untimedEventsPrimary.size(); i++)
-                assert(m_untimedEventsPrimary[i] != 0);
-
-        for (int i = 0; i < m_secondaryEvents.size(); i++)
-                assert(m_secondaryEvents[i] != 0);
+#ifndef NDEBUG
+        for (const auto& p : m_timedEventsPrimary) {
+                assert(p);
+        }
+        for (const auto& p : m_untimedEventsPrimary) {
+                assert(p);
+        }
+        for (const auto& p : m_secondaryEvents) {
+                assert(p);
+        }
+#endif
 }
-
-#endif // PERSONALEVENTLIST_EXTRA_DEBUGGING

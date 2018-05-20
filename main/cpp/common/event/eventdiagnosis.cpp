@@ -1,5 +1,6 @@
 #include "eventdiagnosis.h"
 
+#include "TimeLimitedHazard.h"
 #include "configdistributionhelper.h"
 #include "configfunctions.h"
 #include "configsettings.h"
@@ -63,7 +64,7 @@ void EventDiagnosis::fire(Algorithm* pAlgorithm, State* pState, double t)
         pPerson->hiv().increaseDiagnoseCount();
 
         // Schedule an initial monitoring event right away! (the 'true' is for 'right away')
-        EventMonitoring* pEvtMonitor = new EventMonitoring(pPerson, true);
+        auto pEvtMonitor = new EventMonitoring(pPerson, true);
         population.onNewEvent(pEvtMonitor);
 }
 
@@ -72,9 +73,9 @@ double EventDiagnosis::calculateInternalTimeInterval(const State* pState, double
         Person* pPerson = getPerson(0);
         double  tMax    = getTMax(pPerson);
 
-        HazardFunctionDiagnosis   h0(pPerson, s_baseline, s_ageFactor, s_genderFactor, s_diagPartnersFactor,
+        HazardFunctionDiagnosis h0(pPerson, s_baseline, s_ageFactor, s_genderFactor, s_diagPartnersFactor,
                                    s_isDiagnosedFactor, s_beta, s_HSV2factor);
-        TimeLimitedHazardFunction h(h0, tMax);
+        TimeLimitedHazard       h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -84,10 +85,9 @@ double EventDiagnosis::solveForRealTimeInterval(const State* pState, double Tdif
         Person* pPerson = getPerson(0);
         double  tMax    = getTMax(pPerson);
 
-        HazardFunctionDiagnosis   h0(pPerson, s_baseline, s_ageFactor, s_genderFactor, s_diagPartnersFactor,
+        HazardFunctionDiagnosis h0(pPerson, s_baseline, s_ageFactor, s_genderFactor, s_diagPartnersFactor,
                                    s_isDiagnosedFactor, s_beta, s_HSV2factor);
-        TimeLimitedHazardFunction h(h0, tMax);
-
+        TimeLimitedHazard       h(h0, tMax);
         return h.solveForRealTimeInterval(t0, Tdiff);
 }
 

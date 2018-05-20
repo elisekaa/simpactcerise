@@ -17,7 +17,7 @@ PopulationStateSimpleAdvancedCommon::~PopulationStateSimpleAdvancedCommon()
 void PopulationStateSimpleAdvancedCommon::setPersonDied(PersonBase* pPerson)
 {
         assert(pPerson != 0);
-        assert(pPerson->getGender() != PersonBase::GlobalEventDummy);
+        assert(pPerson->getGender() != PersonBase::GlobalEventPerson);
 
         // Set the time of death
         pPerson->setTimeOfDeath(getTime());

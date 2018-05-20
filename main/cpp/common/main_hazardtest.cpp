@@ -1,9 +1,10 @@
+#include "HazardExp.h"
+#include "TimeLimitedHazard.h"
 #include "distribution/uniformdistribution.h"
 #include "event/eventdiagnosis.h"
 #include "gslrandomnumbergenerator.h"
-#include "hazardfunctionexp.h"
 #include "hazardfunctionformationagegap.h"
-#include "hazardfunctionformationsimple.h"
+#include "HazardFormationSimple.h"
 #include "pop/simpactpopulation.h"
 
 #include <cmath>
@@ -11,20 +12,26 @@
 
 using namespace std;
 
-class TestHazardFunction : public HazardFunction
+class TestHazardFunction : public Hazard
 {
 public:
-        TestHazardFunction() {}
-        ~TestHazardFunction() {}
+        ///
+        TestHazardFunction() = default;
 
-        double evaluate(double t) { return std::exp(-t); }
+        ///
+        ~TestHazardFunction() = default;
 
-        double calculateInternalTimeInterval(double t0, double dt) { return std::exp(-t0) * (1.0 - exp(-dt)); }
+        ///
+        double evaluate(double t) override { return std::exp(-t); }
 
-        double solveForRealTimeInterval(double t0, double Tdiff) { return -std::log(1.0 - Tdiff * exp(t0)); }
+        ///
+        double calculateInternalTimeInterval(double t0, double dt) override { return std::exp(-t0) * (1.0 - exp(-dt)); }
+
+        ///
+        double solveForRealTimeInterval(double t0, double Tdiff) override { return -std::log(1.0 - Tdiff * exp(t0)); }
 };
 
-void runHazardTest(HazardFunction& h, const string& name, GslRandomNumberGenerator& rndGen)
+void runHazardTest(Hazard& h, const string& name, GslRandomNumberGenerator& rndGen)
 {
         int N     = 10000;
         int count = 0;
@@ -63,68 +70,60 @@ void runHazardTests(SimpactPopulation& pop)
         GslRandomNumberGenerator rndGen;
 
         {
-                // Man **ppMen = pop.getMen();
-                // Woman **ppWomen = pop.getWomen();
-                // Man *pMan = ppMen[0];
-                // Woman *pWoman = ppWomen[0];
-                Man*   pMan   = new Man(60);
-                Woman* pWoman = new Woman(70);
+                auto pMan   = new Man(60);
+                auto pWoman = new Woman(70);
 
                 {
-                        TestHazardFunction        h0;
-                        TimeLimitedHazardFunction h(h0, 80);
+                        TestHazardFunction h0;
+                        TimeLimitedHazard  h(h0, 80);
                         runHazardTest(h, "TestHazardFunction", rndGen);
                 }
 
                 {
-                        HazardFunctionFormationSimple h0(pMan, pWoman, 0, 0, 0, 0, 0, -0.1, 0, 5, -1.0);
-                        TimeLimitedHazardFunction     h(h0, 80);
-                        runHazardTest(h, "HazardFunctionFormationSimple", rndGen);
+                        HazardFormationSimple h0(pMan, pWoman, 0, 0, 0, 0, 0, -0.1, 0, 5, -1.0);
+                        TimeLimitedHazard             h(h0, 80);
+                        runHazardTest(h, "HazardFormationSimple", rndGen);
                 }
 
                 {
-                        // HazardFunctionFormationAgeGap h0(pMan, pWoman, 0,
-                        //		                0, 0, 0, 0, 0, -0.1, -0.1, -0.05, -0.1, 0);
-                        //
                         HazardFunctionFormationAgeGap h0(pMan, pWoman, 0, 0, 0, 0, 0, 0, -0.1, -0.1, -0.05, -0.1, 0,
                                                          false);
-                        TimeLimitedHazardFunction     h(h0, 120);
+                        TimeLimitedHazard             h(h0, 120);
                         runHazardTest(h, "HazardFunctionFormationAgeGap", rndGen);
                 }
         }
 
         {
-                HazardFunctionExp         h0(1.23);
-                TimeLimitedHazardFunction h(h0, 120);
+                HazardExp         h0(1.23);
+                TimeLimitedHazard h(h0, 120);
                 runHazardTest(h, "HazardFunctionExp1", rndGen);
         }
 
         {
-                HazardFunctionExp         h0(1.23, 4.56);
-                TimeLimitedHazardFunction h(h0, 120);
+                HazardExp         h0(1.23, 4.56);
+                TimeLimitedHazard h(h0, 120);
                 runHazardTest(h, "HazardFunctionExp2", rndGen);
         }
 
         {
-                Man*   pMan   = new Man(-30);
-                Woman* pWoman = new Woman(-20);
+                auto pMan   = new Man(-30);
+                auto pWoman = new Woman(-20);
                 pMan->hiv().setInfected(-10, 0, PersonHIV::Seed);
                 pWoman->hiv().setInfected(-15, 0, PersonHIV::Seed);
-
                 pMan->addRelationship(pWoman, 0.1);
                 pWoman->addRelationship(pMan, 0.1);
 
                 {
-                        HazardFunctionDiagnosis   h0(pMan, 0.1, -0.2, 0.3, 0.4, 0.5, 0.6, 0.7);
-                        TimeLimitedHazardFunction h(h0, 120);
+                        HazardFunctionDiagnosis h0(pMan, 0.1, -0.2, 0.3, 0.4, 0.5, 0.6, 0.7);
+                        TimeLimitedHazard       h(h0, 120);
                         runHazardTest(h, "HazardFunctionDiagnosis", rndGen);
                 }
 
                 pMan->hiv().increaseDiagnoseCount();
 
                 {
-                        HazardFunctionDiagnosis   h0(pWoman, 0.1, -0.2, 0.3, 0.4, 0.5, 0.6, 0.7);
-                        TimeLimitedHazardFunction h(h0, 120);
+                        HazardFunctionDiagnosis h0(pWoman, 0.1, -0.2, 0.3, 0.4, 0.5, 0.6, 0.7);
+                        TimeLimitedHazard       h(h0, 120);
                         runHazardTest(h, "HazardFunctionDiagnosis2", rndGen);
                 }
         }

@@ -1,10 +1,12 @@
 #include "eventconception.h"
+#include "TimeLimitedHazard.h"
 #include "configdistributionhelper.h"
 #include "configfunctions.h"
 #include "distribution/probabilitydistribution.h"
 #include "eventbirth.h"
 #include "jsonconfig.h"
-#include <assert.h>
+
+#include <cassert>
 
 using namespace std;
 
@@ -33,19 +35,17 @@ void EventConception::writeLogs(const SimpactPopulation& pop, double tNow) const
 void EventConception::fire(Algorithm* pAlgorithm, State* pState, double t)
 {
         SimpactPopulation& population = SIMPACTPOPULATION(pState);
-
-        Man*   pMan   = MAN(getPerson(0));
-        Woman* pWoman = WOMAN(getPerson(1));
+        Man*               pMan       = MAN(getPerson(0));
+        Woman*             pWoman     = WOMAN(getPerson(1));
 
         assert(!pWoman->isPregnant());
         pWoman->setPregnant(true);
 
-        EventBirth* pEvtBirth = new EventBirth(pWoman);
+        auto pEvtBirth = new EventBirth(pWoman);
         // Note: also store who's the father in this event (we can't use the constructor because
         //       the system will think two people are needed for the birth event, causing it to
         //       be deleted if the father dies for example)
         pEvtBirth->setFather(pMan);
-
         population.onNewEvent(pEvtBirth);
 }
 
@@ -53,13 +53,11 @@ double EventConception::calculateInternalTimeInterval(const State* pState, doubl
 {
         Person* pPerson1 = getPerson(0);
         Person* pPerson2 = getPerson(1);
+        double  tr       = m_relationshipFormationTime;
+        double  tMax     = getTMax(pPerson1, pPerson2);
 
-        double tr   = m_relationshipFormationTime;
-        double tMax = getTMax(pPerson1, pPerson2);
-
-        HazardFunctionConception  h0(pPerson1, pPerson2, m_WSF, tr);
-        TimeLimitedHazardFunction h(h0, tMax);
-
+        HazardFunctionConception h0(pPerson1, pPerson2, m_WSF, tr);
+        TimeLimitedHazard        h(h0, tMax);
         return h.calculateInternalTimeInterval(t0, dt);
 }
 
@@ -71,8 +69,8 @@ double EventConception::solveForRealTimeInterval(const State* pState, double Tdi
         double tr   = m_relationshipFormationTime;
         double tMax = getTMax(pPerson1, pPerson2);
 
-        HazardFunctionConception  h0(pPerson1, pPerson2, m_WSF, tr);
-        TimeLimitedHazardFunction h(h0, tMax);
+        HazardFunctionConception h0(pPerson1, pPerson2, m_WSF, tr);
+        TimeLimitedHazard        h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }

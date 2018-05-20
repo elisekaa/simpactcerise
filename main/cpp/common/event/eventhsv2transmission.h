@@ -1,8 +1,6 @@
-#ifndef EVENTHSV2TRANSMISSION_H
+#pragma once
 
-#define EVENTHSV2TRANSMISSION_H
-
-#include "hazardfunctionexp.h"
+#include "HazardExp.h"
 #include "simpactevent.h"
 
 class ConfigSettings;
@@ -12,7 +10,9 @@ class EventHSV2Transmission : public SimpactEvent
 public:
         // HSV2 Transmission from person1 onto person2
         EventHSV2Transmission(Person* pPerson1, Person* pPerson2);
-        ~EventHSV2Transmission();
+
+        ///
+        ~EventHSV2Transmission() override = default;
 
         std::string getDescription(double tNow) const override;
         void        writeLogs(const SimpactPopulation& pop, double tNow) const override;
@@ -25,12 +25,19 @@ public:
         static void infectPerson(SimpactPopulation& population, Person* pOrigin, Person* pTarget, double t);
 
 protected:
+        ///
         double calculateInternalTimeInterval(const State* pState, double t0, double dt) override;
+
+        ///
         double solveForRealTimeInterval(const State* pState, double Tdiff, double t0) override;
-        bool   isUseless(const PopulationStateInterface& population) override;
+
+        ///
+        bool isUseless(const PopulationStateInterface& population) override;
+
+        ///
         double calculateHazardFactor(const SimpactPopulation& population, double t0);
 
-        class HazardFunctionHSV2Transmission : public HazardFunctionExp
+        class HazardFunctionHSV2Transmission : public HazardExp
         {
         public:
                 HazardFunctionHSV2Transmission(const Person* pPerson1, const Person* pPerson2);
@@ -49,5 +56,3 @@ protected:
         static double s_e1;
         static double s_e2;
 };
-
-#endif // EVENTHSV2TRANSMISSION_H

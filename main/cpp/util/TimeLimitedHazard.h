@@ -1,50 +1,13 @@
-#ifndef HAZARDFUNCTION_H
-
-#define HAZARDFUNCTION_H
+#pragma once
 
 /**
  * \file hazardfunction.h
  */
 
-/** Abstract base class which can be used for a hazard.
- *
- *  If this way of implementing a hazard is used, the parameters for the hazard must
- *  be specified using the constructor of a derived class. The advantage of this
- *  is that the functions HazardFunction::evaluate, HazardFunction::calculateInternalTimeInterval
- *  and HazardFunction::solveForRealTimeInterval are implemented in the derived class,
- *  allowing you to use different hazard implementations as parameter to some other
- *  function.
- */
-class HazardFunction
-{
-public:
-        HazardFunction() {}
-        virtual ~HazardFunction() {}
+#include "Hazard.h"
 
-        /** Evaluate the hazard at time \c t. */
-        virtual double evaluate(double t) = 0;
-
-        /** Map the real-world time \c dt to an internal time interval.
-         *
-         *  This calculates: \f[ dT = \int_{t_0}^{t_0 + dt} h(s) ds \f]
-         */
-        virtual double calculateInternalTimeInterval(double t0, double dt) = 0;
-
-        /** For the specified internal time interval Tdiff, calculate the
-         *  corresponding real-world time interval.
-         *
-         *  This solves the following equation for \f$ dt \f$: \f[ Tdiff = \int_{t_0}^{t_0 + dt} h(s) ds \f]
-         */
-        virtual double solveForRealTimeInterval(double t0, double Tdiff) = 0;
-
-        // NOTE: this is just for debugging/testing, not meant to be used to evaluate hazards!
-        double integrateNumerically(double t0, double dt);
-
-private:
-        static double staticEvaluationFunction(double t, void* pParams);
-};
-
-/** Starting from a particular hazard, this modified hazard returns a constant
+/**
+ * Starting from a particular hazard, this modified hazard returns a constant
  *  value for times larger that a certain value.
  *
  *  The advantage of this, is that hazards which could not be used in the mNRM
@@ -73,25 +36,25 @@ private:
  *
  * For more information, some calculations can be found in <a href="hazard_tmax.pdf">hazard_tmax.pdf</a>
  */
-class TimeLimitedHazardFunction : public HazardFunction
+class TimeLimitedHazard : public Hazard
 {
 public:
         /** This constructor specifies that the base hazard \c h should be used for
          *  times smaller than \c tMax, and that the constant value h(tMax) should
          *  be the hazard for times larger than tMax. */
-        TimeLimitedHazardFunction(HazardFunction& h, double tMax) : m_h(h), m_tMax(tMax) {}
-        ~TimeLimitedHazardFunction() {}
+        TimeLimitedHazard(Hazard& h, double tMax) : m_h(h), m_tMax(tMax) {}
+        ~TimeLimitedHazard() {}
 
         double evaluate(double t);
         double calculateInternalTimeInterval(double t0, double dt);
         double solveForRealTimeInterval(double t0, double Tdiff);
 
 private:
-        HazardFunction& m_h;
-        double          m_tMax;
+        Hazard& m_h;
+        double  m_tMax;
 };
 
-inline double TimeLimitedHazardFunction::evaluate(double t)
+inline double TimeLimitedHazard::evaluate(double t)
 {
         if (t < m_tMax)
                 return m_h.evaluate(t);
@@ -101,7 +64,7 @@ inline double TimeLimitedHazardFunction::evaluate(double t)
 // something small to prevent division by zero
 #define TIMELIMITEDHAZARDFUNCTION_SMALLNUMBER 1e-100
 
-inline double TimeLimitedHazardFunction::calculateInternalTimeInterval(double t0, double dt)
+inline double TimeLimitedHazard::calculateInternalTimeInterval(double t0, double dt)
 {
         if (t0 >= m_tMax) // we're in the regime where the hazard has become constant
                 return (m_h.evaluate(m_tMax) + TIMELIMITEDHAZARDFUNCTION_SMALLNUMBER) * dt;
@@ -115,7 +78,7 @@ inline double TimeLimitedHazardFunction::calculateInternalTimeInterval(double t0
         return TdiffMax + m_h.evaluate(m_tMax) * (dt - tMaxMinT0);
 }
 
-inline double TimeLimitedHazardFunction::solveForRealTimeInterval(double t0, double Tdiff)
+inline double TimeLimitedHazard::solveForRealTimeInterval(double t0, double Tdiff)
 {
         if (t0 >= m_tMax) // we're in the regime where the hazard has become constant
                 return Tdiff / (m_h.evaluate(m_tMax) + TIMELIMITEDHAZARDFUNCTION_SMALLNUMBER);
@@ -128,5 +91,3 @@ inline double TimeLimitedHazardFunction::solveForRealTimeInterval(double t0, dou
 
         return (Tdiff - TdiffMax) / m_h.evaluate(m_tMax) + tMaxMinT0;
 }
-
-#endif // HAZARDFUNCTION_H

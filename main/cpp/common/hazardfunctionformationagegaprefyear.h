@@ -2,11 +2,11 @@
 
 #define HAZARDFUNCTIONFORMATIONAGEGAPREFYEAR_H
 
-#include "hazardfunctionexp.h"
+#include "HazardExp.h"
 #include "pop/person.h"
 #include <cmath>
 
-class HazardFunctionFormationAgeGapRefYear : public HazardFunctionExp
+class HazardFunctionFormationAgeGapRefYear : public HazardExp
 {
 public:
         HazardFunctionFormationAgeGapRefYear(const Person* pPerson1, const Person* pPerson2, double tr, double a0,

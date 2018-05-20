@@ -5,16 +5,17 @@
  */
 
 #include "Event.h"
-#include <assert.h>
+#include "PersonBase.h"
+
+#include <cassert>
+#include <cstdlib>
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 
 #define POPULATIONEVENT_MAXPERSONS 2
 
 //#define POPULATIONEVENT_FAKEDELETE
 
-class PersonBase;
 class PopulationStateInterface;
 
 /** This is the base class for events in population-based simulations.
@@ -61,65 +62,71 @@ class PopulationStateInterface;
 class PopulationEvent : public Event
 {
 public:
-        /** Constructs a 'global' event.
-         *
-         *  Note that while no people are specified here, internally the algorithm may store
-         *  the event in the list of a 'dummy' person, which is neither labelled as a 'Man' nor
-         *  as a 'Woman'.
+        /**
+         * Constructs a 'global' event.
+         * Note that while no people are specified here, internally the algorithm may store
+         * the event in the list of a 'dummy' person, which is neither labelled as a 'Man' nor
+         * as a 'Woman'.
          */
         PopulationEvent();
 
-        /** Constructs an event relevant to one person. */
-        PopulationEvent(PersonBase* pPerson);
+        /// Constructs an event relevant to one person.
+        explicit PopulationEvent(PersonBase* pPerson);
 
-        /** Constructs an event relevant to two persons. */
+        /// Constructs an event relevant to two persons.
         PopulationEvent(PersonBase* pPerson1, PersonBase* pPerson2);
-        ~PopulationEvent();
+
+        ///
+        ~PopulationEvent() override = default;
 
         // These are for internal use
         void    setGlobalEventPerson(PersonBase* pDummyPerson);
         void    setEventID(int64_t id);
         int64_t getEventID() const;
 
-        /** Returns the number of people specified during the creation of
-         *  the event (will be one for global events since these are registered
-         *  with the 'dummy' person mentioned above).
-         */
+        /// Returns the number of people specified during the creation of
+        ///  the event (will be one for global events since these are registered
+        ///  with the 'dummy' person mentioned above).
         int getNumberOfPersons() const;
 
-        /** Returns a person that was specified when the event was constructed,
-         *  where \c idx can range from 0 to PopulationEvent::getNumberOfPersons() - 1. */
+        /// Returns a person that was specified when the event was constructed,
+        /// where \c idx can range from 0 to PopulationEvent::getNumberOfPersons() - 1.
         PersonBase* getPerson(int idx) const;
 
-        /** If the entire population is affected by this event (should be avoided!), this
-         *  function can be overridden to indicate this. */
+        /// If the entire population is affected by this event (should be avoided!), this
+        /// function can be overridden to indicate this.
         virtual bool isEveryoneAffected() const { return false; }
 
-        /** If other people than the one(s) mentioned in the constructor are also affected
-         *  by this event, it should be indicated in this function. */
+        /// If other people than the one(s) mentioned in the constructor are also affected
+        /// by this event, it should be indicated in this function.
         virtual void markOtherAffectedPeople(const PopulationStateInterface& population) {}
 
-        /** If global events (not referring to a particular person) are affected, this function
-         *  can be overridden to indicate this. */
+        /// If global events (not referring to a particular person) are affected, this function
+        /// can be overridden to indicate this. */
         virtual bool areGlobalEventsAffected() const { return false; }
 
-        /** Returns a short description of the event, can be useful for logging/debugging
-         *  purposes. This does not need to be re-implemented if you're using another
-         *  description for logging purposes, but this description may be helpful when
-         *  debugging the algorithm used. */
+        /// Returns a short description of the event, can be useful for logging/debugging
+        /// purposes. This does not need to be re-implemented if you're using another
+        /// description for logging purposes, but this description may be helpful when
+        /// debugging the algorithm used. */
         virtual std::string getDescription(double tNow) const { return std::string("No description given"); }
 
         // TODO: shield these from the user somehow? These functions are used internally
-        //       by the algorithm and should not be called directly by the user. */
+        //       by the algorithm and should not be called directly by the user.
         void setEventIndex(PersonBase* pPerson, int idx);
-        int  getEventIndex(PersonBase* pPerson) const;
 
+        ///
+        int getEventIndex(PersonBase* pPerson) const;
+
+        ///
         void setScheduledForRemoval() { m_scheduledForRemoval = true; }
+
+        ///
         bool isScheduledForRemoval() const { return m_scheduledForRemoval; }
 
+        ///
         bool isNoLongerUseful(const PopulationStateInterface& population);
 
-        // For debugging
 #if !defined(NDEBUG) && defined(POPULATIONEVENT_FAKEDELETE)
         void setDeleted() { m_deleted = true; }
         bool isDeleted() const { return m_deleted; }
@@ -130,10 +137,9 @@ public:
         PersonBase* getPersonWithoutChecking(int idx) const;
 
 protected:
-        /** This function can be used to inform the algorithm that an event is no longer
-         *  of any use and should be discarded. An event is automatically useless if one of the
-         *  people specified at time of construction has died, so this function should not check
-         *  for that again. */
+        /// This function can be used to inform the algorithm that an event is no longer  of any use
+        /// and should be discarded. An event is automatically useless if one of the people specified
+        /// at time of construction has died, so this function should not check for that again.
         virtual bool isUseless(const PopulationStateInterface& population) { return false; }
 
 private:
@@ -155,18 +161,14 @@ inline void PopulationEvent::setEventIndex(PersonBase* pPerson, int idx)
 {
         assert(pPerson != 0);
         int num = m_numPersons;
-
         for (int i = 0; i < num; i++) {
                 assert(m_pPersons[i] != 0);
-
                 if (pPerson == m_pPersons[i]) {
                         m_eventIndex[i] = idx;
                         return;
                 }
         }
-
-        std::cerr << "PopulationEvent::setEventIndex: Consistency error: invalid Person object in setEventIndex"
-                  << std::endl;
+        std::cerr << "__func__: Consistency error: invalid Person object in setEventIndex" << std::endl;
         abort();
 }
 
@@ -174,7 +176,6 @@ inline int PopulationEvent::getEventIndex(PersonBase* pPerson) const
 {
         assert(pPerson != 0);
         int num = m_numPersons;
-
         for (int i = 0; i < num; i++) {
                 assert(m_pPersons[i] != 0);
 
@@ -182,14 +183,26 @@ inline int PopulationEvent::getEventIndex(PersonBase* pPerson) const
                         return m_eventIndex[i];
         }
 
-        std::cerr << "PopulationEvent::getEventIndex: Consistency error: invalid Person object in getEventIndex"
-                  << std::endl;
+        std::cerr << "__func__: Consistency error: invalid Person object in getEventIndex" << std::endl;
         abort();
 }
 
+inline PersonBase* PopulationEvent::getPerson(int idx) const
+{
 #ifdef NDEBUG
-inline PersonBase* PopulationEvent::getPerson(int idx) const { return m_pPersons[idx]; }
+        return m_pPersons[idx];
+#else
+#ifdef POPULATIONEVENT_FAKEDELETE
+        assert(!m_deleted);
+#endif // POPULATIONEVENT_FAKEDELETE
+        assert(m_numPersons >= 0 && m_numPersons <= POPULATIONEVENT_MAXPERSONS);
+        assert(idx < (int)m_numPersons);
+        PersonBase* pPerson = m_pPersons[idx];
+        assert(pPerson != 0);
+        assert(!pPerson->hasDied());
+        return pPerson;
 #endif
+}
 
 inline PersonBase* PopulationEvent::getPersonWithoutChecking(int idx) const { return m_pPersons[idx]; }
 

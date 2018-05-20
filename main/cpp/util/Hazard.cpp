@@ -1,4 +1,4 @@
-#include "hazardfunction.h"
+#include "Hazard.h"
 #include "util.h"
 
 #include <gsl/gsl_integration.h>
@@ -7,7 +7,7 @@
 
 #define WORKSPACESIZE 1024
 
-double HazardFunction::integrateNumerically(double t0, double dt)
+double Hazard::integrateNumerically(double t0, double dt)
 {
 #if 0
 	gsl_integration_workspace *pWorkspace = gsl_integration_workspace_alloc(WORKSPACESIZE);
@@ -48,9 +48,9 @@ double HazardFunction::integrateNumerically(double t0, double dt)
         return result;
 }
 
-double HazardFunction::staticEvaluationFunction(double t, void* pParams)
+double Hazard::staticEvaluationFunction(double t, void* pParams)
 {
-        HazardFunction* pInstance = reinterpret_cast<HazardFunction*>(pParams);
+        Hazard* pInstance = reinterpret_cast<Hazard*>(pParams);
 
         assert(pInstance != 0);
         return pInstance->evaluate(t);

@@ -6,7 +6,8 @@
 
 #include "personbase.h"
 #include "populationstatesimpleadvancedcommon.h"
-#include <assert.h>
+
+#include <cassert>
 #include <vector>
 
 class PersonAlgorithmInfoSimple : public PersonAlgorithmInfo

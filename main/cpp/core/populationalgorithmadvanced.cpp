@@ -250,7 +250,7 @@ void PopulationAlgorithmAdvanced::advanceEventTimes(Event* pScheduledEvent, doub
                 for (int i = 0; i < num; i++) {
                         PersonBase* pPerson = m_people[i];
                         assert(pPerson != 0);
-                        assert(pPerson->getGender() == PersonBase::GlobalEventDummy);
+                        assert(pPerson->getGender() == PersonBase::GlobalEventPerson);
                         personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
                 }
         }
@@ -282,9 +282,7 @@ PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector
                         m_tmpEarliestTimes[i]  = -1;
                 }
 
-#ifndef DISABLE_PARALLEL
 #pragma omp parallel for
-#endif // DISABLE_PARALLEL
                 for (int i = 0; i < numPeople; i++) {
                         PopulationEvent* pFirstEvent = personalEventList(people[i])->getEarliestEvent();
                         if (pFirstEvent != 0) // can happen if there are no events for this person
@@ -335,7 +333,7 @@ void PopulationAlgorithmAdvanced::lockEvent(PopulationEvent* pEvt) const
                 return;
         int64_t id      = pEvt->getEventID();
         int64_t l       = m_eventMutexes.size();
-        int     mutexId = (int)(id % l);
+        auto    mutexId = (int)(id % l);
         m_eventMutexes[mutexId].lock();
 #endif // !DISABLEOPENMP
 }
@@ -347,7 +345,7 @@ void PopulationAlgorithmAdvanced::unlockEvent(PopulationEvent* pEvt) const
                 return;
         int64_t id      = pEvt->getEventID();
         int64_t l       = m_eventMutexes.size();
-        int     mutexId = (int)(id % l);
+        auto    mutexId = (int)(id % l);
         m_eventMutexes[mutexId].unlock();
 #endif // !DISABLEOPENMP
 }
@@ -365,7 +363,7 @@ void PopulationAlgorithmAdvanced::onNewEvent(PopulationEvent* pEvt)
         if (numPersons == 0)                                        // A global event
         {
                 PersonBase* pGlobalEventPerson = m_people[0];
-                assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventDummy);
+                assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventPerson);
                 pEvt->setGlobalEventPerson(pGlobalEventPerson);
                 personalEventList(pGlobalEventPerson)->registerPersonalEvent(pEvt);
         } else {
@@ -377,15 +375,14 @@ void PopulationAlgorithmAdvanced::onNewEvent(PopulationEvent* pEvt)
         }
 }
 
-#ifdef ALGORITHM_SHOW_EVENTS
 void PopulationAlgorithmAdvanced::showEvents()
 {
+#ifndef NDEBUG
         std::map<int64_t, PopulationEvent*>                 m;
         std::map<int64_t, PopulationEvent*>::const_iterator it;
 
         auto& m_people = m_popState.m_people;
-
-        for (int i = 0; i < m_people.size(); i++) {
+        for (size_t i = 0; i < m_people.size(); i++) {
                 assert(personalEventList(m_people[i])->m_untimedEvents.size() == 0);
 
                 int num = personalEventList(m_people[i])->m_timedEvents.size();
@@ -406,5 +403,5 @@ void PopulationAlgorithmAdvanced::showEvents()
         for (it = m.begin(); it != m.end(); it++)
                 std::cout << "   " << it->first << " -> " << it->second->getEventTime() << ","
                           << it->second->getDescription(getTime()) << std::endl;
+#endif
 }
-#endif // ALGORITHM_SHOW_EVENTS

@@ -1,9 +1,11 @@
 #include "eventrelocation.h"
+#include "HazardExp.h"
+#include "TimeLimitedHazard.h"
 #include "configfunctions.h"
 #include "gslrandomnumbergenerator.h"
-#include "hazardfunctionexp.h"
 #include "jsonconfig.h"
 #include "util.h"
+
 #include <iostream>
 
 using namespace std;
@@ -43,29 +45,26 @@ void EventRelocation::fire(Algorithm* pAlgorithm, State* pState, double t)
         }
 
         if (EventRelocation::isEnabled()) {
-                EventRelocation* pEvt = new EventRelocation(pPerson);
+                auto pEvt = new EventRelocation(pPerson);
                 population.onNewEvent(pEvt);
         }
 }
 
 double EventRelocation::calculateInternalTimeInterval(const State* pState, double t0, double dt)
 {
-        Person* pPerson = getPerson(0);
-        double  tMax    = getTMax(pPerson);
-
-        HazardFunctionRelocation  h0(pPerson);
-        TimeLimitedHazardFunction h(h0, tMax);
-
+        Person*                  pPerson = getPerson(0);
+        double                   tMax    = getTMax(pPerson);
+        HazardFunctionRelocation h0(pPerson);
+        TimeLimitedHazard        h(h0, tMax);
         return h.calculateInternalTimeInterval(t0, dt);
 }
 
 double EventRelocation::solveForRealTimeInterval(const State* pState, double Tdiff, double t0)
 {
-        Person* pPerson = getPerson(0);
-        double  tMax    = getTMax(pPerson);
-
-        HazardFunctionRelocation  h0(pPerson);
-        TimeLimitedHazardFunction h(h0, tMax);
+        Person*                  pPerson = getPerson(0);
+        double                   tMax    = getTMax(pPerson);
+        HazardFunctionRelocation h0(pPerson);
+        TimeLimitedHazard        h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }
@@ -119,7 +118,7 @@ double EventRelocation::getTMax(const Person* pPerson)
 }
 
 EventRelocation::HazardFunctionRelocation::HazardFunctionRelocation(const Person* pPerson)
-    : HazardFunctionExp(getA(pPerson), s_b)
+    : HazardExp(getA(pPerson), s_b)
 {
 }
 

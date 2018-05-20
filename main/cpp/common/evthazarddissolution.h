@@ -1,6 +1,4 @@
-#ifndef EVTHAZARDDISSOLUTION_H
-
-#define EVTHAZARDDISSOLUTION_H
+#pragma once
 
 #include "evthazard.h"
 
@@ -12,22 +10,32 @@ class ConfigSettings;
 class EvtHazardDissolution : public EvtHazard
 {
 public:
+        ///
         EvtHazardDissolution(bool msm, double a0, double a1, double a2, double a3, double a4, double a5, double Dp,
                              double b, double tMax);
-        ~EvtHazardDissolution();
 
+        ///
+        ~EvtHazardDissolution() override = default;
+
+        ///
         double calculateInternalTimeInterval(const SimpactPopulation& population, const SimpactEvent& event, double t0,
-                                             double dt);
-        double solveForRealTimeInterval(const SimpactPopulation& population, const SimpactEvent& event, double Tdiff,
-                                        double t0);
+                                             double dt) override;
 
+        ///
+        double solveForRealTimeInterval(const SimpactPopulation& population, const SimpactEvent& event, double Tdiff,
+                                        double t0) override;
+
+        ///
         static EvtHazard* processConfig(ConfigSettings& config, const std::string& prefix, bool msm);
-        void              obtainConfig(ConfigWriter& writer, const std::string& prefix);
+
+        ///
+        void obtainConfig(ConfigWriter& writer, const std::string& prefix) override;
 
 private:
-        double getA0(const SimpactPopulation& population, Person* pPerson1, Person* pPerson2);
+        ///
         double getTMax(Person* pPerson1, Person* pPerson2);
 
+private:
         double m_a0; // baseline_factor
         double m_a1; // male_current_relations_factor   -> just current_relations_factor ?
         double m_a2; // female_current_relations_factor -> just current_relations_factor ?
@@ -37,8 +45,5 @@ private:
         double m_Dp; // preferred_age_difference
         double m_b;  // last_change_factor
         double m_tMax;
-
-        bool m_msm;
+        bool   m_msm;
 };
-
-#endif // EVTHAZARDDISSOLUTION_H

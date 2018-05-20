@@ -1,6 +1,4 @@
-#ifndef DEBUGWARNING_H
-
-#define DEBUGWARNING_H
+#pragma once
 
 /**
  * \file debugwarning.h
@@ -18,5 +16,3 @@
                         std::cerr << "# DEBUG WARNING: " << (x) << std::endl;                                          \
                 }                                                                                                      \
         }
-
-#endif // DEBUGWARNING_H

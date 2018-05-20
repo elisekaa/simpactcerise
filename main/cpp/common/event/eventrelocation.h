@@ -2,7 +2,7 @@
 
 #define EVENTRELOCATION_H
 
-#include "hazardfunctionexp.h"
+#include "HazardExp.h"
 #include "simpactevent.h"
 
 class ConfigSettings;
@@ -32,7 +32,7 @@ private:
         double        solveForRealTimeInterval(const State* pState, double Tdiff, double t0);
         static double getTMax(const Person* pPerson);
 
-        class HazardFunctionRelocation : public HazardFunctionExp
+        class HazardFunctionRelocation : public HazardExp
         {
         public:
                 HazardFunctionRelocation(const Person* pPerson);

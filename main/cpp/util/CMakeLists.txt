@@ -33,16 +33,18 @@ set(SRC
     function.h
     gridvalues.h
     gridvaluescsv.cpp
-    hazardfunction.cpp
+    Hazard.cpp
+    HazardExp.h
     jsonconfig.cpp
     logfile.cpp
-    mutex.cpp
+    mutex.h
     piecewiselinearfunction.cpp
     point2d.h
     polygon2d.h
     populationdistribution.cpp
     populationdistributioncsv.cpp
     tiffdensityfile.cpp
+    TimeLimitedHazard.cpp
     util.cpp
     version.h
 )

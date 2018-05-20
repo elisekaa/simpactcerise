@@ -1,5 +1,5 @@
 #include "hazardfunctionformationagegap.h"
-#include "hazardfunctionformationsimple.h"
+#include "HazardFormationSimple.h"
 #include <assert.h>
 #include <iostream>
 
@@ -46,7 +46,7 @@ double HazardFunctionFormationAgeGap::calculateInternalTimeInterval(double t0, d
                 a0 += m_a5 * std::abs(tBj - tBi - Dpi);
                 a0 += m_a9 * std::abs(tBj - tBi - Dpj);
 
-                HazardFunctionFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
+                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
                                                 m_a3, m_a4, 0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
 
                 return h.calculateInternalTimeInterval(t0, dt);
@@ -153,7 +153,7 @@ double HazardFunctionFormationAgeGap::solveForRealTimeInterval(double t0, double
                 a0 += m_a5 * std::abs(tBj - tBi - Dpi);
                 a0 += m_a9 * std::abs(tBj - tBi - Dpj);
 
-                HazardFunctionFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
+                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
                                                 m_a3, m_a4, 0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
 
                 return h.solveForRealTimeInterval(t0, Tdiff);

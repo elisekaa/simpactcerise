@@ -1,9 +1,11 @@
 #include "evthazardformationsimple.h"
+#include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventformation.h"
-#include "hazardfunctionformationsimple.h"
+#include "HazardFormationSimple.h"
 #include "jsonconfig.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -62,15 +64,15 @@ double EvtHazardFormationSimple::calculateInternalTimeInterval(const SimpactPopu
 
         double tMax = getTMax(pPerson1, pPerson2);
 
-        const EventFormation& eventFormation = static_cast<const EventFormation&>(event);
-        double                lastDissTime   = eventFormation.getLastDissolutionTime();
+        const auto& eventFormation = static_cast<const EventFormation&>(event);
+        double      lastDissTime   = eventFormation.getLastDissolutionTime();
 
         double a0 = getA0(population, pPerson1, pPerson2);
         double tr = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazardFunction     h(h0, tMax);
+        HazardFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
+        TimeLimitedHazard             h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 
@@ -86,15 +88,15 @@ double EvtHazardFormationSimple::solveForRealTimeInterval(const SimpactPopulatio
 
         double tMax = getTMax(pPerson1, pPerson2);
 
-        const EventFormation& eventFormation = static_cast<const EventFormation&>(event);
-        double                lastDissTime   = eventFormation.getLastDissolutionTime();
+        const auto& eventFormation = static_cast<const EventFormation&>(event);
+        double      lastDissTime   = eventFormation.getLastDissolutionTime();
 
         double a0 = getA0(population, pPerson1, pPerson2);
         double tr = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazardFunction     h(h0, tMax);
+        HazardFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
+        TimeLimitedHazard             h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
         // return ExponentialHazardToRealTime(pPerson1, pPerson2, t0, Tdiff, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp,
