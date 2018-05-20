@@ -51,7 +51,7 @@ void Event::fire(Algorithm* pAlgorithm, State* pState, double t)
 ExitStatus Event::setCheckInverse(bool check)
 {
 #ifdef NDEBUG
-        return "Double checking the time interval mapping is not supported in release mode";
+        return ExitStatus("Double checking the time interval mapping is not supported in release mode");
 #else
         s_checkInverse = check;
         return ExitStatus(true);
