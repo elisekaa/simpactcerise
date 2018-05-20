@@ -4,7 +4,7 @@
  * \file personbase.h
  */
 
-#include "PersonBase.h"
+#include "personbase.h"
 
 class GlobalEventDummy : public PersonBase
 {
