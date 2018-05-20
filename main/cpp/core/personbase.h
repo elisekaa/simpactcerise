@@ -1,13 +1,11 @@
-#ifndef PERSONBASE_H
-
-#define PERSONBASE_H
+#pragma once
 
 /**
  * \file personbase.h
  */
 
-#include "populationinterfaces.h"
-#include <assert.h>
+#include "PersonAlgorithmInfo.h"
+#include <cassert>
 #include <iostream>
 #include <list>
 #include <set>
@@ -107,4 +105,3 @@ public:
         ~GlobalEventDummyPerson() {}
 };
 
-#endif // PERSONBASE_H

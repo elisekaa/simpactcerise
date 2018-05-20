@@ -7,18 +7,14 @@ MaxARTPopulation::MaxARTPopulation(PopulationAlgorithmInterface& alg, Population
         m_studyStage = PreStudy;
 }
 
-MaxARTPopulation::~MaxARTPopulation() {}
-
-bool_t MaxARTPopulation::scheduleInitialEvents()
+ExitStatus MaxARTPopulation::scheduleInitialEvents()
 {
-        bool_t r;
+        ExitStatus r;
         if (!(r = SimpactPopulation::scheduleInitialEvents()))
                 return r;
-
         if (EventStudyStart::isMaxARTStudyEnabled()) {
-                EventStudyStart* pEvt = new EventStudyStart(); // global event
+                auto pEvt = new EventStudyStart(); // global event
                 onNewEvent(pEvt);
         }
-
-        return true;
+        return ExitStatus(true);
 }

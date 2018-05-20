@@ -9,11 +9,11 @@ CSVFile::CSVFile() {}
 
 CSVFile::~CSVFile() {}
 
-bool_t CSVFile::load(const std::string& fileName)
+ExitStatus CSVFile::load(const std::string& fileName)
 {
         FILE* pFile = fopen(fileName.c_str(), "rt");
         if (pFile == 0)
-                return "Unable to open speficied file " + fileName;
+                return ExitStatus("Unable to open speficied file " + fileName);
 
         std::string line;
         int         lineNumber = 0;
@@ -65,8 +65,8 @@ bool_t CSVFile::load(const std::string& fileName)
 
                         if (numCols != (int)args.size()) {
                                 fclose(pFile);
-                                return strprintf("Number of columns changed from %d to %d on line %d", numCols,
-                                                 (int)args.size(), lineNumber);
+                                return ExitStatus(strprintf("Number of columns changed from %d to %d on line %d", numCols,
+                                                 (int)args.size(), lineNumber));
                         }
 
                         std::vector<bool>   mapLine(numCols);
@@ -91,7 +91,7 @@ bool_t CSVFile::load(const std::string& fileName)
         }
 
         fclose(pFile);
-        return true;
+        return ExitStatus(true);
 }
 
 int CSVFile::getNumberOfColumns()

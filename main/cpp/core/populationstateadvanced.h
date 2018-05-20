@@ -1,6 +1,4 @@
-#ifndef POPULATIONSTATEADVANCED_H
-
-#define POPULATIONSTATEADVANCED_H
+#pragma once
 
 /**
  * \file populationstateadvanced.h
@@ -11,32 +9,48 @@
 #include "personaleventlist.h"
 #include "personbase.h"
 #include "populationstatesimpleadvancedcommon.h"
-#include <assert.h>
+
+#include <cassert>
 #include <vector>
 
 class PopulationAlgorithmAdvanced;
 
-/** Population state to be used when simulating with the population based
+/**
+ * Population state to be used when simulating with the population based
  *  algorithm in PopulationAlgorithmAdvanced, makes sure that the functions
  *  from PopulationStateInterface are implemented. */
 class PopulationStateAdvanced : public PopulationStateSimpleAdvancedCommon
 {
 public:
+        ///
         PopulationStateAdvanced();
-        ~PopulationStateAdvanced();
 
-        bool_t init(bool parallel);
+        ///
+        ~PopulationStateAdvanced() override = default;
 
-        // For internal use (by PersonalEventList)
+        ///
+        ExitStatus init(bool parallel);
+
+        /// For internal use (by PersonalEventList)
         void lockPerson(PersonBase* pPerson) const;
+
+        ///
         void unlockPerson(PersonBase* pPerson) const;
 
 private:
-        int64_t getNextPersonID();
-        void    setListIndex(PersonBase* pPerson, int idx);
-        int     getListIndex(PersonBase* pPerson);
-        void    addAlgorithmInfo(PersonBase* pPerson);
+        ///
+        int64_t getNextPersonID() override;
 
+        ///
+        void    setListIndex(PersonBase* pPerson, int idx) override;
+
+        ///
+        int     getListIndex(PersonBase* pPerson) override;
+
+        ///
+        void    addAlgorithmInfo(PersonBase* pPerson) override;
+
+private:
         bool m_init;
         bool m_parallel;
 
@@ -46,7 +60,7 @@ private:
         mutable std::vector<Mutex> m_personMutexes;
 #endif // !DISABLEOPENMP
 
+private:
         friend class PopulationAlgorithmAdvanced;
 };
 
-#endif // POPULATIONSTATEADVANCED_H

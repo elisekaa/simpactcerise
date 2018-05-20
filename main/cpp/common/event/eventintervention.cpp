@@ -74,7 +74,7 @@ void EventIntervention::processConfig(ConfigSettings& config, GslRandomNumberGen
         // check the config file
         vector<string> yesNoOptions;
         string         yesNo;
-        bool_t         r;
+        ExitStatus         r;
 
         yesNoOptions.push_back("yes");
         yesNoOptions.push_back("no");
@@ -157,7 +157,7 @@ void EventIntervention::processConfig(ConfigSettings& config, GslRandomNumberGen
 
 void EventIntervention::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (m_interventionTimes.size() == 0) {
                 if (!(r = config.addKey("intervention.enabled", "no")))

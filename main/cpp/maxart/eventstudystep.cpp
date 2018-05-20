@@ -146,7 +146,7 @@ vector<string> EventStudyStep::s_facilityLogNames;
 
 void EventStudyStep::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("maxart.stepinterval", s_stepInterval, 0)))
                 abortWithMessage(r.getErrorString());
@@ -154,7 +154,7 @@ void EventStudyStep::processConfig(ConfigSettings& config, GslRandomNumberGenera
 
 void EventStudyStep::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("maxart.stepinterval", s_stepInterval)))
                 abortWithMessage(r.getErrorString());
@@ -162,7 +162,7 @@ void EventStudyStep::obtainConfig(ConfigWriter& config)
 
 void EventStudyStep::processLogConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
         string stepLog;
 
         if (!(r = config.getKeyValue("maxart.outfile.logsteps", stepLog)))
@@ -176,7 +176,7 @@ void EventStudyStep::processLogConfig(ConfigSettings& config, GslRandomNumberGen
 
 void EventStudyStep::obtainLogConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("maxart.outfile.logsteps", s_stepLog.getFileName())))
                 abortWithMessage(r.getErrorString());

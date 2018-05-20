@@ -2,9 +2,9 @@
 
 #define PERSONALEVENTLIST_H
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "populationevent.h"
-#include "populationinterfaces.h"
+#include "PersonAlgorithmInfo.h"
 #include <list>
 #include <set>
 #include <vector>
@@ -18,7 +18,10 @@ class PopulationAlgorithmAdvanced;
 class PersonalEventList : public PersonAlgorithmInfo
 {
 public:
-        PersonalEventList(PersonBase* pPerson);
+        ///
+        explicit PersonalEventList(PersonBase* pPerson);
+
+        ///
         ~PersonalEventList();
 
         void registerPersonalEvent(PopulationEvent* pEvt);
@@ -27,6 +30,7 @@ public:
         void adjustingEvent(PopulationEvent* pEvt);
         void removeTimedEvent(PopulationEvent* pEvt);
 
+        ///
         PopulationEvent* getEarliestEvent();
 
         void setListIndex(int i) { m_listIndex = i; }

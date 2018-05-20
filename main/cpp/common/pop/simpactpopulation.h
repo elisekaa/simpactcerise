@@ -1,11 +1,14 @@
-#ifndef SIMPACTPOPULATION_H
-
-#define SIMPACTPOPULATION_H
+#pragma once
 
 #include "coarsemap.h"
 #include "person.h"
-#include "populationinterfaces.h"
-#include <assert.h>
+#include "PopulationAlgorithmAboutToFireInterface.h"
+#include "PopulationAlgorithmInterface.h"
+#include "PopulationStateExtra.h"
+#include "PopulationStateInterface.h"
+#include "State.h"
+
+#include <cassert>
 
 class PopulationDistribution;
 class Person;
@@ -40,9 +43,9 @@ public:
         SimpactPopulation(PopulationAlgorithmInterface& alg, PopulationStateInterface& state);
         ~SimpactPopulation();
 
-        virtual bool_t init(const SimpactPopulationConfig& popConfig, const PopulationDistribution& popDist);
+        virtual ExitStatus init(const SimpactPopulationConfig& popConfig, const PopulationDistribution& popDist);
 
-        bool_t run(double& tMax, int64_t& maxEvents, double startTime = 0)
+        ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0)
         {
                 return m_alg.run(tMax, maxEvents, startTime);
         }
@@ -91,9 +94,9 @@ public:
         void addPersonToCoarseMap(Person* pPerson);
 
 protected:
-        virtual bool_t createInitialPopulation(const SimpactPopulationConfig& config,
+        virtual ExitStatus createInitialPopulation(const SimpactPopulationConfig& config,
                                                const PopulationDistribution&  popDist);
-        virtual bool_t scheduleInitialEvents();
+        virtual ExitStatus scheduleInitialEvents();
         virtual void   getInterestsForPerson(const Person* pPerson, std::vector<Person*>& interests,
                                              std::vector<Person*>& interestsMSM);
 
@@ -148,4 +151,3 @@ inline void SimpactPopulation::setPersonDied(Person* pPerson)
         m_state.setPersonDied(pPerson);
 }
 
-#endif // SIMPACTPOPULATION_H

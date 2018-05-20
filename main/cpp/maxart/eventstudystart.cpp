@@ -53,7 +53,7 @@ double EventStudyStart::s_startTime = -1;
 
 void EventStudyStart::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("maxart.starttime", s_startTime, 0)))
                 abortWithMessage(r.getErrorString());
@@ -61,7 +61,7 @@ void EventStudyStart::processConfig(ConfigSettings& config, GslRandomNumberGener
 
 void EventStudyStart::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("maxart.starttime", s_startTime)))
                 abortWithMessage(r.getErrorString());

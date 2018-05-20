@@ -286,7 +286,7 @@ void Person_Relations::EagernessAndAgegap::processConfig(ConfigSettings& config,
                                                          const string& prefixEag, const string& prefixGap,
                                                          const string& homSuff)
 {
-        bool_t r;
+        ExitStatus r;
 
         delete m_pEagHetero;
         delete m_pEagHomo;

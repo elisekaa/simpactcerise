@@ -78,7 +78,7 @@ double EventRelocation::HazardFunctionRelocation::s_b = 0;
 
 void EventRelocation::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("relocation.enabled", s_enabled)))
                 abortWithMessage(r.getErrorString());
@@ -93,7 +93,7 @@ void EventRelocation::processConfig(ConfigSettings& config, GslRandomNumberGener
 
 void EventRelocation::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("relocation.enabled", s_enabled)))
                 abortWithMessage(r.getErrorString());

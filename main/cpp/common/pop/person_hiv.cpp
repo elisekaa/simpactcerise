@@ -245,7 +245,7 @@ void Person_HIV::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
         supportedModels.push_back("logweibullwithnoise");
         supportedModels.push_back("logdist2d");
 
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("person.vsp.model.type", VspModelName, supportedModels)) ||
             !(r = config.getKeyValue("person.vsp.toacute.x", m_acuteFromSetPointParamX, 0)) ||
@@ -321,7 +321,7 @@ void Person_HIV::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
 
 void Person_HIV::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("person.vsp.toacute.x", m_acuteFromSetPointParamX)) ||
             !(r = config.addKey("person.vsp.toaids.x", m_aidsFromSetPointParamX)) ||

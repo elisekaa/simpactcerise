@@ -25,7 +25,7 @@ ProbabilityDistribution* getDistributionFromConfig(ConfigSettings& config, GslRa
 {
         vector<string> supportedDistributions;
         string         distName;
-        bool_t         r;
+        ExitStatus         r;
 
         supportedDistributions.push_back("fixed");
         supportedDistributions.push_back("uniform");
@@ -161,7 +161,7 @@ ProbabilityDistribution* getDistributionFromConfig(ConfigSettings& config, GslRa
 
 void addDistributionToConfig(ProbabilityDistribution* pSrcDist, ConfigWriter& config, const std::string& prefix)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (pSrcDist == 0) {
                 if (!(r = config.addKey(prefix + ".dist.type", "NULL")))
@@ -313,7 +313,7 @@ ProbabilityDistribution2D* getDistribution2DFromConfig(ConfigSettings& config, G
 {
         vector<string> supportedDistributions;
         string         distName;
-        bool_t         r;
+        ExitStatus         r;
 
         supportedDistributions.push_back("fixed");
         supportedDistributions.push_back("uniform");
@@ -403,7 +403,7 @@ ProbabilityDistribution2D* getDistribution2DFromConfig(ConfigSettings& config, G
 
 void addDistribution2DToConfig(ProbabilityDistribution2D* pSrcDist, ConfigWriter& config, const std::string& prefix)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (pSrcDist == 0) {
                 if (!(r = config.addKey(prefix + ".dist2d.type", "NULL")))

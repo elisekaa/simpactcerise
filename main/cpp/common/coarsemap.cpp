@@ -185,7 +185,7 @@ int CoarseMap::s_subdivY = 0;
 
 void CoarseMap::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("population.coarsemap.subdivx", s_subdivX, 4)) ||
             !(r = config.getKeyValue("population.coarsemap.subdivy", s_subdivY, 4)))
@@ -194,7 +194,7 @@ void CoarseMap::processConfig(ConfigSettings& config, GslRandomNumberGenerator* 
 
 void CoarseMap::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("population.coarsemap.subdivx", s_subdivX)) ||
             !(r = config.addKey("population.coarsemap.subdivy", s_subdivY)))

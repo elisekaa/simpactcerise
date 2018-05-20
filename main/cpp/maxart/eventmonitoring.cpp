@@ -202,7 +202,7 @@ PieceWiseLinearFunction* EventMonitoring::s_pRecheckInterval                    
 
 void EventMonitoring::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("monitoring.cd4.threshold.prestudy", s_cd4ThresholdPreStudy, 0)) ||
             !(r = config.getKeyValue("monitoring.cd4.threshold.poststudy", s_cd4ThresholdPostStudy, 0)) ||
@@ -258,7 +258,7 @@ void EventMonitoring::obtainConfig(ConfigWriter& config)
                 intervalY.push_back(points[i].y);
         }
 
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("monitoring.cd4.threshold.prestudy", s_cd4ThresholdPreStudy)) ||
             !(r = config.addKey("monitoring.cd4.threshold.poststudy", s_cd4ThresholdPostStudy)) ||

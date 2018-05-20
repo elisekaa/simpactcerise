@@ -7,19 +7,17 @@ PopulationStateTesting::PopulationStateTesting() { m_init = false; }
 
 PopulationStateTesting::~PopulationStateTesting() {}
 
-bool_t PopulationStateTesting::init(bool parallel)
+ExitStatus PopulationStateTesting::init(bool parallel)
 {
         if (m_init)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
         if (parallel)
-                return "Parallel version not supported";
+                return ExitStatus("Parallel version not supported");
 
-        assert(m_people.size() == 0);
-        assert(m_deceasedPersons.size() == 0);
-
+        assert(m_people.empty() && "__fuc__ : population not empty");
+        assert(m_deceasedPersons.empty() && "__func__ : deceasedPersons not empty.");
         m_parallel = parallel;
-
         m_numMen       = 0;
         m_numWomen     = 0;
         m_nextPersonID = 0;
@@ -29,17 +27,15 @@ bool_t PopulationStateTesting::init(bool parallel)
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
                 m_people[i] = new GlobalEventDummyPerson();
-
-                PersonalEventListTesting* pEvtList = new PersonalEventListTesting(m_people[i]);
+                auto pEvtList = new PersonalEventListTesting(m_people[i]);
                 m_people[i]->setAlgorithmInfo(pEvtList);
                 pEvtList->setListIndex(i);
-
                 int64_t id = getNextPersonID();
                 m_people[i]->setPersonID(id);
         }
 
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
 int64_t PopulationStateTesting::getNextPersonID()
@@ -51,7 +47,7 @@ int64_t PopulationStateTesting::getNextPersonID()
 void PopulationStateTesting::setListIndex(PersonBase* pPerson, int idx)
 {
         assert(pPerson);
-        PersonalEventListTesting* pEvtList = static_cast<PersonalEventListTesting*>(pPerson->getAlgorithmInfo());
+        auto pEvtList = dynamic_cast<PersonalEventListTesting*>(pPerson->getAlgorithmInfo());
         assert(pEvtList);
         pEvtList->setListIndex(idx);
 }
@@ -59,13 +55,13 @@ void PopulationStateTesting::setListIndex(PersonBase* pPerson, int idx)
 int PopulationStateTesting::getListIndex(PersonBase* pPerson)
 {
         assert(pPerson);
-        PersonalEventListTesting* pEvtList = static_cast<PersonalEventListTesting*>(pPerson->getAlgorithmInfo());
+        auto pEvtList = dynamic_cast<PersonalEventListTesting*>(pPerson->getAlgorithmInfo());
         assert(pEvtList);
         return pEvtList->getListIndex();
 }
 
 void PopulationStateTesting::addAlgorithmInfo(PersonBase* pPerson)
 {
-        PersonalEventListTesting* pList = new PersonalEventListTesting(pPerson);
+        auto pList = new PersonalEventListTesting(pPerson);
         pPerson->setAlgorithmInfo(pList);
 }

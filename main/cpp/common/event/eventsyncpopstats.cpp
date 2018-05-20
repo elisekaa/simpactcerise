@@ -44,7 +44,7 @@ double EventSyncPopulationStatistics::s_interval = -1.0;
 
 void EventSyncPopulationStatistics::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("syncpopstats.interval", s_interval)))
                 abortWithMessage(r.getErrorString());
@@ -52,7 +52,7 @@ void EventSyncPopulationStatistics::processConfig(ConfigSettings& config, GslRan
 
 void EventSyncPopulationStatistics::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("syncpopstats.interval", s_interval)))
                 abortWithMessage(r.getErrorString());

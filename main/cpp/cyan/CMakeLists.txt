@@ -4,13 +4,6 @@ set(SRC
 	start.cpp
 )
 
-add_executable(cyan
-	${SRC}
-	$<TARGET_OBJECTS:common_cyan>
-	$<TARGET_OBJECTS:core>
-	$<TARGET_OBJECTS:mnrm>
-	$<TARGET_OBJECTS:util>
-)
-target_link_libraries(cyan "${LIBS}")
+add_library(cyan OBJECT ${SRC})
 
 unset(SRC)

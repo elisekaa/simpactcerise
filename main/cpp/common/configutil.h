@@ -1,9 +1,8 @@
-#ifndef CONFIGUTIL_H
+#pragma once
 
-#define CONFIGUTIL_H
+#include "ExitStatus.h"
 
-#include "booltype.h"
-#include <stdint.h>
+#include <cstdint>
 
 class ConfigSettings;
 class GslRandomNumberGenerator;
@@ -11,7 +10,6 @@ class SimpactPopulationConfig;
 class PopulationDistributionCSV;
 
 void   processNonInterventionEventConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
-bool_t configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig, PopulationDistributionCSV& ageDist,
+ExitStatus configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig, PopulationDistributionCSV& ageDist,
                  GslRandomNumberGenerator* pRndGen, double& tMax, int64_t& maxEvents);
 
-#endif // CONFIGUTIL_H

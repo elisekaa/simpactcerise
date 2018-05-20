@@ -22,7 +22,7 @@ public:
         PopulationStateTesting();
         ~PopulationStateTesting();
 
-        bool_t init(bool parallel);
+        ExitStatus init(bool parallel);
 
 private:
         int64_t getNextPersonID();

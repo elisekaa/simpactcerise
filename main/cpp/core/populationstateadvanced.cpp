@@ -3,12 +3,10 @@
 
 PopulationStateAdvanced::PopulationStateAdvanced() { m_init = false; }
 
-PopulationStateAdvanced::~PopulationStateAdvanced() {}
-
-bool_t PopulationStateAdvanced::init(bool parallel)
+ExitStatus PopulationStateAdvanced::init(bool parallel)
 {
         if (m_init)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
         assert(m_people.size() == 0);
         assert(m_deceasedPersons.size() == 0);
@@ -47,7 +45,7 @@ bool_t PopulationStateAdvanced::init(bool parallel)
         }
 
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
 void PopulationStateAdvanced::lockPerson(PersonBase* pPerson) const
@@ -55,12 +53,9 @@ void PopulationStateAdvanced::lockPerson(PersonBase* pPerson) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-
         int64_t id = pPerson->getPersonID();
         int64_t l  = m_personMutexes.size();
-
         int mutexId = (int)(id % l);
-
         m_personMutexes[mutexId].lock();
 #endif // !DISABLEOPENMP
 }
@@ -70,12 +65,9 @@ void PopulationStateAdvanced::unlockPerson(PersonBase* pPerson) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-
         int64_t id = pPerson->getPersonID();
         int64_t l  = m_personMutexes.size();
-
         int mutexId = (int)(id % l);
-
         m_personMutexes[mutexId].unlock();
 #endif // !DISABLEOPENMP
 }
@@ -86,21 +78,18 @@ int64_t PopulationStateAdvanced::getNextPersonID()
         if (m_parallel)
                 m_nextPersonIDMutex.lock();
 #endif // !DISABLEOPENMP
-
         int64_t id = m_nextPersonID++;
-
 #ifndef DISABLEOPENMP
         if (m_parallel)
                 m_nextPersonIDMutex.unlock();
 #endif // !DISABLEOPENMP
-
         return id;
 }
 
 void PopulationStateAdvanced::setListIndex(PersonBase* pPerson, int idx)
 {
         assert(pPerson);
-        PersonalEventList* pEvtList = static_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
+        auto pEvtList = dynamic_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
         assert(pEvtList);
         pEvtList->setListIndex(idx);
 }
@@ -108,13 +97,13 @@ void PopulationStateAdvanced::setListIndex(PersonBase* pPerson, int idx)
 int PopulationStateAdvanced::getListIndex(PersonBase* pPerson)
 {
         assert(pPerson);
-        PersonalEventList* pEvtList = static_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
+        auto pEvtList = dynamic_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
         assert(pEvtList);
         return pEvtList->getListIndex();
 }
 
 void PopulationStateAdvanced::addAlgorithmInfo(PersonBase* pPerson)
 {
-        PersonalEventList* pList = new PersonalEventList(pPerson);
+        auto pList = new PersonalEventList(pPerson);
         pPerson->setAlgorithmInfo(pList);
 }

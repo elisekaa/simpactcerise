@@ -37,7 +37,7 @@ double EventSyncReferenceYear::s_interval = -1.0;
 
 void EventSyncReferenceYear::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("syncrefyear.interval", s_interval)))
                 abortWithMessage(r.getErrorString());
@@ -45,7 +45,7 @@ void EventSyncReferenceYear::processConfig(ConfigSettings& config, GslRandomNumb
 
 void EventSyncReferenceYear::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("syncrefyear.interval", s_interval)))
                 abortWithMessage(r.getErrorString());

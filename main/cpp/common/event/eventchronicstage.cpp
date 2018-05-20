@@ -63,7 +63,7 @@ double EventChronicStage::m_acuteTime = -1;
 
 void EventChronicStage::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("chronicstage.acutestagetime", m_acuteTime, 0)))
                 abortWithMessage(r.getErrorString());
@@ -71,7 +71,7 @@ void EventChronicStage::processConfig(ConfigSettings& config, GslRandomNumberGen
 
 void EventChronicStage::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("chronicstage.acutestagetime", m_acuteTime)))
                 abortWithMessage(r.getErrorString());

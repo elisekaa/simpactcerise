@@ -13,22 +13,23 @@ GridValuesCSV::GridValuesCSV()
 
 GridValuesCSV::~GridValuesCSV() {}
 
-bool_t GridValuesCSV::init(const string& csvFile, bool noNegativeValues, bool flipY)
+ExitStatus GridValuesCSV::init(const string& csvFile, bool noNegativeValues, bool flipY)
 {
         if (m_values.size() > 0)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
         CSVFile* pCSVFile = new CSVFile();
-        bool_t   r;
+        ExitStatus   r;
         if (!(r = pCSVFile->load(csvFile))) {
                 delete pCSVFile;
-                return "Unable to load CSV file '" + csvFile + "': " + r.getErrorString();
+                return ExitStatus("Unable to load CSV file '" + csvFile + "': " + r.getErrorString());
         }
 
         int numX = pCSVFile->getNumberOfColumns();
         int numY = pCSVFile->getNumberOfRows();
         if (numX <= 0 || numY <= 0)
-                return "Read invalid number of rows or columns in the CSV file (should both be larger than zero)";
+                return ExitStatus("Read invalid number of rows or columns in the CSV file (should "
+                                  "both be larger than zero)");
 
         m_values.resize(numX * numY);
 
@@ -41,8 +42,8 @@ bool_t GridValuesCSV::init(const string& csvFile, bool noNegativeValues, bool fl
                         {
                                 delete pCSVFile;
                                 m_values.resize(0);
-                                return "No value for column " + intToString(x + 1) + " at row " + intToString(y + 1) +
-                                       " is present";
+                                return ExitStatus("No value for column " + intToString(x + 1) + " at row " + intToString(y + 1) +
+                                       " is present");
                         }
 
                         double val = pCSVFile->getValue(y, x); // row first!
@@ -60,5 +61,5 @@ bool_t GridValuesCSV::init(const string& csvFile, bool noNegativeValues, bool fl
 
         delete pCSVFile;
 
-        return true;
+        return ExitStatus(true);
 }

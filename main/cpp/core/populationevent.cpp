@@ -1,8 +1,9 @@
 #include "populationevent.h"
 #include "personbase.h"
-#include <assert.h>
+
+#include <cassert>
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 void PopulationEvent::commonConstructor()
 {

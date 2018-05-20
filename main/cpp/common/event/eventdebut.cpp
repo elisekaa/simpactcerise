@@ -57,7 +57,7 @@ double EventDebut::m_debutAge = -1;
 
 void EventDebut::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("debut.debutage", m_debutAge, 0, 100)))
                 abortWithMessage(r.getErrorString());
@@ -65,7 +65,7 @@ void EventDebut::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
 
 void EventDebut::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("debut.debutage", m_debutAge)))
                 abortWithMessage(r.getErrorString());

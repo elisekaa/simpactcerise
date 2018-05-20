@@ -2,7 +2,7 @@
 
 #define GRIDVALUESCSV_H
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "csvfile.h"
 #include "gridvalues.h"
 #include <assert.h>
@@ -14,7 +14,7 @@ public:
         GridValuesCSV();
         ~GridValuesCSV();
 
-        bool_t init(const std::string& fileName, bool noNegativeValues = true, bool flipY = false);
+        ExitStatus init(const std::string& fileName, bool noNegativeValues = true, bool flipY = false);
 
         int getWidth() const { return m_width; }
         int getHeight() const { return m_height; }

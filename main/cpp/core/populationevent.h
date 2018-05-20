@@ -1,6 +1,4 @@
-#ifndef POPULATIONEVENT_H
-
-#define POPULATIONEVENT_H
+#pragma once
 
 /**
  * \file populationevent.h
@@ -222,4 +220,3 @@ inline int PopulationEvent::getNumberOfPersons() const
         return (int)m_numPersons;
 }
 
-#endif // POPULATIONEVENT_H

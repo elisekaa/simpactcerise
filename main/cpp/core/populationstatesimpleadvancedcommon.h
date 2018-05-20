@@ -1,9 +1,8 @@
-#ifndef POPULATIONSTATESIMPLEADVANCEDCOMMON_H
+#pragma once
 
-#define POPULATIONSTATESIMPLEADVANCEDCOMMON_H
+#include "PopulationStateInterface.h"
 
-#include "populationinterfaces.h"
-#include <assert.h>
+#include <cassert>
 #include <vector>
 
 class PersonBase;
@@ -59,4 +58,3 @@ protected:
         mutable std::vector<PersonBase*> m_otherAffectedPeople;
 };
 
-#endif // POPULATIONSTATESIMPLEADVANCEDCOMMON_H

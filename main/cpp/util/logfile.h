@@ -6,7 +6,7 @@
  * \file logfile.h
  */
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include <stdio.h>
 #include <vector>
 
@@ -18,7 +18,7 @@ public:
         virtual ~LogFile();
 
         /** Opens the specified file for writing. */
-        bool_t open(const std::string& fileName);
+        ExitStatus open(const std::string& fileName);
 
         bool isOpen() const { return m_pFile != 0; }
 

@@ -6,7 +6,7 @@
  * \file configreader.h
  */
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -37,14 +37,14 @@ public:
         virtual ~ConfigReader();
 
         /** Reads the config file specified by \c fileName. */
-        bool_t read(const std::string& fileName);
+        ExitStatus read(const std::string& fileName);
 
         /** Stores all keys found in the config file in \c keys. */
         void getKeys(std::vector<std::string>& keys) const;
 
         /** For the key specified by the \c key parameter, the corresponding value
          *  will be stored in \c value. */
-        bool_t getKeyValue(const std::string& key, std::string& value) const;
+        ExitStatus getKeyValue(const std::string& key, std::string& value) const;
 
         /** Prints all key/value pairs to the standard output. */
         void printAll() const;

@@ -68,7 +68,7 @@ LogFile EventPeriodicLogging::s_logFile;
 void EventPeriodicLogging::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
         string oldLogFileName = s_logFileName;
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("periodiclogging.interval", s_loggingInterval)) ||
             !(r = config.getKeyValue("periodiclogging.starttime", s_firstEventTime)) ||
@@ -92,7 +92,7 @@ void EventPeriodicLogging::processConfig(ConfigSettings& config, GslRandomNumber
 
 void EventPeriodicLogging::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("periodiclogging.interval", s_loggingInterval)) ||
             !(r = config.addKey("periodiclogging.starttime", s_firstEventTime)) ||

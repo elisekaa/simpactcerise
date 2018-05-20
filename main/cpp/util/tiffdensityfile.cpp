@@ -9,22 +9,16 @@
 using namespace std;
 
 TIFFDensityFile::TIFFDensityFile()
-{
-        m_width    = 0;
-        m_height   = 0;
-        m_yFlipped = false;
-}
+        : m_height(0), m_width(0), m_yFlipped(false) {}
 
-TIFFDensityFile::~TIFFDensityFile() {}
-
-bool_t TIFFDensityFile::init(const string& fileName, bool noNegativeValues, bool flipY)
+ExitStatus TIFFDensityFile::init(const string& fileName, bool noNegativeValues, bool flipY)
 {
         if (m_values.size() > 0)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
         TIFFErrorHandler oldHandler = TIFFSetWarningHandler(NULL);
 
-        bool_t status = readTiffFile(fileName, noNegativeValues, flipY);
+        ExitStatus status = readTiffFile(fileName, noNegativeValues, flipY);
 
         TIFFSetWarningHandler(oldHandler);
 
@@ -34,59 +28,62 @@ bool_t TIFFDensityFile::init(const string& fileName, bool noNegativeValues, bool
 class TIFFAutoClose
 {
 public:
-        TIFFAutoClose(TIFF* pFile) { m_pFile = pFile; }
+        ///
+        explicit TIFFAutoClose(TIFF* pFile) { m_pFile = pFile; }
+
+        ///
         ~TIFFAutoClose() { TIFFClose(m_pFile); }
 
 private:
         TIFF* m_pFile;
 };
 
-bool_t TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool flipY)
+ExitStatus TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool flipY)
 {
         TIFF* pTiff = TIFFOpen(fileName.c_str(), "r");
         if (pTiff == 0)
-                return "Unable to open file " + fileName;
+                return ExitStatus("Unable to open file " + fileName);
 
         TIFFAutoClose autoClose(pTiff); // Automatically close the file when exiting this scope
 
         uint16_t bps, compression, sampleFormat, sampPerPixel;
 
         if (!TIFFGetField(pTiff, TIFFTAG_BITSPERSAMPLE, &bps))
-                return "Can't read bits per sample";
+                return ExitStatus("Can't read bits per sample");
 
         if (!TIFFGetField(pTiff, TIFFTAG_SAMPLEFORMAT, &sampleFormat))
-                return "Can't read sample format";
+                return ExitStatus("Can't read sample format");
 
         if (!TIFFGetField(pTiff, TIFFTAG_SAMPLESPERPIXEL, &sampPerPixel))
-                return "Can't get number of samples per pixel";
+                return ExitStatus("Can't get number of samples per pixel");
 
         if (!TIFFGetField(pTiff, TIFFTAG_COMPRESSION, &compression))
-                return "Can't get the compression setting";
+                return ExitStatus("Can't get the compression setting");
 
         if (!((bps == 32 || bps == 64) && sampleFormat == SAMPLEFORMAT_IEEEFP))
-                return "Only 32 bit or 64 bit floating point samples are currently supported";
+                return ExitStatus("Only 32 bit or 64 bit floating point samples are currently supported");
 
         if (sampPerPixel != 1)
-                return "Only one value per pixel is supported";
+                return ExitStatus("Only one value per pixel is supported");
 
         if (compression != COMPRESSION_NONE)
-                return "Only uncompressed data is currently supported";
+                return ExitStatus("Only uncompressed data is currently supported");
 
         uint32_t width, height, depth;
 
         if (!TIFFGetField(pTiff, TIFFTAG_IMAGEWIDTH, &width))
-                return "Can't read the image width";
+                return ExitStatus("Can't read the image width");
 
         if (!TIFFGetField(pTiff, TIFFTAG_IMAGELENGTH, &height))
-                return "Can't read the image height";
+                return ExitStatus("Can't read the image height");
 
         if (width > 16384 || height > 16384)
-                return "Image width or height exceeds 16384";
+                return ExitStatus("Image width or height exceeds 16384");
 
         // Image depth should be absent or 1
         if (TIFFGetField(pTiff, TIFFTAG_IMAGEDEPTH, &depth)) {
                 if (depth != 1)
-                        return "3D Images are not supported";
+                        return ExitStatus("3D Images are not supported");
         }
 
         uint32_t tileWidth  = 0;
@@ -97,17 +94,17 @@ bool_t TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool fl
 
         if (tileWidth > 0 && tileHeight > 0) {
                 if (bps == 32) {
-                        bool_t r =
+                        ExitStatus r =
                             readTilesFromTIFF<float>(pTiff, tileWidth, tileHeight, width, height, noNeg, fileName);
                         if (!r)
                                 return r;
                 } else if (bps == 64) {
-                        bool_t r =
+                        ExitStatus r =
                             readTilesFromTIFF<double>(pTiff, tileWidth, tileHeight, width, height, noNeg, fileName);
                         if (!r)
                                 return r;
                 } else
-                        return "Internal error: unexpected bits per sample";
+                        return ExitStatus("Internal error: unexpected bits per sample");
 
         } else {
                 m_values.resize(width * height);
@@ -117,7 +114,7 @@ bool_t TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool fl
 
                         for (uint32_t y = 0; y < height; y++) {
                                 if (TIFFReadScanline(pTiff, &(m_values[width * y]), y, 0) < 0)
-                                        return "Error reading scan line from file " + fileName;
+                                        return ExitStatus("Error reading scan line from file " + fileName);
                         }
                 } else if (bps == 32) {
                         assert(TIFFScanlineSize(pTiff) == (int)(width * sizeof(float)));
@@ -125,14 +122,14 @@ bool_t TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool fl
 
                         for (uint32_t y = 0; y < height; y++) {
                                 if (TIFFReadScanline(pTiff, &(tmpBuf[0]), y, 0) < 0)
-                                        return "Error reading scan line from file " + fileName;
+                                        return ExitStatus("Error reading scan line from file " + fileName);
 
                                 int offset = y * width;
                                 for (uint32_t x = 0; x < width; x++, offset++)
                                         m_values[offset] = tmpBuf[x];
                         }
                 } else
-                        return "Internal error: unexpected bits per sample";
+                        return ExitStatus("Internal error: unexpected bits per sample");
         }
 
         m_width  = (int)width;
@@ -155,11 +152,11 @@ bool_t TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, bool fl
         }
         m_yFlipped = flipY;
 
-        return true;
+        return ExitStatus(true);
 }
 
 template <class T>
-bool_t TIFFDensityFile::readTilesFromTIFF(void* pTiffVoid, int tileWidth, int tileHeight, int width, int height,
+ExitStatus TIFFDensityFile::readTilesFromTIFF(void* pTiffVoid, int tileWidth, int tileHeight, int width, int height,
                                           bool noNeg, const string& fileName)
 {
         TIFF*    pTiff     = (TIFF*)pTiffVoid;
@@ -172,7 +169,7 @@ bool_t TIFFDensityFile::readTilesFromTIFF(void* pTiffVoid, int tileWidth, int ti
         uint32_t* pNumTileBytes = 0;
 #endif
         if (!TIFFGetField(pTiff, TIFFTAG_TILEBYTECOUNTS, &pNumTileBytes))
-                return "Unable to get tile byte counts";
+                return ExitStatus("Unable to get tile byte counts");
 
         vector<vector<Tile<T>>> tiles;
 
@@ -214,5 +211,5 @@ bool_t TIFFDensityFile::readTilesFromTIFF(void* pTiffVoid, int tileWidth, int ti
         if (gotNeg)
                 cerr << "# WARNING! Ignoring negative values when reading " << fileName << endl;
 
-        return true;
+        return ExitStatus(true);
 }

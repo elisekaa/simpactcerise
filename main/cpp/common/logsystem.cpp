@@ -10,7 +10,7 @@ void LogSystem::processConfig(ConfigSettings& config, GslRandomNumberGenerator* 
 {
         string eventLogFile, personLogFile, relationLogFile, treatmentLogFile, settingsLogFile;
         string locationLogFile, hivVLLogFile;
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("logsystem.outfile.logevents", eventLogFile)) ||
             !(r = config.getKeyValue("logsystem.outfile.logrelations", relationLogFile)) ||
@@ -68,7 +68,7 @@ void LogSystem::processConfig(ConfigSettings& config, GslRandomNumberGenerator* 
 
 void LogSystem::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("logsystem.outfile.logevents", logEvents.getFileName())) ||
             !(r = config.addKey("logsystem.outfile.logrelations", logRelations.getFileName())) ||

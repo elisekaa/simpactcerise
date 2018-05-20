@@ -145,7 +145,7 @@ EvtHazard* EvtHazardFormationSimple::processConfig(ConfigSettings& config, const
                                                    bool msm)
 {
         double a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0, a7 = 0, aDist = 0, Dp = 0, b = 0, tMax = 0;
-        bool_t r;
+        ExitStatus r;
 
         if (!msm) {
                 if (!(r = config.getKeyValue(prefix + "." + hazName + ".alpha_0", a0)) ||
@@ -185,7 +185,7 @@ EvtHazard* EvtHazardFormationSimple::processConfig(ConfigSettings& config, const
 void EvtHazardFormationSimple::obtainConfig(ConfigWriter& config, const string& prefix)
 {
         string hazName = getHazardName();
-        bool_t r;
+        ExitStatus r;
 
         if (!m_msm) {
                 if (!(r = config.addKey(prefix + ".type", hazName)) ||

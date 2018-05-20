@@ -3,7 +3,7 @@
  * \file algorithm.h
  */
 
-#include "booltype.h"
+#include "ExitStatus.h"
 
 #include <cstdint>
 #include <vector>
@@ -43,12 +43,15 @@ class State;
 class Algorithm
 {
 public:
-        /** Constructor of the class, to which the simulation state must be specified as well as
-         *  the random number generator to be used internally. */
+        /// Constructor of the class, to which the simulation state must be specified
+        /// as well as the random number generator to be used internally.
         Algorithm(State& state, GslRandomNumberGenerator& rng);
+
+        ///
         virtual ~Algorithm();
 
-        /** This advances the simulation state specified in the constructor using the core mNRM.
+        /**
+         * This advances the simulation state specified in the constructor using the core mNRM.
          *
          *  \param tMax Stop the simulation if the simulation time exceeds the specified time. Upon
          *              completion of the function, this variable will contain the actual simulation
@@ -111,7 +114,7 @@ public:
          *   - onFiredEvent: called right after an event fired
          *   - onAboutToFire: called when the algoritm is going to loop
          */
-        bool_t evolve(double& tMax, int64_t& maxEvents, double startTime = 0, bool initEvents = true);
+        ExitStatus evolve(double& tMax, int64_t& maxEvents, double startTime = 0, bool initEvents = true);
 
         /// This function returns the current time of the simulation.
         double getTime() const { return m_time; }
@@ -125,11 +128,11 @@ protected:
 
         /// Generate the internal times for the events present in the algorithm (called
         /// by State::evolve depending on the value of the initEvents parameter).
-        virtual bool_t initEventTimes() const;
+        virtual ExitStatus initEventTimes() const;
 
         /// Store the next event to be fired in \c ppEvt and store the real
         /// world time that will have passed until it fires in \c dt.
-        virtual bool_t getNextScheduledEvent(double& dt, Event** ppEvt);
+        virtual ExitStatus getNextScheduledEvent(double& dt, Event** ppEvt);
 
         /// Advance the times of the necessary events to the time when \c dt has passed,
         /// ignoring pScheduledEvent since this is the one we will be firing.

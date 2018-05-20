@@ -1,6 +1,4 @@
-#ifndef SIMPLEALGORITHM_H
-
-#define SIMPLEALGORITHM_H
+#pragma once
 
 /**
  * \file simplealgorithm.h
@@ -86,11 +84,13 @@ class Event;
 class SimpleAlgorithm : public Algorithm
 {
 public:
-        /** Constructor of this class, specifying whether a parallel version should
-         *  be used to speed things up a bit, specifying the random number
-         *  generator as well as the simulation state to use. */
+        /// Constructor of this class, specifying whether a parallel version should
+        ///  be used to speed things up a bit, specifying the random number
+        /// generator as well as the simulation state to use.
         SimpleAlgorithm(State& state, GslRandomNumberGenerator& rng, bool parallel);
-        ~SimpleAlgorithm();
+
+        ///
+        ~SimpleAlgorithm() override = default;
 
 protected:
         /** This function should return the list of events that are currently scheduled. */
@@ -102,8 +102,8 @@ protected:
         virtual void onFiredEvent(Event* pEvt, int position) {}
 
 private:
-        bool_t initEventTimes() const;
-        bool_t getNextScheduledEvent(double& dt, Event** ppEvt);
+        ExitStatus initEventTimes() const;
+        ExitStatus getNextScheduledEvent(double& dt, Event** ppEvt);
         void   advanceEventTimes(Event* pScheduledEvent, double dt);
         void   onFiredEvent(Event* pEvt);
 
@@ -122,4 +122,3 @@ private:
         bool                m_parallel;
 };
 
-#endif // SIMPLEALGORITHM_H

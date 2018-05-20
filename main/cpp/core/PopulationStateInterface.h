@@ -1,24 +1,15 @@
 #pragma once
 /**
- * \file populationinterfaces.h
+ * \file PopulationStateInterface.h
  */
 
 #include "State.h"
-#include "booltype.h"
+#include "ExitStatus.h"
 
 class PersonBase;
 class PopulationEvent;
+class PopulationStateExtra;
 class GslRandomNumberGenerator;
-
-/** Base class to allow some extra information to be stored in each
- *  state that implements PopulationStateInterface (see PopulationStateInterface::setExtraStateInfo). */
-class PopulationStateExtra
-{
-public:
-        PopulationStateExtra() =default;
-
-        virtual ~PopulationStateExtra() =default;
-};
 
 /** Interface for a simulation state for the population-based algorithm, specifying
  *  member functions that need to be implemented. */
@@ -84,68 +75,3 @@ public:
 private:
         PopulationStateExtra* m_pExtraState;
 };
-
-/** An interface to allow a member function PopulationAlgorithmAboutToFireInterface::onAboutToFire
- *  to be called (see PopulationAlgorithmInterface::setAboutToFireAction). */
-class PopulationAlgorithmAboutToFireInterface
-{
-public:
-        PopulationAlgorithmAboutToFireInterface() {}
-        virtual ~PopulationAlgorithmAboutToFireInterface() {}
-
-        /** If set using PopulationAlgorithmInterface::setAboutToFireAction, this
-         *  function will be called right before firing the specified event. */
-        virtual void onAboutToFire(PopulationEvent* pEvt) = 0;
-};
-
-/** An interface for a population based mNRM algorithm. */
-class PopulationAlgorithmInterface
-{
-public:
-        PopulationAlgorithmInterface() {}
-        virtual ~PopulationAlgorithmInterface() {}
-
-        /** Abstract function to initialize the implementation used. */
-        virtual bool_t init() = 0;
-
-        /** This should be called to actually start the simulation, do not call
-         *  Algorithm::evolve for this.
-         *  \param tMax Stop the simulation if the simulation time exceeds the specified time. Upon
-         *              completion of the function, this variable will contain the actual simulation
-         *              time stopped.
-         *  \param maxEvents If positive, the simulation will stop if this many events have been
-         *                   executed. Set to a negative value to disable this limit. At the end of
-         *                   the simulation, this variable will contain the number of events executed.
-         *  \param startTime The start time of the simulation, can be used to continue where a previous
-         *                   call to this function left off.
-         */
-        virtual bool_t run(double& tMax, int64_t& maxEvents, double startTime = 0) = 0;
-
-        /** Allows you to set the action that needs to be performed before firing an
-         *  event dynamically.
-         *
-         *  When implementing a new population based algorithm you must make sure that
-         *  this way the action performed by Algorithm::onAboutToFire can be changed
-         *  at run time. */
-        virtual void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) = 0;
-
-        /** When a new event has been created, it must be injected into the simulation using
-         *  this function. */
-        virtual void onNewEvent(PopulationEvent* pEvt) = 0;
-
-        /** Must return the simulation tilme of the algorithm. */
-        virtual double getTime() const = 0;
-
-        /** Must return the random number generator used by the algorithm. */
-        virtual GslRandomNumberGenerator* getRandomNumberGenerator() const = 0;
-};
-
-/** Base class to be able to store algorithm-specific information in the
- *  PersonBase object for a person in the simulation (see PersonBase::setAlgorithmInfo). */
-class PersonAlgorithmInfo
-{
-public:
-        PersonAlgorithmInfo() {}
-        virtual ~PersonAlgorithmInfo() {}
-};
-

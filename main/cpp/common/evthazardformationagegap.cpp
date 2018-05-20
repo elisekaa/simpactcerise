@@ -152,7 +152,7 @@ EvtHazard* EvtHazardFormationAgeGap::processConfig(ConfigSettings& config, const
 {
         double a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0, a7 = 0, a8 = 0, a9 = 0, a10 = 0, aDist = 0,
                b = 0, tMax = 0;
-        bool_t r;
+        ExitStatus r;
 
         if (!msm) {
                 if (!(r = config.getKeyValue(prefix + "." + hazName + ".baseline", a0)) ||
@@ -196,7 +196,7 @@ EvtHazard* EvtHazardFormationAgeGap::processConfig(ConfigSettings& config, const
 void EvtHazardFormationAgeGap::obtainConfig(ConfigWriter& config, const string& prefix)
 {
         string hazName = getHazardName();
-        bool_t r;
+        ExitStatus r;
 
         if (!m_msm) {
                 if (!(r = config.addKey(prefix + ".type", "agegap")) ||

@@ -2,13 +2,17 @@ set(SRC
     parallel.h
     personaleventlist.cpp
     personaleventlisttesting.cpp
+    PersonAlgorithmInfo.h
     personbase.cpp
+    PopulationAlgorithmAboutToFireInterface.h
     populationalgorithmadvanced.cpp
+    PopulationAlgorithmInterface.h
     populationalgorithmsimple.cpp
     populationalgorithmtesting.cpp
     populationevent.cpp
-    populationinterfaces.h
     populationstateadvanced.cpp
+    PopulationStateExtra.h
+    PopulationStateInterface.h
     populationstatesimple.cpp
     populationstatesimpleadvancedcommon.cpp
     populationstatetesting.cpp

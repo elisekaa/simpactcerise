@@ -46,7 +46,7 @@ set(SRC
     hazardfunctionformationagegaprefyear.cpp
     hazardfunctionformationsimple.cpp
     logsystem.cpp
-    main.cpp
+    #main.cpp
     main_hazardtest.cpp
     signalhandlers.cpp
     vspmodel.h

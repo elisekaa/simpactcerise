@@ -224,7 +224,7 @@ double EventHIVTransmission::calculateHazardFactor(const SimpactPopulation& popu
 
 void EventHIVTransmission::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("hivtransmission.param.a", s_a)) ||
             !(r = config.getKeyValue("hivtransmission.param.b", s_b)) ||
@@ -244,7 +244,7 @@ void EventHIVTransmission::processConfig(ConfigSettings& config, GslRandomNumber
 
 void EventHIVTransmission::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("hivtransmission.param.a", s_a)) ||
             !(r = config.addKey("hivtransmission.param.b", s_b)) ||

@@ -114,7 +114,7 @@ PieceWiseLinearFunction* EventMonitoring::s_pRecheckInterval   = 0;
 
 void EventMonitoring::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("monitoring.cd4.threshold", s_cd4Threshold, 0)) ||
             !(r = config.getKeyValue("monitoring.fraction.log_viralload", s_treatmentVLLogFrac, 0, 1)))
@@ -163,7 +163,7 @@ void EventMonitoring::obtainConfig(ConfigWriter& config)
                 intervalY.push_back(points[i].y);
         }
 
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("monitoring.cd4.threshold", s_cd4Threshold)) ||
             !(r = config.addKey("monitoring.fraction.log_viralload", s_treatmentVLLogFrac)) ||

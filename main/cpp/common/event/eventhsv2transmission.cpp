@@ -138,7 +138,7 @@ double EventHSV2Transmission::HazardFunctionHSV2Transmission::s_b = 0;
 
 void EventHSV2Transmission::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("hsv2transmission.hazard.b", HazardFunctionHSV2Transmission::s_b)) ||
             !(r = config.getKeyValue("hsv2transmission.hazard.c", s_c)) ||
@@ -151,7 +151,7 @@ void EventHSV2Transmission::processConfig(ConfigSettings& config, GslRandomNumbe
 
 void EventHSV2Transmission::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("hsv2transmission.hazard.b", HazardFunctionHSV2Transmission::s_b)) ||
             !(r = config.addKey("hsv2transmission.hazard.c", s_c)) ||

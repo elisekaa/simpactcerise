@@ -1,4 +1,5 @@
 #include "eventdiagnosis.h"
+
 #include "configdistributionhelper.h"
 #include "configfunctions.h"
 #include "configsettings.h"
@@ -7,13 +8,12 @@
 #include "gslrandomnumbergenerator.h"
 #include "jsonconfig.h"
 #include "util.h"
+
 #include <iostream>
 
 using namespace std;
 
 EventDiagnosis::EventDiagnosis(Person* pPerson) : SimpactEvent(pPerson) {}
-
-EventDiagnosis::~EventDiagnosis() {}
 
 string EventDiagnosis::getDescription(double tNow) const
 {
@@ -111,7 +111,7 @@ double EventDiagnosis::s_tMax               = 0;
 
 void EventDiagnosis::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("diagnosis.baseline", s_baseline)) ||
             !(r = config.getKeyValue("diagnosis.agefactor", s_ageFactor)) ||
@@ -126,7 +126,7 @@ void EventDiagnosis::processConfig(ConfigSettings& config, GslRandomNumberGenera
 
 void EventDiagnosis::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("diagnosis.baseline", s_baseline)) ||
             !(r = config.addKey("diagnosis.agefactor", s_ageFactor)) ||

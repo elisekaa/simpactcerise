@@ -24,15 +24,16 @@ Algorithm::Algorithm(State& state, GslRandomNumberGenerator& rng)
 
 Algorithm::~Algorithm() {}
 
-bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, bool initEvents)
+ExitStatus Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, bool initEvents)
 {
         m_time = startTime;
         m_pState->setTime(m_time);
 
         if (initEvents) {
-                bool_t r = initEventTimes();
+                ExitStatus r = initEventTimes();
                 if (!r)
-                        return "Requested event time initialization, but unable to do this: " + r.getErrorString();
+                        return ExitStatus("Requested event time initialization, but unable to do this: "
+                                          + r.getErrorString());
         }
 
         bool    done       = false;
@@ -51,7 +52,7 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
                 if (m_pState->shouldAbortAlgorithm()) {
                         tMax      = m_time;
                         maxEvents = eventCount;
-                        return "Abort algorithm requested: " + m_pState->getAbortReason();
+                        return ExitStatus("Abort algorithm requested: " + m_pState->getAbortReason());
                 }
 
                 // Ask for the next scheduled event and for the time until it takes place
@@ -63,7 +64,7 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
                 pNextTimer->start();
 #endif // ALGORITHM_DEBUG_TIMER
 
-                bool_t r = getNextScheduledEvent(dtMin, &pNextScheduledEvent);
+                ExitStatus r = getNextScheduledEvent(dtMin, &pNextScheduledEvent);
 
 #ifdef ALGORITHM_DEBUG_TIMER
                 pNextTimer->stop();
@@ -72,10 +73,8 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
                 if (!r) {
                         tMax      = m_time;
                         maxEvents = eventCount;
-                        return "No next scheduled event found: " + r.getErrorString();
+                        return ExitStatus("No next scheduled event found: " + r.getErrorString());
                 }
-
-                // std::cerr << "dtMin = " << dtMin << std::endl;
                 assert(dtMin >= 0);
 
 #ifdef ALGORITHM_DEBUG_TIMER
@@ -95,21 +94,17 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
                 if (dtMin != dtMin) {
                         tMax      = m_time;
                         maxEvents = eventCount;
-                        return "Next event takes place after NaN time interval";
+                        return ExitStatus("Next event takes place after NaN time interval");
                 }
-
                 m_time += dtMin;
                 m_pState->setTime(m_time);
-
                 onAboutToFire(pNextScheduledEvent);
                 pNextScheduledEvent->fire(this, m_pState, m_time);
 
                 // If the event is still being used (the default) we'll need a new random number
                 if (!pNextScheduledEvent->willBeRemoved())
                         pNextScheduledEvent->generateNewInternalTimeDifference(m_pRndGen, m_pState);
-
                 eventCount++;
-
                 if (m_time > tMax || (maxEvents > 0 && eventCount >= maxEvents))
                         done = true;
 
@@ -125,14 +120,17 @@ bool_t Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime, boo
         tMax      = m_time;
         maxEvents = eventCount;
 
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t Algorithm::initEventTimes() const { return "Algorithm::initEventTimes: not implemented in base class"; }
-
-bool_t Algorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
+ExitStatus Algorithm::initEventTimes() const
 {
-        return "Algorithm::getNextScheduledEvent: not implemented in base class";
+        return ExitStatus("Algorithm::initEventTimes: not implemented in base class");
+}
+
+ExitStatus Algorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
+{
+        return ExitStatus("Algorithm::getNextScheduledEvent: not implemented in base class");
 }
 
 void Algorithm::advanceEventTimes(Event* pScheduledEvent, double dtMin)

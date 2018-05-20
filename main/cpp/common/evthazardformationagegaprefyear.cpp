@@ -183,7 +183,7 @@ EvtHazard* EvtHazardFormationAgeGapRefYear::processConfig(ConfigSettings& config
                tMaxAgeRefDiff = 0;
         double agfmConst = 0, agfmExp = 0, agfmAge = 0, agfwConst = 0, agfwExp = 0, agfwAge = 0;
         double numRelScaleMan = 0, numRelScaleWoman = 0;
-        bool_t r;
+        ExitStatus r;
 
         if (!msm) {
                 if (!(r = config.getKeyValue(prefix + "." + hazName + ".baseline", a0)) ||
@@ -243,7 +243,7 @@ EvtHazard* EvtHazardFormationAgeGapRefYear::processConfig(ConfigSettings& config
 void EvtHazardFormationAgeGapRefYear::obtainConfig(ConfigWriter& config, const string& prefix)
 {
         string hazName = getHazardName();
-        bool_t r;
+        ExitStatus r;
 
         if (!m_msm) {
                 if (!(r = config.addKey(prefix + ".type", "agegapry")) ||

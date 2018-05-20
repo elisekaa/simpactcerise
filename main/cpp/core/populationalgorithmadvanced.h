@@ -1,6 +1,4 @@
-#ifndef POPULATIONALGORITHMADVANCED_H
-
-#define POPULATIONALGORITHMADVANCED_H
+#pragma once
 
 /**
  * \file populationalgorithmadvanced.h
@@ -11,8 +9,10 @@
 #include "personaleventlist.h"
 #include "personbase.h"
 #include "populationevent.h"
-#include "populationinterfaces.h"
-#include <assert.h>
+#include "PopulationAlgorithmInterface.h"
+#include "PopulationAlgorithmAboutToFireInterface.h"
+
+#include <cassert>
 
 #ifdef STATE_SHOW_EVENTS
 #include <iostream>
@@ -92,10 +92,10 @@ public:
         PopulationAlgorithmAdvanced(PopulationStateAdvanced& state, GslRandomNumberGenerator& rng, bool parallel);
         ~PopulationAlgorithmAdvanced();
 
-        bool_t init();
+        ExitStatus init();
 
         bool   isParallel() const { return m_parallel; }
-        bool_t run(double& tMax, int64_t& maxEvents, double startTime = 0);
+        ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0);
         void   onNewEvent(PopulationEvent* pEvt);
 
         // TODO: shield these from the user somehow? These functions should not be used
@@ -110,8 +110,8 @@ public:
         void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) { m_pOnAboutToFire = pAction; }
 
 private:
-        bool_t             initEventTimes() const;
-        bool_t             getNextScheduledEvent(double& dt, Event** ppEvt);
+        ExitStatus             initEventTimes() const;
+        ExitStatus             getNextScheduledEvent(double& dt, Event** ppEvt);
         void               advanceEventTimes(Event* pScheduledEvent, double dt);
         void               onAboutToFire(Event* pEvt);
         PopulationEvent*   getEarliestEvent(const std::vector<PersonBase*>& people);
@@ -170,7 +170,7 @@ inline int64_t PopulationAlgorithmAdvanced::getNextEventID()
 inline PersonalEventList* PopulationAlgorithmAdvanced::personalEventList(PersonBase* pPerson)
 {
         assert(pPerson);
-        PersonalEventList* pEvtList = static_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
+        auto pEvtList = dynamic_cast<PersonalEventList*>(pPerson->getAlgorithmInfo());
         assert(pEvtList);
         return pEvtList;
 }
@@ -185,4 +185,3 @@ inline void PopulationAlgorithmAdvanced::onAboutToFire(Event* pEvt)
                 m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
 }
 
-#endif // POPULATIONALGORITHMADVANCED_H

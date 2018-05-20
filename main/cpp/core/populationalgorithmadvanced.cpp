@@ -41,10 +41,10 @@ PopulationAlgorithmAdvanced::~PopulationAlgorithmAdvanced()
         // TODO: free memory!
 }
 
-bool_t PopulationAlgorithmAdvanced::init()
+ExitStatus PopulationAlgorithmAdvanced::init()
 {
         if (m_init)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
 #ifdef DISABLEOPENMP
         if (m_parallel)
@@ -58,9 +58,9 @@ bool_t PopulationAlgorithmAdvanced::init()
         std::cerr << "# Debug version" << std::endl;
 #endif // NDEBUG
 
-        bool_t r = m_popState.init(m_parallel);
+        ExitStatus r = m_popState.init(m_parallel);
         if (!r)
-                return "Unable to initialize population state: " + r.getErrorString();
+                return ExitStatus("Unable to initialize population state: " + r.getErrorString());
 
         m_nextEventID = 0;
 
@@ -80,13 +80,13 @@ bool_t PopulationAlgorithmAdvanced::init()
         DEBUGWARNING("#pragma omp is disabled")
 #endif // DISABLE_PARALLEL
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t PopulationAlgorithmAdvanced::run(double& tMax, int64_t& maxEvents, double startTime)
+ExitStatus PopulationAlgorithmAdvanced::run(double& tMax, int64_t& maxEvents, double startTime)
 {
         if (!m_init)
-                return "Not initialized";
+                return ExitStatus("Not initialized");
 
         return Algorithm::evolve(tMax, maxEvents, startTime, false);
 }
@@ -107,22 +107,21 @@ void PopulationAlgorithmAdvanced::onAlgorithmLoop(bool finished)
         m_eventsToRemove.resize(0);
 }
 
-bool_t PopulationAlgorithmAdvanced::initEventTimes() const
+ExitStatus PopulationAlgorithmAdvanced::initEventTimes() const
 {
         // All event times should already be initialized, this function should not
         // be called
-        return "Separate event time initialization not supported in this implementation, events should already be "
-               "initialized";
+        return ExitStatus("Separate event time initialization not supported in this implementation, "
+                          "events should already be initialized");
 }
 
-bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** ppEvt)
+ExitStatus PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         if (!m_init)
-                return "Not initialized";
+                return ExitStatus("Not initialized");
 
         // First make sure that all events have a calculated event time
-        // Note that an event can be present in both the queue of a man
-        // and of a woman!
+        // Note that an event can be present in both the queue of a man and of a woman!
 
         double                    curTime  = getTime();
         std::vector<PersonBase*>& m_people = m_popState.m_people; // TODO: rename m_people
@@ -175,7 +174,7 @@ bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** pp
         // relevant Person's lists
 
         if (pEarliestEvent == 0)
-                return "No event found";
+                return ExitStatus("No event found");
 
         int numPersons = pEarliestEvent->getNumberOfPersons();
         for (int i = 0; i < numPersons; i++) {
@@ -201,7 +200,7 @@ bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** pp
         }
 #endif // NDEBUG
         *ppEvt = pEarliestEvent;
-        return true;
+        return ExitStatus(true);
 }
 
 // all affected event times should be recalculated, again note that an event pointer
@@ -209,29 +208,20 @@ bool_t PopulationAlgorithmAdvanced::getNextScheduledEvent(double& dt, Event** pp
 void PopulationAlgorithmAdvanced::advanceEventTimes(Event* pScheduledEvent, double dt)
 {
         assert(m_init);
-
-        PopulationEvent* pEvt = static_cast<PopulationEvent*>(pScheduledEvent);
-
+        auto pEvt = static_cast<PopulationEvent*>(pScheduledEvent);
         // we'll schedule this event to be deleted
-
         scheduleForRemoval(pEvt);
-
         // the persons in this event are definitely affected
-
         double newRefTime = getTime() + dt;
         int    numPersons = pEvt->getNumberOfPersons();
-
         for (int i = 0; i < numPersons; i++) {
                 PersonBase* pPerson = pEvt->getPerson(i);
-
                 assert(pPerson != 0);
-
                 personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
         }
 
         // also get a list of other persons that are affected
         // with just the mortality event this way should suffice
-
         const int                 m_numGlobalDummies = m_popState.m_numGlobalDummies; // TODO: rename m_numGlobalDummies
         std::vector<PersonBase*>& m_people           = m_popState.m_people;           // TODO: rename m_people
         std::vector<PersonBase*>& m_otherAffectedPeople = m_popState.m_otherAffectedPeople; // TODO: rename
@@ -241,35 +231,26 @@ void PopulationAlgorithmAdvanced::advanceEventTimes(Event* pScheduledEvent, doub
                 int num = m_people.size();
                 for (int i = m_numGlobalDummies; i < num; i++) {
                         PersonBase* pPerson = m_people[i];
-
                         assert(pPerson != 0);
                         assert(pPerson->getGender() == PersonBase::Male || pPerson->getGender() == PersonBase::Female);
-
                         personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
                 }
         } else {
                 pEvt->markOtherAffectedPeople(m_popState);
-
                 int num = m_otherAffectedPeople.size();
                 for (int i = 0; i < num; i++) {
                         PersonBase* pPerson = m_otherAffectedPeople[i];
-
                         assert(pPerson != 0);
                         assert(pPerson->getGender() == PersonBase::Male || pPerson->getGender() == PersonBase::Female);
-
                         personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
                 }
         }
-
         if (POPULATION_ALWAYS_RECALCULATE_FLAG || pEvt->areGlobalEventsAffected()) {
                 int num = m_numGlobalDummies;
-
                 for (int i = 0; i < num; i++) {
                         PersonBase* pPerson = m_people[i];
-
                         assert(pPerson != 0);
                         assert(pPerson->getGender() == PersonBase::GlobalEventDummy);
-
                         personalEventList(pPerson)->advanceEventTimes(*this, m_popState, newRefTime);
                 }
         }
@@ -278,19 +259,15 @@ void PopulationAlgorithmAdvanced::advanceEventTimes(Event* pScheduledEvent, doub
 PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector<PersonBase*>& people)
 {
         if (!m_init)
-                return 0;
-
+                return nullptr;
         PopulationEvent* pBest    = 0;
         double           bestTime = -1;
-
         if (!m_parallel) {
                 for (size_t i = 0; i < people.size(); i++) {
                         PopulationEvent* pFirstEvent = personalEventList(people[i])->getEarliestEvent();
-
                         if (pFirstEvent != 0) // can happen if there are no events for this person
                         {
                                 double t = pFirstEvent->getEventTime();
-
                                 if (pBest == 0 || t < bestTime) {
                                         bestTime = t;
                                         pBest    = pFirstEvent;
@@ -300,7 +277,6 @@ PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector
         } else {
 #ifndef DISABLEOPENMP
                 int numPeople = people.size();
-
                 for (size_t i = 0; i < m_tmpEarliestEvents.size(); i++) {
                         m_tmpEarliestEvents[i] = 0;
                         m_tmpEarliestTimes[i]  = -1;
@@ -311,12 +287,10 @@ PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector
 #endif // DISABLE_PARALLEL
                 for (int i = 0; i < numPeople; i++) {
                         PopulationEvent* pFirstEvent = personalEventList(people[i])->getEarliestEvent();
-
                         if (pFirstEvent != 0) // can happen if there are no events for this person
                         {
                                 double t         = pFirstEvent->getEventTime();
                                 int    threadIdx = omp_get_thread_num();
-
                                 if (m_tmpEarliestEvents[threadIdx] == 0 || t < m_tmpEarliestTimes[threadIdx]) {
                                         m_tmpEarliestTimes[threadIdx]  = t;
                                         m_tmpEarliestEvents[threadIdx] = pFirstEvent;
@@ -326,10 +300,8 @@ PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector
 
                 for (size_t i = 0; i < m_tmpEarliestEvents.size(); i++) {
                         PopulationEvent* pFirstEvent = m_tmpEarliestEvents[i];
-
                         if (pFirstEvent != 0) {
                                 double t = pFirstEvent->getEventTime();
-
                                 if (pBest == 0 || t < bestTime) {
                                         bestTime = t;
                                         pBest    = pFirstEvent;
@@ -345,14 +317,11 @@ PopulationEvent* PopulationAlgorithmAdvanced::getEarliestEvent(const std::vector
 void PopulationAlgorithmAdvanced::scheduleForRemoval(PopulationEvent* pEvt)
 {
         pEvt->setScheduledForRemoval();
-
 #ifndef DISABLEOPENMP
         if (m_parallel)
                 m_eventsToRemoveMutex.lock();
 #endif // !DISABLEOPENMP
-
         m_eventsToRemove.push_back(pEvt);
-
 #ifndef DISABLEOPENMP
         if (m_parallel)
                 m_eventsToRemoveMutex.unlock();
@@ -364,12 +333,9 @@ void PopulationAlgorithmAdvanced::lockEvent(PopulationEvent* pEvt) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-
         int64_t id = pEvt->getEventID();
         int64_t l  = m_eventMutexes.size();
-
         int mutexId = (int)(id % l);
-
         m_eventMutexes[mutexId].lock();
 #endif // !DISABLEOPENMP
 }
@@ -379,12 +345,9 @@ void PopulationAlgorithmAdvanced::unlockEvent(PopulationEvent* pEvt) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-
         int64_t id = pEvt->getEventID();
         int64_t l  = m_eventMutexes.size();
-
         int mutexId = (int)(id % l);
-
         m_eventMutexes[mutexId].unlock();
 #endif // !DISABLEOPENMP
 }
@@ -393,29 +356,22 @@ void PopulationAlgorithmAdvanced::onNewEvent(PopulationEvent* pEvt)
 {
         assert(pEvt != 0);
         assert(pEvt->getEventID() < 0);
-
         int64_t id = getNextEventID();
         pEvt->setEventID(id);
-
         assert(!pEvt->isInitialized());
         pEvt->generateNewInternalTimeDifference(getRandomNumberGenerator(), &m_popState);
-
         int                       numPersons = pEvt->getNumberOfPersons();
         std::vector<PersonBase*>& m_people   = m_popState.m_people; // TODO: rename m_people
-
         if (numPersons == 0) // A global event
         {
                 PersonBase* pGlobalEventPerson = m_people[0];
                 assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventDummy);
-
                 pEvt->setGlobalEventPerson(pGlobalEventPerson);
                 personalEventList(pGlobalEventPerson)->registerPersonalEvent(pEvt);
         } else {
                 for (int i = 0; i < numPersons; i++) {
                         PersonBase* pPerson = pEvt->getPerson(i);
-
                         assert(!pPerson->hasDied());
-
                         personalEventList(pPerson)->registerPersonalEvent(pEvt);
                 }
         }

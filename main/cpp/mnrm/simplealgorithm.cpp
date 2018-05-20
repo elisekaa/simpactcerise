@@ -33,9 +33,8 @@ SimpleAlgorithm::SimpleAlgorithm(State& state, GslRandomNumberGenerator& rng, bo
         }
 }
 
-SimpleAlgorithm::~SimpleAlgorithm() {}
 
-bool_t SimpleAlgorithm::initEventTimes() const
+ExitStatus SimpleAlgorithm::initEventTimes() const
 {
         const std::vector<Event*>& events  = getCurrentEvents();
         GslRandomNumberGenerator*      pRndGen = getRandomNumberGenerator();
@@ -47,10 +46,10 @@ bool_t SimpleAlgorithm::initEventTimes() const
         for (size_t i = 0; i < events.size(); i++)
                 events[i]->generateNewInternalTimeDifference(pRndGen, pState);
 
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
+ExitStatus SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
 {
         // Get the currently enabled events
         // Note that when new events were added after firing one,
@@ -61,7 +60,7 @@ bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
         State*                         pState = getState();
 
         if (events.size() < 1)
-                return "The number of possible events became zero at a certain point";
+                return ExitStatus("The number of possible events became zero at a certain point");
 
         // Find the minimal time that will go by
         double dtMin     = std::numeric_limits<double>::max();
@@ -123,7 +122,7 @@ bool_t SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
 #endif // ALGORITHM_SHOW_EVENTS
 
         *ppEvt = pNextEvent;
-        return true;
+        return ExitStatus(true);
 }
 
 void SimpleAlgorithm::advanceEventTimes(Event* pScheduledEvent, double dtMin)

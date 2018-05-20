@@ -126,14 +126,14 @@ void EventBirth::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
 
         m_pPregDurationDist = getDistributionFromConfig(config, pRndGen, "birth.pregnancyduration");
 
-        bool_t r;
+        ExitStatus r;
         if (!(r = config.getKeyValue("birth.boygirlratio", m_boyGirlRatio, 0, 1)))
                 abortWithMessage(r.getErrorString());
 }
 
 void EventBirth::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         addDistributionToConfig(m_pPregDurationDist, config, "birth.pregnancyduration");
         if (!(r = config.addKey("birth.boygirlratio", m_boyGirlRatio)))

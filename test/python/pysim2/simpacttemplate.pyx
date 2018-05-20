@@ -16,7 +16,7 @@ cdef S(b):
 class SimpactException(Exception):
     pass
 
-cdef extern from "../../lib/core/populationinterfaces.h":
+cdef extern from "../../../main/cpp/core/populationinterfaces.h":
     cdef cppclass PopulationAlgorithmInterface:
         PopulationAlgorithmInterface()
 
@@ -50,7 +50,7 @@ cdef extern from "simpactbindings.h":
     cdef cppclass SimpactPopulationCXX:
         SimpactPopulationCXX(PopulationAlgorithmInterface *pAlg, PopulationStateInterface *pState, object pObj)
 
-        bool_t run(double *simTime, long long *maxEvents)
+        ExitStatus run(double *simTime, long long *maxEvents)
 
         PersonCXX **getAllPeople()
         PersonCXX **getMen()
@@ -71,15 +71,15 @@ cdef extern from "simpactbindings.h":
         double getTime()
         GslRandomNumberGenerator *getRandomNumberGenerator()
 
-cdef extern from "../../lib/mnrm/booltype.h":
-    cdef cppclass bool_t:
-        bool_t()
-        bool_t(cbool value)
-        bool_t(string errStr)
+cdef extern from "../../../main/cpp/mnrm/ExitStatus.h":
+    cdef cppclass ExitStatus:
+        ExitStatus()
+        ExitStatus(cbool value)
+        ExitStatus(string errStr)
         cbool success()
         string getErrorString()
 
-cdef extern from "../../lib/mnrm/gslrandomnumbergenerator.h":
+cdef extern from "../../../main/cpp/mnrm/gslrandomnumbergenerator.h":
     cdef cppclass GslRandomNumberGenerator:
         GslRandomNumberGenerator()
         GslRandomNumberGenerator(int seed)
@@ -88,11 +88,11 @@ cdef extern from "../../lib/mnrm/gslrandomnumbergenerator.h":
         double pickWeibull(double lambd, double kappa, double ageMin)
         unsigned long getSeed()
 
-cdef extern from "../../lib/core/populationutil.h":
+cdef extern from "../../../main/cpp/core/populationutil.h":
 
     cdef cppclass PopulationUtil:
         @staticmethod
-        bool_t selectAlgorithmAndState(string alg, GslRandomNumberGenerator &rng, cbool parallel, 
+        ExitStatus selectAlgorithmAndState(string alg, GslRandomNumberGenerator &rng, cbool parallel,
                 PopulationAlgorithmInterface **ppAlgo, PopulationStateInterface **ppState)
 
 cdef class GslRng:
@@ -215,7 +215,7 @@ cdef class SimpactPopulation:
     def __init__(self, simType, seed = None):
         cdef PopulationStateInterface *pState
         cdef PopulationAlgorithmInterface *pAlg
-        cdef bool_t r
+        cdef ExitStatus r
         cdef int rngSeed = -1
 
         if seed is not None:
@@ -245,7 +245,7 @@ cdef class SimpactPopulation:
     def run(self, double simTime, long long maxEvents = -1):
         cdef double t
         cdef long long maxEvt
-        cdef bool_t r
+        cdef ExitStatus r
 
         if simTime <= 0:
             raise SimpactException("Simulation time must be positive")

@@ -1,11 +1,10 @@
-#ifndef POLYGON2D_H
+#pragma once
 
-#define POLYGON2D_H
-
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "point2d.h"
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 /** This class can be used to represent a polygon. */
@@ -15,9 +14,9 @@ public:
         Polygon2D() { m_numCoords = 0; }
         virtual ~Polygon2D() {}
 
-        bool_t init(const std::vector<double>& xCoords, const std::vector<double>& yCoords);
-        bool_t init(const std::vector<std::pair<double, double>>& points);
-        bool_t init(const std::vector<Point2D>& points);
+        ExitStatus init(const std::vector<double>& xCoords, const std::vector<double>& yCoords);
+        ExitStatus init(const std::vector<std::pair<double, double>>& points);
+        ExitStatus init(const std::vector<Point2D>& points);
         bool   isInside(double x, double y) const;
         int    getNumberOfPoints() const { return m_numCoords; }
 
@@ -26,24 +25,23 @@ private:
         int                                    m_numCoords;
 };
 
-inline bool_t Polygon2D::init(const std::vector<double>& xCoords, const std::vector<double>& yCoords)
+inline ExitStatus Polygon2D::init(const std::vector<double>& xCoords, const std::vector<double>& yCoords)
 {
-        if (xCoords.size() != yCoords.size())
-                return "Number of X and Y coordinates is not the same";
-
+        if (xCoords.size() != yCoords.size()) {
+                return ExitStatus("Number of X and Y coordinates is not the same");
+        }
         std::vector<std::pair<double, double>> points(xCoords.size());
-
-        for (size_t i = 0; i < xCoords.size(); i++)
-                points[i] = std::pair<double, double>(xCoords[i], yCoords[i]);
-
+        for (size_t i = 0; i < xCoords.size(); i++) {
+                points[i] = std::make_pair(xCoords[i], yCoords[i]);
+        }
         return init(points);
 }
 
-inline bool_t Polygon2D::init(const std::vector<std::pair<double, double>>& points)
+inline ExitStatus Polygon2D::init(const std::vector<std::pair<double, double>>& points)
 {
-        if (points.size() < 3)
-                return "Too few points to be a polygon";
-
+        if (points.size() < 3) {
+                return ExitStatus("Too few points to be a polygon");
+        }
         m_numCoords = (int)points.size();
         m_xyCoords.resize(m_numCoords + 1);
 
@@ -52,23 +50,21 @@ inline bool_t Polygon2D::init(const std::vector<std::pair<double, double>>& poin
 
         m_xyCoords[m_numCoords] = points[0];
 
-        return true;
+        return ExitStatus(true);
 }
 
-inline bool_t Polygon2D::init(const std::vector<Point2D>& points)
+inline ExitStatus Polygon2D::init(const std::vector<Point2D>& points)
 {
-        if (points.size() < 3)
-                return "Too few points to be a polygon";
-
+        if (points.size() < 3) {
+                return ExitStatus("Too few points to be a polygon");
+        }
         m_numCoords = points.size();
         m_xyCoords.resize(m_numCoords + 1);
-
         for (int i = 0; i < m_numCoords; i++)
-                m_xyCoords[i] = std::pair<double, double>(points[i].x, points[i].y);
+                m_xyCoords[i] = std::make_pair(points[i].x, points[i].y);
 
-        m_xyCoords[m_numCoords] = std::pair<double, double>(points[0].x, points[0].y);
-
-        return true;
+        m_xyCoords[m_numCoords] = std::make_pair(points[0].x, points[0].y);
+        return ExitStatus(true);
 }
 
 inline bool Polygon2D::isInside(double x, double y) const
@@ -106,4 +102,3 @@ inline bool Polygon2D::isInside(double x, double y) const
         return (intersections & 1) ? true : false;
 }
 
-#endif // GRALE_POLYGON2D_H

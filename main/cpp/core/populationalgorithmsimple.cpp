@@ -27,10 +27,10 @@ PopulationAlgorithmSimple::~PopulationAlgorithmSimple()
         // TODO: free memory!
 }
 
-bool_t PopulationAlgorithmSimple::init()
+ExitStatus PopulationAlgorithmSimple::init()
 {
         if (m_init)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
 #ifdef DISABLEOPENMP
         if (m_parallelRequested) // All the parallel stuff is done in SimpleAlgorithm
@@ -45,20 +45,19 @@ bool_t PopulationAlgorithmSimple::init()
         std::cerr << "# Debug version" << std::endl;
 #endif // NDEBUG
 
-        bool_t r = m_popState.init(); // All the parallel stuff is done in SimpleAlgorithm
+        ExitStatus r = m_popState.init(); // All the parallel stuff is done in SimpleAlgorithm
         if (!r)
-                return "Unable to initialize population state: " + r.getErrorString();
+                return ExitStatus("Unable to initialize population state: " + r.getErrorString());
 
         m_nextEventID = 0;
-
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t PopulationAlgorithmSimple::run(double& tMax, int64_t& maxEvents, double startTime)
+ExitStatus PopulationAlgorithmSimple::run(double& tMax, int64_t& maxEvents, double startTime)
 {
         if (!m_init)
-                return "Not initialized";
+                return ExitStatus("Not initialized");
 
         return Algorithm::evolve(tMax, maxEvents, startTime, false);
 }
@@ -74,12 +73,11 @@ void PopulationAlgorithmSimple::onAlgorithmLoop(bool finished)
         m_eventsToRemove.resize(0);
 }
 
-bool_t PopulationAlgorithmSimple::initEventTimes() const
+ExitStatus PopulationAlgorithmSimple::initEventTimes() const
 {
-        // All event times should already be initialized, this function should not
-        // be called
-        return "Separate event time initialization not supported in this implementation, events should already be "
-               "initialized";
+        // All event times should already be initialized, this function should not be called
+        return ExitStatus("Separate event time initialization not supported in this implementation,"
+                          "events should already be initialized");
 }
 
 void PopulationAlgorithmSimple::scheduleForRemoval(PopulationEvent* pEvt)
@@ -117,7 +115,6 @@ void PopulationAlgorithmSimple::onFiredEvent(Event* pEvt, int position)
         size_t idx = 0;
         while (idx < m_allEvents.size()) {
                 PopulationEvent* pEvt = static_cast<PopulationEvent*>(m_allEvents[idx]);
-
                 if (pEvt->isNoLongerUseful(m_popState)) {
                         scheduleForRemoval(pEvt);
 

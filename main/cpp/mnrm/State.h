@@ -3,7 +3,7 @@
  * \file State.h
  */
 
-#include "booltype.h"
+#include "ExitStatus.h"
 
 #include <cstdint>
 #include <vector>

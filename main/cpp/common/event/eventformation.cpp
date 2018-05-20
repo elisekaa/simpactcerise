@@ -179,7 +179,7 @@ EvtHazard* EventFormation::m_pHazardMSM = 0;
 EvtHazard* EventFormation::getHazard(ConfigSettings& config, const string& prefix, bool msm)
 {
         string hazardType;
-        bool_t r;
+        ExitStatus r;
 
         string hazSimple  = "simple";
         string hazAgegap  = "agegap";

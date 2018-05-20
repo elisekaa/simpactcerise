@@ -1,9 +1,8 @@
-#ifndef MAXARTPOPULATION_H
-
-#define MAXARTPOPULATION_H
+#pragma once
 
 #include "pop/simpactpopulation.h"
-#include <assert.h>
+
+#include <cassert>
 
 class MaxARTPopulation : public SimpactPopulation
 {
@@ -15,15 +14,23 @@ public:
                 PostStudy
         };
 
+        ///
         MaxARTPopulation(PopulationAlgorithmInterface& alg, PopulationStateInterface& state);
-        ~MaxARTPopulation();
 
+        ///
+        ~MaxARTPopulation() override = default;
+
+        ///
         StudyStage getStudyStage() const { return m_studyStage; }
+
+        ///
         void       setInStudy()
         {
                 assert(m_studyStage == PreStudy);
                 m_studyStage = InStudy;
         }
+
+        ///
         void setStudyEnded()
         {
                 assert(m_studyStage == InStudy);
@@ -31,25 +38,26 @@ public:
         }
 
 protected:
-        bool_t scheduleInitialEvents();
+        ///
+        ExitStatus scheduleInitialEvents() override;
 
+protected:
         StudyStage m_studyStage;
 };
 
 inline MaxARTPopulation& MAXARTPOPULATION(State* pState)
 {
         assert(pState != 0);
-        PopulationStateInterface& state = static_cast<PopulationStateInterface&>(*pState);
+        auto& state = dynamic_cast<PopulationStateInterface&>(*pState);
         assert(state.getExtraStateInfo() != 0);
-        return static_cast<MaxARTPopulation&>(*state.getExtraStateInfo());
+        return dynamic_cast<MaxARTPopulation&>(*state.getExtraStateInfo());
 }
 
 inline const MaxARTPopulation& MAXARTPOPULATION(const State* pState)
 {
         assert(pState != 0);
-        const PopulationStateInterface& state = static_cast<const PopulationStateInterface&>(*pState);
+        const auto& state = dynamic_cast<const PopulationStateInterface&>(*pState);
         assert(state.getExtraStateInfo() != 0);
-        return static_cast<const MaxARTPopulation&>(*state.getExtraStateInfo());
+        return dynamic_cast<const MaxARTPopulation&>(*state.getExtraStateInfo());
 }
 
-#endif // MAXARTPOPULATION_H

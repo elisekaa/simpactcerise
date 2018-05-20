@@ -94,7 +94,7 @@ void EventAIDSMortality::fire(Algorithm* pAlgorithm, State* pState, double t)
 
 void EventAIDSMortality::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("mortality.aids.survtime.C", m_C, 0)) ||
             !(r = config.getKeyValue("mortality.aids.survtime.k", m_k)))
@@ -103,7 +103,7 @@ void EventAIDSMortality::processConfig(ConfigSettings& config, GslRandomNumberGe
 
 void EventAIDSMortality::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("mortality.aids.survtime.C", m_C)) ||
             !(r = config.addKey("mortality.aids.survtime.k", m_k)))

@@ -9,13 +9,6 @@ set(SRC
 	start.cpp
 	)
 
-add_executable(maxart
-    ${SRC}
-    $<TARGET_OBJECTS:common_maxart>
-    $<TARGET_OBJECTS:core>
-    $<TARGET_OBJECTS:mnrm>
-    $<TARGET_OBJECTS:util>
-)
-target_link_libraries(maxart ${LIBS})
+add_library(maxart OBJECT ${SRC})
 
 unset(SRC)

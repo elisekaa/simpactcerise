@@ -130,7 +130,7 @@ void EventConception::processConfig(ConfigSettings& config, GslRandomNumberGener
                 m_pWSFProbDist = 0;
         }
 
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("conception.alpha_base", HazardFunctionConception::m_alphaBase)) ||
             !(r = config.getKeyValue("conception.alpha_ageman", HazardFunctionConception::m_alphaAgeMan)) ||
@@ -145,7 +145,7 @@ void EventConception::processConfig(ConfigSettings& config, GslRandomNumberGener
 
 void EventConception::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         addDistributionToConfig(m_pWSFProbDist, config, "conception.wsf");
 

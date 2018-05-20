@@ -1,6 +1,4 @@
-#ifndef EVENTDIAGNOSIS_H
-
-#define EVENTDIAGNOSIS_H
+#pragma once
 
 #include "hazardfunctionexp.h"
 #include "simpactevent.h"
@@ -26,26 +24,43 @@ private:
 class EventDiagnosis : public SimpactEvent
 {
 public:
-        EventDiagnosis(Person* pPerson);
-        ~EventDiagnosis();
+        ///
+        explicit EventDiagnosis(Person* pPerson);
 
-        std::string getDescription(double tNow) const;
-        void        writeLogs(const SimpactPopulation& pop, double tNow) const;
-        void        fire(Algorithm* pAlgorithm, State* pState, double t);
+        ///
+        ~EventDiagnosis() override = default;
 
-        // Since the hazard depends on the number of diagnosed partners,
-        // every partner of this person who is infected (so diagnosis event
-        // is possible) needs to be marked as affected
-        void markOtherAffectedPeople(const PopulationStateInterface& population);
+        ///
+        std::string getDescription(double tNow) const override;
 
+        ///
+        void writeLogs(const SimpactPopulation& pop, double tNow) const override;
+
+        ///
+        void fire(Algorithm* pAlgorithm, State* pState, double t) override;
+
+        /// Since the hazard depends on the number of diagnosed partners, every partner of this
+        /// person who is infected (so diagnosis event s possible) needs to be marked as affected.
+        void markOtherAffectedPeople(const PopulationStateInterface& population) override;
+
+        ///
         static void processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
+
+        ///
         static void obtainConfig(ConfigWriter& config);
 
 private:
-        double        calculateInternalTimeInterval(const State* pState, double t0, double dt);
-        double        solveForRealTimeInterval(const State* pState, double Tdiff, double t0);
+        ///
+        double calculateInternalTimeInterval(const State* pState, double t0, double dt) override;
+
+        ///
+        double solveForRealTimeInterval(const State* pState, double Tdiff, double t0) override;
+
+private:
+        ///
         static double getTMax(const Person* pPerson);
 
+private:
         static double s_baseline;
         static double s_ageFactor;
         static double s_genderFactor;
@@ -56,4 +71,3 @@ private:
         static double s_HSV2factor;
 };
 
-#endif // EVENTDIAGNOSIS_H

@@ -2,7 +2,7 @@
 
 #define DISCRETEDISTRIBUTIONWRAPPER_H
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "probabilitydistribution.h"
 #include <limits>
 #include <string>
@@ -17,9 +17,9 @@ public:
         DiscreteDistributionWrapper(GslRandomNumberGenerator* pRng);
         ~DiscreteDistributionWrapper();
 
-        bool_t init(const std::string& csvFileName, double xMin, double xMax, int yCol, bool floor);
-        bool_t init(const std::string& csvFileName, int xCol, int yCol, bool floor);
-        bool_t init(const std::vector<double>& xValues, const std::vector<double>& yValues, bool floor);
+        ExitStatus init(const std::string& csvFileName, double xMin, double xMax, int yCol, bool floor);
+        ExitStatus init(const std::string& csvFileName, int xCol, int yCol, bool floor);
+        ExitStatus init(const std::vector<double>& xValues, const std::vector<double>& yValues, bool floor);
 
         double pickNumber() const
         {

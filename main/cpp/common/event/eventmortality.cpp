@@ -63,7 +63,7 @@ void EventMortality::writeLogs(const SimpactPopulation& pop, double tNow) const
 
 void EventMortality::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("mortality.normal.weibull.shape", m_shape, 0)) ||
             !(r = config.getKeyValue("mortality.normal.weibull.scale", m_scale, 0)) ||
@@ -73,7 +73,7 @@ void EventMortality::processConfig(ConfigSettings& config, GslRandomNumberGenera
 
 void EventMortality::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("mortality.normal.weibull.shape", m_shape)) ||
             !(r = config.addKey("mortality.normal.weibull.scale", m_scale)) ||

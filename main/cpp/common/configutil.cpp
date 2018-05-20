@@ -18,7 +18,7 @@ using namespace std;
 void checkConfiguration(const ConfigSettings& loadedConfig, const SimpactPopulationConfig& populationConfig,
                         double tMax, int64_t maxEvents);
 
-bool_t configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig, PopulationDistributionCSV& ageDist,
+ExitStatus configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig, PopulationDistributionCSV& ageDist,
                  GslRandomNumberGenerator* pRndGen, double& tMax, int64_t& maxEvents)
 {
         ConfigFunctions::processConfigurations(config, pRndGen);
@@ -29,7 +29,7 @@ bool_t configure(ConfigSettings& config, SimpactPopulationConfig& populationConf
         double eyecapFraction = 1;
         string ageDistFile;
         bool   msm = false;
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("population.nummen", numMen, 0)) ||
             !(r = config.getKeyValue("population.numwomen", numWomen, 0)) ||
@@ -47,7 +47,7 @@ bool_t configure(ConfigSettings& config, SimpactPopulationConfig& populationConf
 
         if (!(r = ageDist.load(ageDistFile))) {
                 cerr << "Can't load age distribution data: " << r.getErrorString() << endl;
-                return false;
+                return ExitStatus(false);
         }
 
         // Check that we've used everything in the config file
@@ -58,18 +58,16 @@ bool_t configure(ConfigSettings& config, SimpactPopulationConfig& populationConf
                 cerr << "Error: the following entries from the configuration file were not used:" << endl;
                 for (size_t i = 0; i < keys.size(); i++)
                         cerr << "  " << keys[i] << endl;
-
                 cerr << endl;
-                return false;
+                return ExitStatus(false);
         }
 
         // Sanity check on configuration parameters
         cerr << "# Performing extra check on read configuration parameters" << endl;
         checkConfiguration(config, populationConfig, tMax, maxEvents);
-
         ConfigSettingsLog::addConfigSettings(0, config);
 
-        return true;
+        return ExitStatus(true);
 }
 
 bool areValuesCompatible(const string& key, const std::string& A, const std::string& B,
@@ -151,7 +149,7 @@ void checkConfiguration(const ConfigSettings& loadedConfig, const SimpactPopulat
                         double tMax, int64_t maxEvents)
 {
         ConfigWriter config;
-        bool_t       r;
+        ExitStatus       r;
 
         ConfigFunctions::obtainConfigurations(config);
 

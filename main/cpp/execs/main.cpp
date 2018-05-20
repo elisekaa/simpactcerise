@@ -19,7 +19,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
-#include <stdio.h>
+#include <cstdio>
 
 using namespace std;
 
@@ -60,7 +60,7 @@ int real_main(int argc, char** argv)
         bool           parallel    = (intParallel == 1);
         std::string    algo(argv[3]);
         ConfigSettings config;
-        bool_t         r;
+        ExitStatus         r;
 
         if (!(r = config.load(confFileName))) {
                 cerr << "Error loading configuration file " << confFileName << endl;
@@ -79,8 +79,8 @@ int real_main(int argc, char** argv)
                 return -1;
         }
 
-        PopulationAlgorithmInterface* pAlgo  = 0;
-        PopulationStateInterface*     pState = 0;
+        PopulationAlgorithmInterface* pAlgo  = nullptr;
+        PopulationStateInterface*     pState = nullptr;
 
         if (!(r = PopulationUtil::selectAlgorithmAndState(algo, rng, parallel, &pAlgo, &pState))) {
                 cerr << r.getErrorString() << endl;
@@ -190,16 +190,13 @@ void logAllPersons(SimpactPopulation& pop)
 
         for (int i = 0; i < numPeople; i++) {
                 Person* pPerson = ppPersons[i];
-
                 pPerson->writeToPersonLog();
                 if (pPerson->hiv().isInfected() && pPerson->hiv().hasLoweredViralLoad())
                         pPerson->writeToTreatmentLog(infinity, false);
         }
 
-        // deceased
         numPeople = pop.getNumberOfDeceasedPeople();
         ppPersons = pop.getDeceasedPeople();
-
         for (int i = 0; i < numPeople; i++)
                 ppPersons[i]->writeToPersonLog();
 }
@@ -211,7 +208,6 @@ void logInitialLocations(SimpactPopulation& pop)
 
         for (int i = 0; i < numPeople; i++) {
                 Person* pPerson = ppPersons[i];
-
                 pPerson->writeToLocationLog(0); // 0 for the start time of the simulation
         }
 }

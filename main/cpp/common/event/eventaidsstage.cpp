@@ -111,7 +111,7 @@ double EventAIDSStage::m_relativeFinalTime = -1;
 
 void EventAIDSStage::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("aidsstage.final", m_relativeFinalTime, 0)) ||
             !(r = config.getKeyValue("aidsstage.start", m_relativeStartTime, m_relativeFinalTime)))
@@ -120,7 +120,7 @@ void EventAIDSStage::processConfig(ConfigSettings& config, GslRandomNumberGenera
 
 void EventAIDSStage::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("aidsstage.final", m_relativeFinalTime)) ||
             !(r = config.addKey("aidsstage.start", m_relativeStartTime)))

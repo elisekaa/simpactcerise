@@ -6,7 +6,7 @@
  * \file csvfile.h
  */
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include <vector>
 
 /** This is a helper class for reading CSV files, which are assumed to hold numbers.
@@ -36,7 +36,7 @@ public:
         virtual ~CSVFile();
 
         /** Try to load the specified file, setting the error string if failed. */
-        bool_t load(const std::string& fileName);
+        ExitStatus load(const std::string& fileName);
 
         /** Returns the number of columns in the loaded file. */
         int getNumberOfColumns();

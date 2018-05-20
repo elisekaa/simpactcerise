@@ -5,6 +5,7 @@
 #include "hazardfunctionformationagegap.h"
 #include "hazardfunctionformationsimple.h"
 #include "pop/simpactpopulation.h"
+
 #include <cmath>
 #include <iostream>
 
@@ -30,15 +31,6 @@ void runHazardTest(HazardFunction& h, const string& name, GslRandomNumberGenerat
 
         UniformDistribution tDist(0, 50, &rndGen);
         UniformDistribution dtDist(0, 10, &rndGen);
-
-        /*
-        cout << endl << endl << endl;
-
-        for (double t = -150.0 ; t < 150.0 ; t++)
-        {
-                cout << t << " " << h.evaluate(t) << endl;
-        }
-        */
 
         for (int i = 0; i < N; i++) {
                 double t0 = tDist.pickNumber();

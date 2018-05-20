@@ -106,7 +106,7 @@ public:
 
         /** In case the program is compiled in debug mode, setting this flag will enable
          *  double checking of the mapping between \f$ \Delta T \f$ and \f$ \Delta t \f$. */
-        static bool_t setCheckInverse(bool check);
+        static ExitStatus setCheckInverse(bool check);
 
 protected:
         /** This function will be called to generate a new internal time difference.

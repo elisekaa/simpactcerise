@@ -68,7 +68,7 @@ double EventCheckStopAlgorithm::s_maxPopSize     = 0;
 
 void EventCheckStopAlgorithm::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.getKeyValue("checkstop.interval", s_interval)) ||
             !(r = config.getKeyValue("checkstop.max.runtime", s_maxRunningTime)) ||
@@ -86,7 +86,7 @@ void EventCheckStopAlgorithm::processConfig(ConfigSettings& config, GslRandomNum
 
 void EventCheckStopAlgorithm::obtainConfig(ConfigWriter& config)
 {
-        bool_t r;
+        ExitStatus r;
 
         if (!(r = config.addKey("checkstop.interval", s_interval)) ||
             !(r = config.addKey("checkstop.max.runtime", s_maxRunningTime)) ||

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-bool_t PopulationUtil::selectAlgorithmAndState(const string& algo, GslRandomNumberGenerator& rng, bool parallel,
+ExitStatus PopulationUtil::selectAlgorithmAndState(const string& algo, GslRandomNumberGenerator& rng, bool parallel,
                                                PopulationAlgorithmInterface** ppAlgo,
                                                PopulationStateInterface**     ppState)
 {
@@ -17,25 +17,25 @@ bool_t PopulationUtil::selectAlgorithmAndState(const string& algo, GslRandomNumb
                 {
                         // TODO: figure out how to get this to work better in this algorithm
                         // Event::setCheckInverse(true); // Only does something in release mode
-                        PopulationStateTesting* pPopState = new PopulationStateTesting();
+                        auto pPopState = new PopulationStateTesting();
                         *ppState                          = pPopState;
                         *ppAlgo                           = new PopulationAlgorithmTesting(*pPopState, rng, parallel);
                 } else {
                         // TODO: figure out how to get this to work better in this algorithm
                         // Event::setCheckInverse(true); // Only does something in release mode
-                        PopulationStateAdvanced* pPopState = new PopulationStateAdvanced();
+                        auto pPopState = new PopulationStateAdvanced();
                         *ppState                           = pPopState;
                         *ppAlgo                            = new PopulationAlgorithmAdvanced(*pPopState, rng, parallel);
                 }
         } else if (algo == "simple") {
                 Event::setCheckInverse(true); // Only does something in release mode
-                PopulationStateSimple* pPopState = new PopulationStateSimple();
+                auto pPopState = new PopulationStateSimple();
                 *ppState                         = pPopState;
                 *ppAlgo                          = new PopulationAlgorithmSimple(*pPopState, rng, parallel);
         } else
-                return "Invalid algorithm: " + algo;
+                return ExitStatus("Invalid algorithm: " + algo);
 
-        bool_t r = (*ppAlgo)->init();
+        ExitStatus r = (*ppAlgo)->init();
         if (!r) {
                 delete *ppState;
                 delete *ppAlgo;
@@ -44,5 +44,5 @@ bool_t PopulationUtil::selectAlgorithmAndState(const string& algo, GslRandomNumb
                 return r;
         }
 
-        return true;
+        return ExitStatus(true);
 }

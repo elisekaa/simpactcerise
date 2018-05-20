@@ -58,10 +58,10 @@ SimpactPopulation::SimpactPopulation(PopulationAlgorithmInterface& alg, Populati
 
 SimpactPopulation::~SimpactPopulation() { delete m_pCoarseMap; }
 
-bool_t SimpactPopulation::init(const SimpactPopulationConfig& config, const PopulationDistribution& popDist)
+ExitStatus SimpactPopulation::init(const SimpactPopulationConfig& config, const PopulationDistribution& popDist)
 {
         if (m_init)
-                return "Population is already initialized";
+                return ExitStatus("Population is already initialized");
 
         double eyeCapsFraction = config.getEyeCapsFraction();
         assert(eyeCapsFraction >= 0 && eyeCapsFraction <= 1.0);
@@ -69,7 +69,7 @@ bool_t SimpactPopulation::init(const SimpactPopulationConfig& config, const Popu
         m_eyeCapsFraction = eyeCapsFraction;
         m_msm             = config.getMSM();
 
-        bool_t r;
+        ExitStatus r;
         if (!(r = createInitialPopulation(config, popDist)))
                 return r;
 
@@ -77,10 +77,10 @@ bool_t SimpactPopulation::init(const SimpactPopulationConfig& config, const Popu
                 return r;
 
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t SimpactPopulation::createInitialPopulation(const SimpactPopulationConfig& config,
+ExitStatus SimpactPopulation::createInitialPopulation(const SimpactPopulationConfig& config,
                                                   const PopulationDistribution&  popDist)
 {
         assert(m_pCoarseMap == 0);
@@ -99,40 +99,33 @@ bool_t SimpactPopulation::createInitialPopulation(const SimpactPopulationConfig&
 
         int numMen   = config.getInitialMen();
         int numWomen = config.getInitialWomen();
-
         if (numMen < 0 || numWomen < 0)
-                return "The number of men and women must be at least zero";
+                return ExitStatus("The number of men and women must be at least zero");
 
         // Time zero is at the start of the simulation, so the birth dates are negative
-
         for (int i = 0; i < numMen; i++) {
                 double age = popDist.pickAge(true);
-
                 Person* pPerson = new Man(-age);
-
                 if (age > EventDebut::getDebutAge())
                         pPerson->setSexuallyActive(0);
-
                 addNewPerson(pPerson);
         }
 
         for (int i = 0; i < numWomen; i++) {
                 double age = popDist.pickAge(false);
-
                 Person* pPerson = new Woman(-age);
                 if (age > EventDebut::getDebutAge())
                         pPerson->setSexuallyActive(0);
-
                 addNewPerson(pPerson);
         }
 
         // m_initialPopulationSize = numMen + numWomen;
         setLastKnownPopulationSize();
 
-        return true;
+        return ExitStatus(true);
 }
 
-bool_t SimpactPopulation::scheduleInitialEvents()
+ExitStatus SimpactPopulation::scheduleInitialEvents()
 {
         int numMen    = getNumberOfMen();
         int numWomen  = getNumberOfWomen();
@@ -235,19 +228,15 @@ bool_t SimpactPopulation::scheduleInitialEvents()
                 }
         }
 
-        return true;
+        return ExitStatus(true);
 }
 
 void SimpactPopulation::onAboutToFire(PopulationEvent* pEvt)
 {
-        SimpactEvent* pEvent = static_cast<SimpactEvent*>(pEvt);
+        auto pEvent = static_cast<SimpactEvent*>(pEvt);
         assert(pEvent != 0);
-
         double t = getTime();
         assert(t >= 0);
-
-        //	std::cout << t << "\t" << pEvent->getDescription(t) << std::endl;
-
         pEvent->writeLogs(*this, t);
 }
 
@@ -266,11 +255,9 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                 if (!relocation) {
                         if (pPerson->getGender() == Person::Male) {
                                 Man* pMan = MAN(pPerson);
-
                                 if (!initializationPhase) {
                                         Woman** ppWomen  = getWomen();
                                         int     numWomen = getNumberOfWomen();
-
                                         for (int i = 0; i < numWomen; i++) {
                                                 Woman* pWoman = ppWomen[i];
 
@@ -287,18 +274,14 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                 if (m_msm) {
                                         Man** ppMen  = getMen();
                                         int   numMen = getNumberOfMen();
-
                                         for (int i = 0; i < numMen; i++) {
                                                 Man* pMan2 = ppMen[i];
-
                                                 if (pMan != pMan2 && pMan2->isSexuallyActive() &&
                                                     pMan2->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
                                                         if (initializationPhase &&
                                                             pMan->getPersonID() > pMan2->getPersonID())
                                                                 continue;
-
                                                         EventFormation* pEvt = 0;
-
                                                         // TODO: is this ordering really useful for something?
                                                         if (pMan->getPersonID() < pMan2->getPersonID())
                                                                 pEvt = new EventFormation(pMan, pMan2, -1, tNow);
@@ -314,10 +297,8 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                 Woman* pWoman = WOMAN(pPerson);
                                 Man**  ppMen  = getMen();
                                 int    numMen = getNumberOfMen();
-
                                 for (int i = 0; i < numMen; i++) {
                                         Man* pMan = ppMen[i];
-
                                         if (pMan->isSexuallyActive() &&
                                             pMan->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
                                                 EventFormation* pEvt = new EventFormation(pMan, pWoman, -1, tNow);
@@ -404,29 +385,23 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                 {
                         Woman* pWoman = WOMAN(pPerson);
                         int    numMen = getNumberOfMen();
-
                         int numInterests = (int)pRngGen->pickBinomialNumber(m_eyeCapsFraction, numMen);
                         interests.resize(numInterests);
-
                         getInterestsForPerson(pWoman, interests, interestsMSM);
-
                         for (int i = 0; i < numInterests; i++) {
                                 Person* pMan = interests[i];
                                 assert(pMan->isMan());
-
                                 if (pMan->isSexuallyActive() &&
                                     pMan->hiv().getInfectionStage() != Person_HIV::AIDSFinal)
                                         pWoman->addPersonOfInterest(pMan);
                         }
-
                         numInterests = pWoman->getNumberOfPersonsOfInterest();
 
                         for (int i = 0; i < numInterests; i++) {
                                 Person* pPoi = pWoman->getPersonOfInterest(i);
-
                                 // TODO: it's possible that even after a relocation the same partner will still
                                 //       be chosen. At the moment this is ignored by using the parameter -1 here
-                                EventFormation* pEvt = new EventFormation(pPoi, pWoman, -1, tNow);
+                                auto pEvt = new EventFormation(pPoi, pWoman, -1, tNow);
                                 onNewEvent(pEvt);
                         }
                 }
@@ -438,7 +413,6 @@ void SimpactPopulation::getInterestsForPerson(const Person* pPerson, vector<Pers
                                               vector<Person*>& interestsMSM)
 {
         assert(pPerson);
-
         if (m_pCoarseMap == 0) // old behaviour, just random
         {
                 GslRandomNumberGenerator* pRngGen      = getRandomNumberGenerator();
@@ -452,18 +426,15 @@ void SimpactPopulation::getInterestsForPerson(const Person* pPerson, vector<Pers
                         for (int i = 0; i < numInterests; i++) {
                                 int idx = (int)(pRngGen->pickRandomDouble() * (double)numWomen);
                                 assert(idx >= 0 && idx < numWomen);
-
                                 Woman* pWoman = ppWomen[idx];
                                 interests[i]  = pWoman;
                         }
 
                         // MSM
                         int numInterestsMSM = interestsMSM.size();
-
                         for (int i = 0; i < numInterestsMSM; i++) {
                                 int idx = (int)(pRngGen->pickRandomDouble() * (double)numMen);
                                 assert(idx >= 0 && idx < numMen);
-
                                 // In principle it's possible that we're interested in ourselves, but this will
                                 // be filtered later on. At this point it's important that we set all entries
                                 // of the interestsMSM vector
@@ -475,7 +446,6 @@ void SimpactPopulation::getInterestsForPerson(const Person* pPerson, vector<Pers
                         for (int i = 0; i < numInterests; i++) {
                                 int idx = (int)(pRngGen->pickRandomDouble() * (double)numMen);
                                 assert(idx >= 0 && idx < numMen);
-
                                 Man* pMan    = ppMen[idx];
                                 interests[i] = pMan;
                         }
@@ -483,11 +453,8 @@ void SimpactPopulation::getInterestsForPerson(const Person* pPerson, vector<Pers
         } else // new behavour, use the coarse map to roughly sort people on distance
         {
                 assert(m_pCoarseMap);
-
                 vector<CoarseMapCell*> cells;
-
                 m_pCoarseMap->getDistanceOrderedCells(cells, pPerson->getLocation());
-
 #if 0
 		cout << "Location: " << pPerson->getLocation().x << " " << pPerson->getLocation().y << endl;
 		int totalPop = 0;
@@ -512,7 +479,6 @@ void SimpactPopulation::getInterestsForPerson(const Person* pPerson, vector<Pers
                                 CoarseMapCell* pCell = cells[cellPos];
                                 cellPos++;
                                 vector<Person*>& people = pCell->m_personsInCell;
-
                                 // For now we'll either add the entire cell or as many people as are still needed
                                 // I don't think adding just the first N people will matter (as opposed to choosing
                                 // people at random)

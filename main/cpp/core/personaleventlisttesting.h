@@ -2,9 +2,9 @@
 
 #define PERSONALEVENTLISTTESTING_H
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "populationevent.h"
-#include "populationinterfaces.h"
+#include "PersonAlgorithmInfo.h"
 #include <list>
 #include <set>
 #include <vector>

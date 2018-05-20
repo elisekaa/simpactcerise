@@ -48,12 +48,12 @@ void Event::fire(Algorithm* pAlgorithm, State* pState, double t)
         // test implementation: nothing happens
 }
 
-bool_t Event::setCheckInverse(bool check)
+ExitStatus Event::setCheckInverse(bool check)
 {
 #ifdef NDEBUG
         return "Double checking the time interval mapping is not supported in release mode";
 #else
         s_checkInverse = check;
-        return true;
+        return ExitStatus(true);
 #endif // NDEBUG
 }

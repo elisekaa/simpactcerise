@@ -1,6 +1,6 @@
 set(SRC
     algorithm.cpp
-    booltype.cpp
+    ExitStatus.cpp
     Event.cpp
     gslrandomnumbergenerator.cpp
     simplealgorithm.cpp

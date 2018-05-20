@@ -2,7 +2,7 @@
 
 #define DISCRETEDISTRIBUTIONWRAPPER2D_H
 
-#include "booltype.h"
+#include "ExitStatus.h"
 #include "discretedistribution2d.h"
 #include "probabilitydistribution2d.h"
 #include <limits>
@@ -14,7 +14,7 @@ public:
         DiscreteDistributionWrapper2D(GslRandomNumberGenerator* pRng);
         ~DiscreteDistributionWrapper2D();
 
-        bool_t init(const std::string& densFile, const std::string& maskFile, double xOffset, double yOffset,
+        ExitStatus init(const std::string& densFile, const std::string& maskFile, double xOffset, double yOffset,
                     double width, double height, bool flipY, bool floor);
 
         Point2D pickPoint() const;
@@ -33,7 +33,7 @@ public:
         bool        isFloored() const { return m_floor; }
 
 private:
-        static bool_t allocateGridFunction(const std::string& fileName, GridValues** pGf);
+        static ExitStatus allocateGridFunction(const std::string& fileName, GridValues** pGf);
 
         DiscreteDistribution2D* m_pDist;
         std::string             m_densFileName, m_maskFileName;

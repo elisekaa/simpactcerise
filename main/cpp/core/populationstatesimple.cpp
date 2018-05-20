@@ -1,17 +1,12 @@
 #include "populationstatesimple.h"
 
-PopulationStateSimple::PopulationStateSimple() { m_init = false; }
-
-PopulationStateSimple::~PopulationStateSimple() {}
-
-bool_t PopulationStateSimple::init()
+ExitStatus PopulationStateSimple::init()
 {
         if (m_init)
-                return "Already initialized";
+                return ExitStatus("Already initialized");
 
         assert(m_people.size() == 0);
         assert(m_deceasedPersons.size() == 0);
-
         m_numMen       = 0;
         m_numWomen     = 0;
         m_nextPersonID = 0;
@@ -21,17 +16,14 @@ bool_t PopulationStateSimple::init()
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
                 m_people[i] = new GlobalEventDummyPerson();
-
-                PersonAlgorithmInfoSimple* pInfo = new PersonAlgorithmInfoSimple();
+                auto pInfo = new PersonAlgorithmInfoSimple();
                 m_people[i]->setAlgorithmInfo(pInfo);
                 pInfo->setListIndex(i);
-
                 int64_t id = getNextPersonID();
                 m_people[i]->setPersonID(id);
         }
-
         m_init = true;
-        return true;
+        return ExitStatus(true);
 }
 
 int64_t PopulationStateSimple::getNextPersonID()
@@ -43,7 +35,7 @@ int64_t PopulationStateSimple::getNextPersonID()
 void PopulationStateSimple::setListIndex(PersonBase* pPerson, int idx)
 {
         assert(pPerson);
-        PersonAlgorithmInfoSimple* pInfo = static_cast<PersonAlgorithmInfoSimple*>(pPerson->getAlgorithmInfo());
+        auto pInfo = dynamic_cast<PersonAlgorithmInfoSimple*>(pPerson->getAlgorithmInfo());
         assert(pInfo);
         pInfo->setListIndex(idx);
 }
@@ -51,13 +43,13 @@ void PopulationStateSimple::setListIndex(PersonBase* pPerson, int idx)
 int PopulationStateSimple::getListIndex(PersonBase* pPerson)
 {
         assert(pPerson);
-        PersonAlgorithmInfoSimple* pInfo = static_cast<PersonAlgorithmInfoSimple*>(pPerson->getAlgorithmInfo());
+        auto pInfo = dynamic_cast<PersonAlgorithmInfoSimple*>(pPerson->getAlgorithmInfo());
         assert(pInfo);
         return pInfo->getListIndex();
 }
 
 void PopulationStateSimple::addAlgorithmInfo(PersonBase* pPerson)
 {
-        PersonAlgorithmInfo* pInfo = new PersonAlgorithmInfo();
+        auto pInfo = new PersonAlgorithmInfo();
         pPerson->setAlgorithmInfo(pInfo);
 }
