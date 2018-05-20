@@ -42,8 +42,8 @@ set(SRC
     evthazardformationagegap.cpp
     evthazardformationagegaprefyear.cpp
     evthazardformationsimple.cpp
-    hazardfunctionformationagegap.cpp
-    hazardfunctionformationagegaprefyear.cpp
+    HazardFormationAgeGap.cpp
+    HazardFormationAgeGapRefYear.cpp
     HazardFormationSimple.cpp
     logsystem.cpp
     #main.cpp

@@ -1,10 +1,10 @@
 #include "HazardExp.h"
+#include "HazardFormationAgeGap.h"
+#include "HazardFormationSimple.h"
 #include "TimeLimitedHazard.h"
 #include "distribution/uniformdistribution.h"
 #include "event/eventdiagnosis.h"
 #include "gslrandomnumbergenerator.h"
-#include "hazardfunctionformationagegap.h"
-#include "HazardFormationSimple.h"
 #include "pop/simpactpopulation.h"
 
 #include <cmath>
@@ -81,15 +81,14 @@ void runHazardTests(SimpactPopulation& pop)
 
                 {
                         HazardFormationSimple h0(pMan, pWoman, 0, 0, 0, 0, 0, -0.1, 0, 5, -1.0);
-                        TimeLimitedHazard             h(h0, 80);
+                        TimeLimitedHazard     h(h0, 80);
                         runHazardTest(h, "HazardFormationSimple", rndGen);
                 }
 
                 {
-                        HazardFunctionFormationAgeGap h0(pMan, pWoman, 0, 0, 0, 0, 0, 0, -0.1, -0.1, -0.05, -0.1, 0,
-                                                         false);
-                        TimeLimitedHazard             h(h0, 120);
-                        runHazardTest(h, "HazardFunctionFormationAgeGap", rndGen);
+                        HazardFormationAgeGap h0(pMan, pWoman, 0, 0, 0, 0, 0, 0, -0.1, -0.1, -0.05, -0.1, 0, false);
+                        TimeLimitedHazard     h(h0, 120);
+                        runHazardTest(h, "HazardFormationAgeGap", rndGen);
                 }
         }
 

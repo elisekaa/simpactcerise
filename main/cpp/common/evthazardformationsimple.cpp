@@ -1,9 +1,9 @@
 #include "evthazardformationsimple.h"
+#include "HazardFormationSimple.h"
 #include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventformation.h"
-#include "HazardFormationSimple.h"
 #include "jsonconfig.h"
 
 #include <algorithm>
@@ -20,8 +20,7 @@ EvtHazardFormationSimple::EvtHazardFormationSimple(const string& hazName, bool m
                                                    double Dp, double b, double tMax)
     : EvtHazard(hazName)
 {
-        m_msm = msm;
-
+        m_msm   = msm;
         m_a0    = a0;
         m_a1    = a1;
         m_a2    = a2;
@@ -36,86 +35,65 @@ EvtHazardFormationSimple::EvtHazardFormationSimple(const string& hazName, bool m
         m_tMax  = tMax;
 }
 
-EvtHazardFormationSimple::~EvtHazardFormationSimple() {}
-
 double EvtHazardFormationSimple::getTMax(Person* pPerson1, Person* pPerson2)
 {
         assert(pPerson1 != 0 && pPerson2 != 0);
-
-        double tb1 = pPerson1->getDateOfBirth();
-        double tb2 = pPerson2->getDateOfBirth();
-
+        double tb1  = pPerson1->getDateOfBirth();
+        double tb2  = pPerson2->getDateOfBirth();
         double tMax = tb1;
-
         if (tb2 < tMax)
                 tMax = tb2;
-
         assert(m_tMax > 0);
         tMax += m_tMax;
-
         return tMax;
 }
 
 double EvtHazardFormationSimple::calculateInternalTimeInterval(const SimpactPopulation& population,
                                                                const SimpactEvent& event, double t0, double dt)
 {
-        Person* pPerson1 = event.getPerson(0);
-        Person* pPerson2 = event.getPerson(1);
-
-        double tMax = getTMax(pPerson1, pPerson2);
-
-        const auto& eventFormation = static_cast<const EventFormation&>(event);
-        double      lastDissTime   = eventFormation.getLastDissolutionTime();
-
-        double a0 = getA0(population, pPerson1, pPerson2);
-        double tr = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
+        Person*     pPerson1     = event.getPerson(0);
+        Person*     pPerson2     = event.getPerson(1);
+        double      tMax         = getTMax(pPerson1, pPerson2);
+        const auto& ef           = dynamic_cast<const EventFormation&>(event);
+        double      lastDissTime = ef.getLastDissolutionTime();
+        double      a0           = getA0(population, pPerson1, pPerson2);
+        double      tr           = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
         HazardFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazard             h(h0, tMax);
-
+        TimeLimitedHazard     h(h0, tMax);
         return h.calculateInternalTimeInterval(t0, dt);
-
-        // return ExponentialHazardToInternalTime(pPerson1, pPerson2, t0, dt, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5,
-        // m_Dp, m_b, true, tMax);
 }
 
 double EvtHazardFormationSimple::solveForRealTimeInterval(const SimpactPopulation& population,
                                                           const SimpactEvent& event, double Tdiff, double t0)
 {
-        Person* pPerson1 = event.getPerson(0);
-        Person* pPerson2 = event.getPerson(1);
-
-        double tMax = getTMax(pPerson1, pPerson2);
-
-        const auto& eventFormation = static_cast<const EventFormation&>(event);
-        double      lastDissTime   = eventFormation.getLastDissolutionTime();
-
-        double a0 = getA0(population, pPerson1, pPerson2);
-        double tr = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
+        Person*     pPerson1     = event.getPerson(0);
+        Person*     pPerson2     = event.getPerson(1);
+        double      tMax         = getTMax(pPerson1, pPerson2);
+        const auto& ef           = dynamic_cast<const EventFormation&>(event);
+        double      lastDissTime = ef.getLastDissolutionTime();
+        double      a0           = getA0(population, pPerson1, pPerson2);
+        double      tr           = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
         HazardFormationSimple h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazard             h(h0, tMax);
-
+        TimeLimitedHazard     h(h0, tMax);
         return h.solveForRealTimeInterval(t0, Tdiff);
-        // return ExponentialHazardToRealTime(pPerson1, pPerson2, t0, Tdiff, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp,
-        // m_b, true, tMax);
 }
 
 double EvtHazardFormationSimple::getA0(const SimpactPopulation& population, Person* pPerson1, Person* pPerson2)
 {
-        double lastKnownPopSizeTime = 0;
-        double n                    = population.getLastKnownPopulationSize(lastKnownPopSizeTime);
-        double a0i                  = pPerson1->getFormationEagernessParameter();
-        double a0j                  = pPerson2->getFormationEagernessParameter();
-        double a0_base              = m_a0 + (a0i + a0j) * m_a6 * std::abs(a0i - a0j) * m_a7;
+        double lastPopSizeTime = 0;
+        double n               = population.getLastKnownPopulationSize(lastPopSizeTime);
+        double a0i             = pPerson1->getFormationEagernessParameter();
+        double a0j             = pPerson2->getFormationEagernessParameter();
+        double a0_base         = m_a0 + (a0i + a0j) * m_a6 * std::abs(a0i - a0j) * m_a7;
         a0_base += m_aDist * pPerson1->getDistanceTo(pPerson2);
 
         double eyeCapsFraction = population.getEyeCapsFraction();
         // reduces to old code if eyeCapsFraction == 1
-        double a0_total =
-            a0_base - std::log((n / 2.0) * eyeCapsFraction); // log(x/(n/2)) = log(x) - log(n/2) = a0_base - log(n/2)
+        double a0_total = a0_base - std::log((n / 2.0) * eyeCapsFraction);
 
         return a0_total;
 }
@@ -126,18 +104,12 @@ double EvtHazardFormationSimple::getTr(const SimpactPopulation& population, Pers
         double tr  = lastDissTime;
         double tBi = pPerson1->getDateOfBirth();
         double tBj = pPerson2->getDateOfBirth();
-
-        if (tr < 0) // did not have a relationship before, use
-        {
+        if (tr < 0) { // did not have a relationship before, use
                 // get time at which both persons became 15 years (or in general, the debut age) old
                 double t1 = tBi + EventDebut::getDebutAge();
                 double t2 = tBj + EventDebut::getDebutAge();
-
-                tr = std::max(t1, t2);
-
-                assert(
-                    t0 - tr >
-                    -1e-10); // something slightly negative is possible due to finite precision and error accumulation
+                tr        = std::max(t1, t2);
+                assert(t0 - tr > -1.0e-10); // slightly negative ok due to finite precision and error
         }
 
         return tr;

@@ -1,14 +1,13 @@
-#include "hazardfunctionformationagegap.h"
+#include "HazardFormationAgeGap.h"
 #include "HazardFormationSimple.h"
 #include <assert.h>
 #include <iostream>
 
 using namespace std;
 
-HazardFunctionFormationAgeGap::HazardFunctionFormationAgeGap(const Person* pPerson1, const Person* pPerson2, double tr,
-                                                             double a0, double a1, double a2, double a3, double a4,
-                                                             double a5, double a8, double a9, double a10, double b,
-                                                             bool msm)
+HazardFormationAgeGap::HazardFormationAgeGap(const Person* pPerson1, const Person* pPerson2, double tr, double a0,
+                                             double a1, double a2, double a3, double a4, double a5, double a8,
+                                             double a9, double a10, double b, bool msm)
     : m_pPerson1(pPerson1), m_pPerson2(pPerson2), m_tr(tr), m_a0(a0), m_a1(a1), m_a2(a2), m_a3(a3), m_a4(a4), m_a5(a5),
       m_a8(a8), m_a9(a9), m_a10(getA10(msm, a10)), m_b(b), m_msm(msm)
 {
@@ -16,9 +15,9 @@ HazardFunctionFormationAgeGap::HazardFunctionFormationAgeGap(const Person* pPers
                (msm && (pPerson1->isMan() && pPerson2->isMan())));
 }
 
-HazardFunctionFormationAgeGap::~HazardFunctionFormationAgeGap() {}
+HazardFormationAgeGap::~HazardFormationAgeGap() {}
 
-double HazardFunctionFormationAgeGap::evaluate(double t)
+double HazardFormationAgeGap::evaluate(double t)
 {
         double Pi  = m_pPerson1->getNumberOfRelationships();
         double Pj  = m_pPerson2->getNumberOfRelationships();
@@ -33,7 +32,7 @@ double HazardFunctionFormationAgeGap::evaluate(double t)
                         m_a9 * std::abs((m_a10 + 1.0) * tBj - tBi - Dpj - m_a10 * t) + m_b * (t - m_tr));
 }
 
-double HazardFunctionFormationAgeGap::calculateInternalTimeInterval(double t0, double dt)
+double HazardFormationAgeGap::calculateInternalTimeInterval(double t0, double dt)
 {
         if (m_a8 == 0 && m_a10 == 0) {
                 double a0  = m_a0; // we'll be adding some things to this constant term
@@ -46,8 +45,8 @@ double HazardFunctionFormationAgeGap::calculateInternalTimeInterval(double t0, d
                 a0 += m_a5 * std::abs(tBj - tBi - Dpi);
                 a0 += m_a9 * std::abs(tBj - tBi - Dpj);
 
-                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
-                                                m_a3, m_a4, 0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
+                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2, m_a3, m_a4,
+                                        0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
 
                 return h.calculateInternalTimeInterval(t0, dt);
         }
@@ -140,7 +139,7 @@ double HazardFunctionFormationAgeGap::calculateInternalTimeInterval(double t0, d
                calculateIntegral(tp2, dt - (tp2 - t0), E3, F3);
 }
 
-double HazardFunctionFormationAgeGap::solveForRealTimeInterval(double t0, double Tdiff)
+double HazardFormationAgeGap::solveForRealTimeInterval(double t0, double Tdiff)
 {
         if (m_a8 == 0 && m_a10 == 0) {
                 double a0  = m_a0; // we'll be adding some things to this constant term
@@ -153,8 +152,8 @@ double HazardFunctionFormationAgeGap::solveForRealTimeInterval(double t0, double
                 a0 += m_a5 * std::abs(tBj - tBi - Dpi);
                 a0 += m_a9 * std::abs(tBj - tBi - Dpj);
 
-                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2,
-                                                m_a3, m_a4, 0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
+                HazardFormationSimple h(m_pPerson1, m_pPerson2, m_tr, a0 /* modified m_a0 !! */, m_a1, m_a2, m_a3, m_a4,
+                                        0 /* we've added the a5 part to a0 */, 0 /* same */, m_b);
 
                 return h.solveForRealTimeInterval(t0, Tdiff);
         }

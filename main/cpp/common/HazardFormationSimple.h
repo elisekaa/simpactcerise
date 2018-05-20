@@ -10,17 +10,17 @@ class HazardFormationSimple : public Hazard
 public:
         ///
         HazardFormationSimple(const Person* pPerson1, const Person* pPerson2, double tr, double a0, double a1,
-                                      double a2, double a3, double a4, double a5, double Dp, double b);
-        
+                              double a2, double a3, double a4, double a5, double Dp, double b);
+
         ///
         ~HazardFormationSimple() override = default;
 
         ///
         double evaluate(double t) override;
-        
+
         ///
         double calculateInternalTimeInterval(double t0, double dt) override;
-        
+
         ///
         double solveForRealTimeInterval(double t0, double Tdiff) override;
 
@@ -64,4 +64,3 @@ inline double HazardFormationSimple::getE(double t0) const
                             m_a5 * std::abs(-tBi + tBj - m_Dp) + m_b * (t0 - m_tr));
         return E;
 }
-

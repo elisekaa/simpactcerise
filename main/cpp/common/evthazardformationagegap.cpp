@@ -1,9 +1,9 @@
 #include "evthazardformationagegap.h"
+#include "HazardFormationAgeGap.h"
 #include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventformation.h"
-#include "hazardfunctionformationagegap.h"
 #include "jsonconfig.h"
 
 #include <algorithm>
@@ -72,9 +72,9 @@ double EvtHazardFormationAgeGap::calculateInternalTimeInterval(const SimpactPopu
         double      tr             = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationAgeGap h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_a8, m_a9, m_a10,
-                                         m_b, m_msm);
-        TimeLimitedHazard             h(h0, tMax);
+        HazardFormationAgeGap h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_a8, m_a9, m_a10, m_b,
+                                 m_msm);
+        TimeLimitedHazard     h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -94,9 +94,9 @@ double EvtHazardFormationAgeGap::solveForRealTimeInterval(const SimpactPopulatio
         double tr = getTr(population, pPerson1, pPerson2, t0, lastDissTime);
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationAgeGap h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_a8, m_a9, m_a10,
-                                         m_b, m_msm);
-        TimeLimitedHazard             h(h0, tMax);
+        HazardFormationAgeGap h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_a8, m_a9, m_a10, m_b,
+                                 m_msm);
+        TimeLimitedHazard     h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }

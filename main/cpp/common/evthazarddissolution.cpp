@@ -1,9 +1,9 @@
 #include "evthazarddissolution.h"
+#include "HazardFormationSimple.h"
 #include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventdissolution.h"
-#include "HazardFormationSimple.h"
 #include "jsonconfig.h"
 
 #include <algorithm>
@@ -48,13 +48,13 @@ double EvtHazardDissolution::getTMax(Person* pPerson1, Person* pPerson2)
 double EvtHazardDissolution::calculateInternalTimeInterval(const SimpactPopulation& population,
                                                            const SimpactEvent& event, double t0, double dt)
 {
-        Person*                       pPerson1  = event.getPerson(0);
-        Person*                       pPerson2  = event.getPerson(1);
-        double                        tMax      = getTMax(pPerson1, pPerson2);
-        const auto&                   eventDiss = dynamic_cast<const EventDissolution&>(event);
-        double                        tr        = eventDiss.getFormationTime();
+        Person*               pPerson1  = event.getPerson(0);
+        Person*               pPerson2  = event.getPerson(1);
+        double                tMax      = getTMax(pPerson1, pPerson2);
+        const auto&           eventDiss = dynamic_cast<const EventDissolution&>(event);
+        double                tr        = eventDiss.getFormationTime();
         HazardFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazard             h(h0, tMax);
+        TimeLimitedHazard     h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -71,7 +71,7 @@ double EvtHazardDissolution::solveForRealTimeInterval(const SimpactPopulation& p
         double      tr        = eventDiss.getFormationTime();
 
         HazardFormationSimple h0(pPerson1, pPerson2, tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_Dp, m_b);
-        TimeLimitedHazard             h(h0, tMax);
+        TimeLimitedHazard     h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }

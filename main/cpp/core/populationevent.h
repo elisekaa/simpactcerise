@@ -5,7 +5,7 @@
  */
 
 #include "Event.h"
-#include "PersonBase.h"
+#include "personbase.h"
 
 #include <cassert>
 #include <cstdlib>

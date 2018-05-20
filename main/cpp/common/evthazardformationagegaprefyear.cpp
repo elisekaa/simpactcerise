@@ -1,9 +1,9 @@
 #include "evthazardformationagegaprefyear.h"
+#include "HazardFormationAgeGapRefYear.h"
 #include "TimeLimitedHazard.h"
 #include "configsettings.h"
 #include "event/eventdebut.h"
 #include "event/eventformation.h"
-#include "hazardfunctionformationagegaprefyear.h"
 #include "jsonconfig.h"
 
 #include <algorithm>
@@ -93,10 +93,10 @@ double EvtHazardFormationAgeGapRefYear::calculateInternalTimeInterval(const Simp
                     "EvtHazardFormationAgeGapRefYear: t0 - ageRefYear exceeds maximum specified difference (1)");
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationAgeGapRefYear h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a8, m_a10,
-                                                m_agfmConst, m_agfmExp, m_agfmAge, m_agfwConst, m_agfwExp, m_agfwAge,
-                                                m_numRelScaleMan, m_numRelScaleWoman, m_b, ageRefYear, m_msm);
-        TimeLimitedHazard                    h(h0, tMax);
+        HazardFormationAgeGapRefYear h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a8, m_a10, m_agfmConst,
+                                        m_agfmExp, m_agfmAge, m_agfwConst, m_agfwExp, m_agfwAge, m_numRelScaleMan,
+                                        m_numRelScaleWoman, m_b, ageRefYear, m_msm);
+        TimeLimitedHazard            h(h0, tMax);
 
         return h.calculateInternalTimeInterval(t0, dt);
 }
@@ -123,10 +123,10 @@ double EvtHazardFormationAgeGapRefYear::solveForRealTimeInterval(const SimpactPo
                     "EvtHazardFormationAgeGapRefYear: t0 - ageRefYear exceeds maximum specified difference (2)");
 
         // Note: we need to use a0 here, not m_a0
-        HazardFunctionFormationAgeGapRefYear h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a8, m_a10,
-                                                m_agfmConst, m_agfmExp, m_agfmAge, m_agfwConst, m_agfwExp, m_agfwAge,
-                                                m_numRelScaleMan, m_numRelScaleWoman, m_b, ageRefYear, m_msm);
-        TimeLimitedHazard                    h(h0, tMax);
+        HazardFormationAgeGapRefYear h0(pPerson1, pPerson2, tr, a0, m_a1, m_a2, m_a3, m_a4, m_a8, m_a10, m_agfmConst,
+                                        m_agfmExp, m_agfmAge, m_agfwConst, m_agfwExp, m_agfwAge, m_numRelScaleMan,
+                                        m_numRelScaleWoman, m_b, ageRefYear, m_msm);
+        TimeLimitedHazard            h(h0, tMax);
 
         return h.solveForRealTimeInterval(t0, Tdiff);
 }

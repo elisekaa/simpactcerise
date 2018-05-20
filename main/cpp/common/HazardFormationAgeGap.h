@@ -1,23 +1,30 @@
-#ifndef HAZARDFUNCTIONFORMATIONAGEGAP_H
-
-#define HAZARDFUNCTIONFORMATIONAGEGAP_H
+#pragma once
 
 #include "Hazard.h"
 #include "pop/person.h"
-#include <assert.h>
+
+#include <cassert>
 #include <cmath>
 
-class HazardFunctionFormationAgeGap : public Hazard
+class HazardFormationAgeGap : public Hazard
 {
 public:
-        HazardFunctionFormationAgeGap(const Person* pPerson1, const Person* pPerson2, double tr, double a0, double a1,
-                                      double a2, double a3, double a4, double a5, double a8, double a9, double a10,
-                                      double b, bool msm);
-        ~HazardFunctionFormationAgeGap();
+        ///
+        HazardFormationAgeGap(const Person* pPerson1, const Person* pPerson2, double tr, double a0, double a1,
+                              double a2, double a3, double a4, double a5, double a8, double a9, double a10, double b,
+                              bool msm);
 
-        double evaluate(double t);
-        double calculateInternalTimeInterval(double t0, double dt);
-        double solveForRealTimeInterval(double t0, double Tdiff);
+        ///
+        ~HazardFormationAgeGap() override;
+
+        ///
+        double evaluate(double t) override;
+
+        ///
+        double calculateInternalTimeInterval(double t0, double dt) override;
+
+        ///
+        double solveForRealTimeInterval(double t0, double Tdiff) override;
 
 private:
         void          getTippingPoints(double& t1, double& t2, double& B, double& C, double& D);
@@ -28,6 +35,7 @@ private:
         static void   getPreferredAgeDifferences(bool msm, const Person* pPerson1, const Person* pPerson2, double& Dpi,
                                                  double& Dpj);
 
+private:
         const Person* m_pPerson1;
         const Person* m_pPerson2;
         const double  m_tr, m_a0, m_a1, m_a2, m_a3, m_a4, m_a5, m_a8, m_a9, m_a10, m_b;
@@ -35,33 +43,25 @@ private:
 };
 
 // Sign change for MSM, to be able to use the old hazard code
-inline double HazardFunctionFormationAgeGap::getA10(bool msm, double a10)
-{
-        if (msm)
-                return -a10;
-        return a10;
-}
+inline double HazardFormationAgeGap::getA10(bool msm, double a10) { return (msm) ? -a10 : a10; }
 
 // Sign change for MSM, to be able to use the old hazard code
-inline void HazardFunctionFormationAgeGap::getPreferredAgeDifferences(bool msm, const Person* pPerson1,
-                                                                      const Person* pPerson2, double& Dpi, double& Dpj)
+inline void HazardFormationAgeGap::getPreferredAgeDifferences(bool msm, const Person* pPerson1, const Person* pPerson2,
+                                                              double& Dpi, double& Dpj)
 {
         assert(pPerson1 && pPerson2);
-
         if (msm) {
                 assert(pPerson1->isMan() && pPerson2->isMan());
-
                 Dpi = pPerson1->getPreferredAgeDifferenceMSM();
                 Dpj = -pPerson2->getPreferredAgeDifferenceMSM(); // sign change to be able to use the same hazard code
         } else {
                 assert(pPerson1->isMan() && pPerson2->isWoman());
-
                 Dpi = pPerson1->getPreferredAgeDifference();
                 Dpj = pPerson2->getPreferredAgeDifference();
         }
 }
 
-inline void HazardFunctionFormationAgeGap::getTippingPoints(double& t1, double& t2, double& B, double& C, double& D)
+inline void HazardFormationAgeGap::getTippingPoints(double& t1, double& t2, double& B, double& C, double& D)
 {
         double Pi  = m_pPerson1->getNumberOfRelationships();
         double Pj  = m_pPerson2->getNumberOfRelationships();
@@ -96,7 +96,7 @@ inline void HazardFunctionFormationAgeGap::getTippingPoints(double& t1, double& 
         }
 }
 
-inline void HazardFunctionFormationAgeGap::getEFValues(double t, double B, double C, double D, double& E, double& F)
+inline void HazardFormationAgeGap::getEFValues(double t, double B, double C, double D, double& E, double& F)
 {
         double a8t  = m_a8 * t;
         double a10t = m_a10 * t;
@@ -120,28 +120,12 @@ inline void HazardFunctionFormationAgeGap::getEFValues(double t, double B, doubl
         }
 }
 
-inline double HazardFunctionFormationAgeGap::calculateIntegral(double t0, double dt, double E, double F)
+inline double HazardFormationAgeGap::calculateIntegral(double t0, double dt, double E, double F)
 {
-        double dT = 0;
-
-        if (F == 0)
-                dT = std::exp(E) * dt;
-        else
-                dT = std::exp(E + F * t0) * (std::exp(F * dt) - 1.0) / F;
-
-        return dT;
+        return (F == 0) ? std::exp(E) * dt : std::exp(E + F * t0) * (std::exp(F * dt) - 1.0) / F;
 }
 
-inline double HazardFunctionFormationAgeGap::solveIntegral(double t0, double Tdiff, double E, double F)
+inline double HazardFormationAgeGap::solveIntegral(double t0, double Tdiff, double E, double F)
 {
-        double dt = 0;
-
-        if (F == 0)
-                dt = Tdiff / std::exp(E);
-        else
-                dt = 1.0 / F * std::log(F * Tdiff / std::exp(E + F * t0) + 1.0);
-
-        return dt;
+        return (F == 0) ? Tdiff / std::exp(E) : 1.0 / F * std::log(F * Tdiff / std::exp(E + F * t0) + 1.0);
 }
-
-#endif // HAZARDFUNCTIONFORMATIONAGEGAP2_H
