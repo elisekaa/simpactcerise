@@ -22,7 +22,7 @@ EventHIVTransmission::EventHIVTransmission(Person* pPerson1, Person* pPerson2) :
         assert(pPerson1->hiv().isInfected() && !pPerson2->hiv().isInfected());
 
         // Person one must not be in the _final_ AIDS stage yet
-        assert(pPerson1->hiv().getInfectionStage() != Person_HIV::AIDSFinal);
+        assert(pPerson1->hiv().getInfectionStage() != PersonHIV::AIDSFinal);
 }
 
 EventHIVTransmission::~EventHIVTransmission() {}
@@ -64,7 +64,7 @@ bool EventHIVTransmission::isUseless(const PopulationStateInterface& population)
         }
 
         // Event also gecomes useless if the first person (origin) is now in the _final_ AIDS stage
-        if (pPerson1->hiv().getInfectionStage() == Person_HIV::AIDSFinal)
+        if (pPerson1->hiv().getInfectionStage() == PersonHIV::AIDSFinal)
                 return true;
 
         // Make sure the two lists are consistent: if person1 has a relationship with person2, person2
@@ -79,10 +79,10 @@ void EventHIVTransmission::infectPerson(SimpactPopulation& population, Person* p
         assert(!pTarget->hiv().isInfected());
 
         if (pOrigin == 0) // Seeding
-                pTarget->hiv().setInfected(t, 0, Person_HIV::Seed);
+                pTarget->hiv().setInfected(t, 0, PersonHIV::Seed);
         else {
                 assert(pOrigin->hiv().isInfected());
-                pTarget->hiv().setInfected(t, pOrigin, Person_HIV::Partner);
+                pTarget->hiv().setInfected(t, pOrigin, PersonHIV::Partner);
         }
 
         // introduce AIDS based mortality
@@ -137,7 +137,7 @@ void EventHIVTransmission::fire(Algorithm* pAlgorithm, State* pState, double t)
         Person* pPerson2 = getPerson(1);
 
         // Person 1 should be infected but not in the final aids stage, person 2 should not be infected yet
-        assert(pPerson1->hiv().isInfected() && pPerson1->hiv().getInfectionStage() != Person_HIV::AIDSFinal);
+        assert(pPerson1->hiv().isInfected() && pPerson1->hiv().getInfectionStage() != PersonHIV::AIDSFinal);
         assert(!pPerson2->hiv().isInfected());
 
         infectPerson(population, pPerson1, pPerson2, t);

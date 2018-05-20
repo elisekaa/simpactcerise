@@ -2,8 +2,8 @@
 
 #include "ExitStatus.h"
 
-#include <map>
 #include <cstdint>
+#include <map>
 #include <vector>
 
 class ConfigWriter
@@ -23,10 +23,9 @@ public:
         ExitStatus addKey(const std::string& key, const char* pStr);
         ExitStatus addKey(const std::string& key, const std::string& value);
 
-        void   getKeys(std::vector<std::string>& keys) const;
+        void       getKeys(std::vector<std::string>& keys) const;
         ExitStatus getKeyValue(const std::string& key, std::string& value) const;
 
 private:
         std::map<std::string, std::string> m_keyValues;
 };
-

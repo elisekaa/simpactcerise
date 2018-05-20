@@ -16,4 +16,3 @@ public:
         ///
         virtual ~PersonAlgorithmInfo() = default;
 };
-

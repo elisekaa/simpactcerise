@@ -42,13 +42,13 @@ private:
         int64_t getNextPersonID() override;
 
         ///
-        void    setListIndex(PersonBase* pPerson, int idx) override;
+        void setListIndex(PersonBase* pPerson, int idx) override;
 
         ///
-        int     getListIndex(PersonBase* pPerson) override;
+        int getListIndex(PersonBase* pPerson) override;
 
         ///
-        void    addAlgorithmInfo(PersonBase* pPerson) override;
+        void addAlgorithmInfo(PersonBase* pPerson) override;
 
 private:
         bool m_init;
@@ -63,4 +63,3 @@ private:
 private:
         friend class PopulationAlgorithmAdvanced;
 };
-

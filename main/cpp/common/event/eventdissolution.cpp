@@ -58,8 +58,8 @@ void EventDissolution::fire(Algorithm* pAlgorithm, State* pState, double t)
 
         // A new formation event should only be scheduled if neither person is in the
         // final AIDS stage
-        if (pPerson1->hiv().getInfectionStage() != Person_HIV::AIDSFinal &&
-            pPerson2->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
+        if (pPerson1->hiv().getInfectionStage() != PersonHIV::AIDSFinal &&
+            pPerson2->hiv().getInfectionStage() != PersonHIV::AIDSFinal) {
                 // Need to add a new formation event for these two
                 EventFormation* pFormationEvent = new EventFormation(pPerson1, pPerson2, t, t);
                 population.onNewEvent(pFormationEvent);

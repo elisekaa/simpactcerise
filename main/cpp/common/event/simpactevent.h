@@ -24,4 +24,3 @@ public:
         static void writeEventLogStart(bool noExtraInfo, const std::string& eventName, double t, const Person* pPerson1,
                                        const Person* pPerson2);
 };
-

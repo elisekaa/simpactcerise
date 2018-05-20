@@ -15,14 +15,14 @@ DiscreteDistributionWrapper2D::DiscreteDistributionWrapper2D(GslRandomNumberGene
 DiscreteDistributionWrapper2D::~DiscreteDistributionWrapper2D() { delete m_pDist; }
 
 ExitStatus DiscreteDistributionWrapper2D::init(const std::string& densFile, const std::string& maskFile, double xOffset,
-                                           double yOffset, double width, double height, bool flipY, bool floor)
+                                               double yOffset, double width, double height, bool flipY, bool floor)
 {
         if (m_pDist)
                 return ExitStatus("Already initialized");
 
         GridValues* pDens = 0;
         GridValues* pMask = 0;
-        ExitStatus      r;
+        ExitStatus  r;
 
         r = allocateGridFunction(densFile, &pDens);
         if (pDens == 0)
@@ -51,7 +51,7 @@ ExitStatus DiscreteDistributionWrapper2D::init(const std::string& densFile, cons
 
                 if (!(pMask->getWidth() == w && pMask->getHeight() == h))
                         return ExitStatus("Dimensions of density file '" + densFile + "' and mask file '" + maskFile +
-                               "' don't match");
+                                          "' don't match");
 
                 for (int y = 0; y < h; y++) {
                         for (int x = 0; x < w; x++) {

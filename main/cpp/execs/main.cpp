@@ -5,8 +5,8 @@
 #include "inverseerfi.h"
 #include "jsonconfig.h"
 #include "logsystem.h"
+#include "pop/PersonRelations.h"
 #include "pop/person.h"
-#include "pop/person_relations.h"
 #include "pop/simpactpopulation.h"
 #include "populationdistributioncsv.h"
 #include "populationutil.h"
@@ -15,11 +15,11 @@
 
 #include <cassert>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <limits>
 #include <memory>
-#include <cstdio>
 
 using namespace std;
 
@@ -60,7 +60,7 @@ int real_main(int argc, char** argv)
         bool           parallel    = (intParallel == 1);
         std::string    algo(argv[3]);
         ConfigSettings config;
-        ExitStatus         r;
+        ExitStatus     r;
 
         if (!(r = config.load(confFileName))) {
                 cerr << "Error loading configuration file " << confFileName << endl;
@@ -171,8 +171,8 @@ void logOnGoingRelationships(SimpactPopulation& pop)
                                 writeToLog = true;
 
                         if (writeToLog)
-                                Person_Relations::writeToRelationLog(pMan, pPartner, formationTime,
-                                                                     infinity); // infinity for not dissolved yet
+                                PersonRelations::writeToRelationLog(pMan, pPartner, formationTime,
+                                                                    infinity); // infinity for not dissolved yet
                 }
 
 #ifndef NDEBUG

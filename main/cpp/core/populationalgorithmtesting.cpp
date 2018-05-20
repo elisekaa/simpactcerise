@@ -6,9 +6,9 @@
 #include "populationstatetesting.h"
 #include "util.h"
 
-#include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <map>
 
 // For debugging: undefine to always recalculate all events
@@ -54,7 +54,7 @@ ExitStatus PopulationAlgorithmTesting::init()
                 return ExitStatus("Unable to initialize population state: " + r.getErrorString());
 
         m_nextEventID = 0;
-        m_init = true;
+        m_init        = true;
         return ExitStatus(true);
 }
 

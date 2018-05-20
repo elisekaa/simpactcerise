@@ -118,4 +118,3 @@ inline std::string ExitStatus::getErrorString() const
 inline ExitStatus::operator bool() const { return success(); }
 
 inline bool ExitStatus::success() const { return (m_errorString[0] == 0); }
-

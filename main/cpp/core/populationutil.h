@@ -7,9 +7,7 @@
 class PopulationUtil
 {
 public:
-        static ExitStatus selectAlgorithmAndState(const std::string& algo,
-                                                  GslRandomNumberGenerator& rng, bool parallel,
-                                              PopulationAlgorithmInterface** ppAlgo,
-                                              PopulationStateInterface**     ppState);
+        static ExitStatus selectAlgorithmAndState(const std::string& algo, GslRandomNumberGenerator& rng, bool parallel,
+                                                  PopulationAlgorithmInterface** ppAlgo,
+                                                  PopulationStateInterface**     ppState);
 };
-

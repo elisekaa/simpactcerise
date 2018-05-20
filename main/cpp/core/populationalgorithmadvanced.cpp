@@ -333,9 +333,9 @@ void PopulationAlgorithmAdvanced::lockEvent(PopulationEvent* pEvt) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-        int64_t id = pEvt->getEventID();
-        int64_t l  = m_eventMutexes.size();
-        int mutexId = (int)(id % l);
+        int64_t id      = pEvt->getEventID();
+        int64_t l       = m_eventMutexes.size();
+        int     mutexId = (int)(id % l);
         m_eventMutexes[mutexId].lock();
 #endif // !DISABLEOPENMP
 }
@@ -345,9 +345,9 @@ void PopulationAlgorithmAdvanced::unlockEvent(PopulationEvent* pEvt) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-        int64_t id = pEvt->getEventID();
-        int64_t l  = m_eventMutexes.size();
-        int mutexId = (int)(id % l);
+        int64_t id      = pEvt->getEventID();
+        int64_t l       = m_eventMutexes.size();
+        int     mutexId = (int)(id % l);
         m_eventMutexes[mutexId].unlock();
 #endif // !DISABLEOPENMP
 }
@@ -362,7 +362,7 @@ void PopulationAlgorithmAdvanced::onNewEvent(PopulationEvent* pEvt)
         pEvt->generateNewInternalTimeDifference(getRandomNumberGenerator(), &m_popState);
         int                       numPersons = pEvt->getNumberOfPersons();
         std::vector<PersonBase*>& m_people   = m_popState.m_people; // TODO: rename m_people
-        if (numPersons == 0) // A global event
+        if (numPersons == 0)                                        // A global event
         {
                 PersonBase* pGlobalEventPerson = m_people[0];
                 assert(pGlobalEventPerson->getGender() == PersonBase::GlobalEventDummy);

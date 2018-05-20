@@ -12,7 +12,10 @@ ExitStatus ConfigWriter::addKey(const std::string& key, double value) { return a
 
 ExitStatus ConfigWriter::addKey(const std::string& key, int value) { return addKey(key, strprintf("%d", value)); }
 
-ExitStatus ConfigWriter::addKey(const std::string& key, int64_t value) { return addKey(key, strprintf("%" PRId64, value)); }
+ExitStatus ConfigWriter::addKey(const std::string& key, int64_t value)
+{
+        return addKey(key, strprintf("%" PRId64, value));
+}
 
 ExitStatus ConfigWriter::addKey(const std::string& key, bool value)
 {

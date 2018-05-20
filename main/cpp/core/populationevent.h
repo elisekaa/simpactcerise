@@ -219,4 +219,3 @@ inline int PopulationEvent::getNumberOfPersons() const
         assert(m_numPersons >= 0 && m_numPersons <= POPULATIONEVENT_MAXPERSONS);
         return (int)m_numPersons;
 }
-

@@ -3,8 +3,8 @@
  * \file PopulationStateInterface.h
  */
 
-#include "State.h"
 #include "ExitStatus.h"
+#include "State.h"
 
 class PersonBase;
 class PopulationEvent;

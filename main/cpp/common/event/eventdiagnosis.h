@@ -70,4 +70,3 @@ private:
         static double s_tMax;
         static double s_HSV2factor;
 };
-

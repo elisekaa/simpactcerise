@@ -85,7 +85,7 @@ double EvtHazardDissolution::solveForRealTimeInterval(const SimpactPopulation& p
 
 EvtHazard* EvtHazardDissolution::processConfig(ConfigSettings& config, const string& prefix, bool msm)
 {
-        double a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, Dp = 0, b = 0, tMax = 0;
+        double     a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, Dp = 0, b = 0, tMax = 0;
         ExitStatus r;
 
         if (!msm) {

@@ -3,8 +3,8 @@
 #define PERSONALEVENTLISTTESTING_H
 
 #include "ExitStatus.h"
-#include "populationevent.h"
 #include "PersonAlgorithmInfo.h"
+#include "populationevent.h"
 #include <list>
 #include <set>
 #include <vector>

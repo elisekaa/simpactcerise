@@ -67,7 +67,7 @@ LogFile EventPeriodicLogging::s_logFile;
 
 void EventPeriodicLogging::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        string oldLogFileName = s_logFileName;
+        string     oldLogFileName = s_logFileName;
         ExitStatus r;
 
         if (!(r = config.getKeyValue("periodiclogging.interval", s_loggingInterval)) ||

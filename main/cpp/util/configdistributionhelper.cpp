@@ -25,7 +25,7 @@ ProbabilityDistribution* getDistributionFromConfig(ConfigSettings& config, GslRa
 {
         vector<string> supportedDistributions;
         string         distName;
-        ExitStatus         r;
+        ExitStatus     r;
 
         supportedDistributions.push_back("fixed");
         supportedDistributions.push_back("uniform");
@@ -313,7 +313,7 @@ ProbabilityDistribution2D* getDistribution2DFromConfig(ConfigSettings& config, G
 {
         vector<string> supportedDistributions;
         string         distName;
-        ExitStatus         r;
+        ExitStatus     r;
 
         supportedDistributions.push_back("fixed");
         supportedDistributions.push_back("uniform");

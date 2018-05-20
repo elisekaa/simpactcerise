@@ -49,7 +49,7 @@ void EventDebut::fire(Algorithm* pAlgorithm, State* pState, double t)
         pPerson->setSexuallyActive(t);
 
         // No relationships will be scheduled if the person is already in the final AIDS stage
-        if (pPerson->hiv().getInfectionStage() != Person_HIV::AIDSFinal)
+        if (pPerson->hiv().getInfectionStage() != PersonHIV::AIDSFinal)
                 population.initializeFormationEvents(pPerson, false, false, t);
 }
 

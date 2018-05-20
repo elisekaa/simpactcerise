@@ -16,7 +16,7 @@ ConfigSettings::~ConfigSettings() {}
 ExitStatus ConfigSettings::load(const std::string& fileName)
 {
         ConfigReader reader;
-        ExitStatus       r = reader.read(fileName);
+        ExitStatus   r = reader.read(fileName);
 
         if (!r)
                 return ExitStatus("Unable to load file: " + r.getErrorString());
@@ -84,8 +84,8 @@ ExitStatus ConfigSettings::getKeyValue(const std::string& key, std::string& valu
                                 extraInfo += "'" + allowedValues[i] + "'";
                         }
                         extraInfo += ")";
-                        return ExitStatus("Specified value '" + value + "' for key '" + key + "' is not an allowed value " +
-                               extraInfo + ".");
+                        return ExitStatus("Specified value '" + value + "' for key '" + key +
+                                          "' is not an allowed value " + extraInfo + ".");
                 }
         }
 
@@ -106,7 +106,7 @@ void ConfigSettings::getUnusedKeys(std::vector<std::string>& keys) const
 
 ExitStatus ConfigSettings::getKeyValue(const std::string& key, double& value, double minValue, double maxValue)
 {
-        string valueStr;
+        string     valueStr;
         ExitStatus r = getKeyValue(key, valueStr);
 
         if (!r)
@@ -116,15 +116,15 @@ ExitStatus ConfigSettings::getKeyValue(const std::string& key, double& value, do
                 return ExitStatus("Can't interpret value for key '" + key + "' as a floating point number");
 
         if (value < minValue || value > maxValue)
-                return ExitStatus(strprintf("The value for '%s' must lie between %g and %g, but is %g", key.c_str(), minValue,
-                                 maxValue, value));
+                return ExitStatus(strprintf("The value for '%s' must lie between %g and %g, but is %g", key.c_str(),
+                                            minValue, maxValue, value));
 
         return ExitStatus(true);
 }
 
 ExitStatus ConfigSettings::getKeyValue(const std::string& key, int& value, int minValue, int maxValue)
 {
-        string valueStr;
+        string     valueStr;
         ExitStatus r = getKeyValue(key, valueStr);
 
         if (!r)
@@ -134,15 +134,15 @@ ExitStatus ConfigSettings::getKeyValue(const std::string& key, int& value, int m
                 return ExitStatus("Can't interpret value for key '" + key + "' as an integer number");
 
         if (value < minValue || value > maxValue)
-                return ExitStatus(strprintf("The value for '%s' must lie between %d and %d, but is %d", key.c_str(), minValue,
-                                 maxValue, value));
+                return ExitStatus(strprintf("The value for '%s' must lie between %d and %d, but is %d", key.c_str(),
+                                            minValue, maxValue, value));
 
         return ExitStatus(true);
 }
 
 ExitStatus ConfigSettings::getKeyValue(const std::string& key, int64_t& value, int64_t minValue, int64_t maxValue)
 {
-        string valueStr;
+        string     valueStr;
         ExitStatus r = getKeyValue(key, valueStr);
 
         if (!r)
@@ -152,8 +152,9 @@ ExitStatus ConfigSettings::getKeyValue(const std::string& key, int64_t& value, i
                 return ExitStatus("Can't interpret value for key '" + key + "' as an integer number");
 
         if (value < minValue || value > maxValue)
-                return ExitStatus(strprintf("The value for '%s' must lie between %" PRId64 " and %" PRId64 ", but is %" PRId64 "",
-                                 key.c_str(), minValue, maxValue, value));
+                return ExitStatus(strprintf("The value for '%s' must lie between %" PRId64 " and %" PRId64
+                                            ", but is %" PRId64 "",
+                                            key.c_str(), minValue, maxValue, value));
 
         return ExitStatus(true);
 }
@@ -182,21 +183,21 @@ void ConfigSettings::merge(const ConfigSettings& src)
 
 ExitStatus ConfigSettings::getKeyValue(const string& key, vector<double>& values, double minValue, double maxValue)
 {
-        string valueStr;
+        string     valueStr;
         ExitStatus r = getKeyValue(key, valueStr);
 
         if (!r)
                 return r;
         string badField;
         if (!parseAsDoubleVector(valueStr, values, badField))
-                return ExitStatus("Can't interpret value for key '" + key + "' as a list of floating point numbers (field '" +
-                       badField + "' is bad)");
+                return ExitStatus("Can't interpret value for key '" + key +
+                                  "' as a list of floating point numbers (field '" + badField + "' is bad)");
 
         for (size_t i = 0; i < values.size(); i++) {
                 double value = values[i];
                 if (value < minValue || value > maxValue)
-                        return ExitStatus(strprintf("Each value for '%s' must lie between %g and %g, but one is %g", key.c_str(),
-                                         minValue, maxValue, value));
+                        return ExitStatus(strprintf("Each value for '%s' must lie between %g and %g, but one is %g",
+                                                    key.c_str(), minValue, maxValue, value));
         }
         return ExitStatus(true);
 }

@@ -64,10 +64,10 @@ void EventHSV2Transmission::infectPerson(SimpactPopulation& population, Person* 
         assert(!pTarget->hsv2().isInfected());
 
         if (pOrigin == 0) // Seeding
-                pTarget->hsv2().setInfected(t, 0, Person_HSV2::Seed);
+                pTarget->hsv2().setInfected(t, 0, PersonHSV2::Seed);
         else {
                 assert(pOrigin->hsv2().isInfected());
-                pTarget->hsv2().setInfected(t, pOrigin, Person_HSV2::Partner);
+                pTarget->hsv2().setInfected(t, pOrigin, PersonHSV2::Partner);
         }
 
         // Check relationships pTarget is in, and if the partner is not yet infected, schedule

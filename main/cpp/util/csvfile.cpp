@@ -65,8 +65,8 @@ ExitStatus CSVFile::load(const std::string& fileName)
 
                         if (numCols != (int)args.size()) {
                                 fclose(pFile);
-                                return ExitStatus(strprintf("Number of columns changed from %d to %d on line %d", numCols,
-                                                 (int)args.size(), lineNumber));
+                                return ExitStatus(strprintf("Number of columns changed from %d to %d on line %d",
+                                                            numCols, (int)args.size(), lineNumber));
                         }
 
                         std::vector<bool>   mapLine(numCols);

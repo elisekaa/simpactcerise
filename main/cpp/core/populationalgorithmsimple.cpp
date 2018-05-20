@@ -50,7 +50,7 @@ ExitStatus PopulationAlgorithmSimple::init()
                 return ExitStatus("Unable to initialize population state: " + r.getErrorString());
 
         m_nextEventID = 0;
-        m_init = true;
+        m_init        = true;
         return ExitStatus(true);
 }
 

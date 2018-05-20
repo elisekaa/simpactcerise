@@ -39,4 +39,3 @@ private:
         static double                   s_cd4ThresholdPostStudy;
         static PieceWiseLinearFunction* s_pRecheckInterval;
 };
-

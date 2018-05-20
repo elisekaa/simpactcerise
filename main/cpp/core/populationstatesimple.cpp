@@ -16,7 +16,7 @@ ExitStatus PopulationStateSimple::init()
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
                 m_people[i] = new GlobalEventDummyPerson();
-                auto pInfo = new PersonAlgorithmInfoSimple();
+                auto pInfo  = new PersonAlgorithmInfoSimple();
                 m_people[i]->setAlgorithmInfo(pInfo);
                 pInfo->setListIndex(i);
                 int64_t id = getNextPersonID();

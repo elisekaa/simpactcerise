@@ -17,8 +17,8 @@ public:
         ExitStatus init(const std::vector<double>& xCoords, const std::vector<double>& yCoords);
         ExitStatus init(const std::vector<std::pair<double, double>>& points);
         ExitStatus init(const std::vector<Point2D>& points);
-        bool   isInside(double x, double y) const;
-        int    getNumberOfPoints() const { return m_numCoords; }
+        bool       isInside(double x, double y) const;
+        int        getNumberOfPoints() const { return m_numCoords; }
 
 private:
         std::vector<std::pair<double, double>> m_xyCoords;
@@ -101,4 +101,3 @@ inline bool Polygon2D::isInside(double x, double y) const
         }
         return (intersections & 1) ? true : false;
 }
-

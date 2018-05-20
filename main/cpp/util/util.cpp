@@ -186,7 +186,7 @@ bool parseAsInt(const string& str, int& value)
 
         const char* nptr = valueStr.c_str();
         char*       endptr;
-        long int v = strtol(nptr, &endptr, 10); // base 10
+        long int    v = strtol(nptr, &endptr, 10); // base 10
         if (*nptr != '\0') {
                 if (*endptr != '\0') {
                         return false;
@@ -207,7 +207,7 @@ bool parseAsInt(const string& str, int64_t& value)
 
         const char* nptr = valueStr.c_str();
         char*       endptr;
-        long int v = strtol(nptr, &endptr, 10); // base 10
+        long int    v = strtol(nptr, &endptr, 10); // base 10
 
         if (*nptr != '\0') {
                 if (*endptr != '\0') {

@@ -120,4 +120,3 @@ inline void EventVariableFireTime_Helper::calculateScaleFactor(double currentTim
 
         m_alpha = dTleft / dtLeft;
 }
-

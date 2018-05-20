@@ -1,12 +1,10 @@
-#ifndef PERSON_H
+#pragma once
 
-#define PERSON_H
-
+#include "PersonFamily.h"
+#include "PersonHiv.h"
+#include "PersonHsv2.h"
+#include "PersonRelations.h"
 #include "distribution/probabilitydistribution2d.h"
-#include "person_family.h"
-#include "person_hiv.h"
-#include "person_hsv2.h"
-#include "person_relations.h"
 #include "personbase.h"
 #include "util.h"
 
@@ -99,12 +97,12 @@ public:
         Person* getPersonOfInterest(int idx) const { return m_relations.getPersonOfInterest(idx); }
 
         // HIV stuff
-        Person_HIV&       hiv() { return m_hiv; }
-        const Person_HIV& hiv() const { return m_hiv; }
+        PersonHIV&       hiv() { return m_hiv; }
+        const PersonHIV& hiv() const { return m_hiv; }
 
         // HSV2 stuff
-        Person_HSV2&       hsv2() { return m_hsv2; }
-        const Person_HSV2& hsv2() const { return m_hsv2; }
+        PersonHSV2&       hsv2() { return m_hsv2; }
+        const PersonHSV2& hsv2() const { return m_hsv2; }
 
         // This is a per person value
         double getSurvivalTimeLog10Offset() const { return m_hiv.getSurvivalTimeLog10Offset(); }
@@ -128,34 +126,30 @@ public:
         static ProbabilityDistribution2D* getPopulationDistribution() { return m_pPopDist; }
 
 private:
-        Person_Family    m_family;
-        Person_Relations m_relations;
-        Person_HIV       m_hiv;
-        Person_HSV2      m_hsv2;
+        PersonFamily    m_family;
+        PersonRelations m_relations;
+        PersonHIV       m_hiv;
+        PersonHSV2      m_hsv2;
 
-        Point2D m_location;
-        double  m_locationTime;
-
+        Point2D     m_location;
+        double      m_locationTime;
         PersonImpl* m_pPersonImpl;
 
         static ProbabilityDistribution2D* m_pPopDist;
-        static double                     m_popDistWidth;
-        static double                     m_popDistHeight;
 };
 
 class Man : public Person
 {
 public:
-        explicit Man(double dateOfBirth);
-        ~Man() override;
+        explicit Man(double dateOfBirth) : Person(dateOfBirth, Male) {}
+        ~Man() override = default;
 };
 
 class Woman : public Person
 {
 public:
-        explicit Woman(double dateOfBirth);
-        ~Woman() override;
-
+        explicit Woman(double dateOfBirth) : Person(dateOfBirth, Female), m_pregnant(false) {}
+        ~Woman() override = default;
         void setPregnant(bool f) { m_pregnant = f; }
         bool isPregnant() const { return m_pregnant; }
 
@@ -167,16 +161,14 @@ inline Man* MAN(Person* pPerson)
 {
         assert(pPerson != 0);
         assert(pPerson->getGender() == PersonBase::Male);
-
-        return static_cast<Man*>(pPerson);
+        return dynamic_cast<Man*>(pPerson);
 }
 
 inline Woman* WOMAN(Person* pPerson)
 {
         assert(pPerson != 0);
         assert(pPerson->getGender() == PersonBase::Female);
-
-        return static_cast<Woman*>(pPerson);
+        return dynamic_cast<Woman*>(pPerson);
 }
 
 inline Person* Person::getChild(int idx)
@@ -189,12 +181,9 @@ inline Person* Person::getChild(int idx)
 inline double Person::getDistanceTo(Person* pPerson)
 {
         assert(this != pPerson);
-
         Point2D p  = pPerson->m_location;
         double  dx = p.x - m_location.x;
         double  dy = p.y - m_location.y;
 
         return std::sqrt(dx * dx + dy * dy);
 }
-
-#endif // PERSON_H

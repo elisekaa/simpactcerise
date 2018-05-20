@@ -153,4 +153,3 @@ private:
         State*                            m_pState;
         double                            m_time;
 };
-

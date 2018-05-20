@@ -4,13 +4,13 @@
  * \file populationalgorithmtesting.h
  */
 
+#include "PopulationAlgorithmAboutToFireInterface.h"
+#include "PopulationAlgorithmInterface.h"
 #include "algorithm.h"
 #include "mutex.h"
 #include "personaleventlisttesting.h"
 #include "personbase.h"
 #include "populationevent.h"
-#include "PopulationAlgorithmInterface.h"
-#include "PopulationAlgorithmAboutToFireInterface.h"
 
 #include <cassert>
 
@@ -94,27 +94,31 @@ public:
         ExitStatus init() override;
 
         ///
-        bool   isParallel() const { return m_parallel; }
+        bool isParallel() const { return m_parallel; }
 
         ///
         ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0);
 
         ///
-        void   onNewEvent(PopulationEvent* pEvt) override;
+        void onNewEvent(PopulationEvent* pEvt) override;
 
         // TODO: shield these from the user somehow? These functions should not be used
         //       directly by the user, they are used internally by the algorithm
         void scheduleForRemoval(PopulationEvent* pEvt);
 
         ///
-        double                    getTime() const override { return Algorithm::getTime(); }
+        double getTime() const override { return Algorithm::getTime(); }
 
         ///
         GslRandomNumberGenerator* getRandomNumberGenerator() const override
-        { return Algorithm::getRandomNumberGenerator(); }
+        {
+                return Algorithm::getRandomNumberGenerator();
+        }
 
         void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) override
-        { m_pOnAboutToFire = pAction; }
+        {
+                m_pOnAboutToFire = pAction;
+        }
 
 private:
         ///
@@ -124,17 +128,17 @@ private:
         ExitStatus getNextScheduledEvent(double& dt, Event** ppEvt) override;
 
         ///
-        void   advanceEventTimes(Event* pScheduledEvent, double dt) override;
+        void advanceEventTimes(Event* pScheduledEvent, double dt) override;
 
         ///
-        void   onAboutToFire(Event* pEvt) override
+        void onAboutToFire(Event* pEvt) override
         {
                 if (m_pOnAboutToFire)
                         m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
         }
 
         ///
-        PopulationEvent*          getEarliestEvent(const std::vector<PersonBase*>& people);
+        PopulationEvent* getEarliestEvent(const std::vector<PersonBase*>& people);
 
         ///
         PersonalEventListTesting* personalEventList(PersonBase* pPerson);
@@ -150,11 +154,11 @@ private:
         int64_t getNextEventID();
 
 private:
-        PopulationStateTesting& m_popState;
-        bool                    m_init;
-        std::vector<Event*> m_eventsToRemove;
-        bool m_parallel;
-        int64_t m_nextEventID;
+        PopulationStateTesting&                  m_popState;
+        bool                                     m_init;
+        std::vector<Event*>                      m_eventsToRemove;
+        bool                                     m_parallel;
+        int64_t                                  m_nextEventID;
         PopulationAlgorithmAboutToFireInterface* m_pOnAboutToFire;
 };
 
@@ -171,4 +175,3 @@ inline PersonalEventListTesting* PopulationAlgorithmTesting::personalEventList(P
         assert(pEvtList);
         return pEvtList;
 }
-

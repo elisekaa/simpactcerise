@@ -15,7 +15,7 @@ public:
         ~DiscreteDistributionWrapper2D();
 
         ExitStatus init(const std::string& densFile, const std::string& maskFile, double xOffset, double yOffset,
-                    double width, double height, bool flipY, bool floor);
+                        double width, double height, bool flipY, bool floor);
 
         Point2D pickPoint() const;
         double  pickMarginalX() const;

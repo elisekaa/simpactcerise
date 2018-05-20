@@ -6,9 +6,9 @@
  * \file populationalgorithmsimple.h
  */
 
-#include "populationevent.h"
-#include "PopulationAlgorithmInterface.h"
 #include "PopulationAlgorithmAboutToFireInterface.h"
+#include "PopulationAlgorithmInterface.h"
+#include "populationevent.h"
 #include "simplealgorithm.h"
 
 #include <cassert>
@@ -55,7 +55,7 @@ public:
 
         ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0);
 
-        void   onNewEvent(PopulationEvent* pEvt) override;
+        void onNewEvent(PopulationEvent* pEvt) override;
 
         // TODO: shield these from the user somehow? These functions should not be used
         //       directly by the user, they are used internally by the algorithm
@@ -63,7 +63,10 @@ public:
 
         double getTime() const override { return SimpleAlgorithm::getTime(); }
 
-        void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) override { m_pOnAboutToFire = pAction; }
+        void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) override
+        {
+                m_pOnAboutToFire = pAction;
+        }
 
         GslRandomNumberGenerator* getRandomNumberGenerator() const override
         {
@@ -72,35 +75,34 @@ public:
 
 private:
         ///
-        ExitStatus                         initEventTimes() const override;
+        ExitStatus initEventTimes() const override;
 
         ///
         const std::vector<Event*>& getCurrentEvents() const override { return m_allEvents; }
 
         ///
-        void                           onFiredEvent(Event* pEvt, int position) override;
+        void onFiredEvent(Event* pEvt, int position) override;
 
         ///
-        int64_t                        getNextEventID();
+        int64_t getNextEventID();
 
         ///
-        void                           onAboutToFire(Event* pEvt) override;
+        void onAboutToFire(Event* pEvt) override;
 
-        std::vector<Event*> m_allEvents;
-        PopulationStateSimple&  m_popState;
-        bool                    m_init;
+        std::vector<Event*>    m_allEvents;
+        PopulationStateSimple& m_popState;
+        bool                   m_init;
 
 #ifdef ALGORITHM_SHOW_EVENTS
         void showEvents(); // FOR DEBUGGING
 #endif
 
-
         void onAlgorithmLoop(bool finished) override;
 
 private:
-        std::vector<Event*> m_eventsToRemove;
-        bool    m_parallelRequested;
-        int64_t m_nextEventID;
+        std::vector<Event*>                      m_eventsToRemove;
+        bool                                     m_parallelRequested;
+        int64_t                                  m_nextEventID;
         PopulationAlgorithmAboutToFireInterface* m_pOnAboutToFire;
 };
 

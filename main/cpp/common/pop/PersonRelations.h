@@ -1,9 +1,8 @@
-#ifndef PERSON_RELATIONS_H
-
-#define PERSON_RELATIONS_H
+#pragma once
 
 #include "personbase.h"
-#include <assert.h>
+
+#include <cassert>
 #include <set>
 #include <vector>
 
@@ -14,11 +13,11 @@ class GslRandomNumberGenerator;
 class ProbabilityDistribution;
 class ProbabilityDistribution2D;
 
-class Person_Relations
+class PersonRelations
 {
 public:
-        Person_Relations(const Person* pSelf);
-        ~Person_Relations();
+        PersonRelations(const Person* pSelf);
+        ~PersonRelations();
 
         // This also resets the iterator for getNextRelationshipPartner
         int     getNumberOfRelationships() const { return m_relationshipsSet.size(); }
@@ -158,9 +157,7 @@ private:
         static EagernessAndAgegap m_eagAgeWoman;
 };
 
-inline bool Person_Relations::hasRelationshipWith(Person* pPerson) const
+inline bool PersonRelations::hasRelationshipWith(Person* pPerson) const
 {
         return m_relationshipsSet.find(Relationship(pPerson)) != m_relationshipsSet.end();
 }
-
-#endif // PERSON_RELATIONS_H

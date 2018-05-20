@@ -104,8 +104,8 @@ protected:
 private:
         ExitStatus initEventTimes() const;
         ExitStatus getNextScheduledEvent(double& dt, Event** ppEvt);
-        void   advanceEventTimes(Event* pScheduledEvent, double dt);
-        void   onFiredEvent(Event* pEvt);
+        void       advanceEventTimes(Event* pScheduledEvent, double dt);
+        void       onFiredEvent(Event* pEvt);
 
 #ifdef ALGORITHM_SHOW_EVENTS
         virtual void showEvents() {} // For debugging
@@ -121,4 +121,3 @@ private:
         std::vector<int>    m_minPosValues;
         bool                m_parallel;
 };
-

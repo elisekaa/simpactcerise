@@ -1,8 +1,8 @@
 #include "inverseerfi.h"
 #include "Faddeeva.hh"
 #include "util.h"
-#include <cmath>
 #include <gsl/gsl_errno.h>
+#include <cmath>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>

@@ -57,4 +57,3 @@ protected:
         std::vector<PersonBase*>         m_deceasedPersons;
         mutable std::vector<PersonBase*> m_otherAffectedPeople;
 };
-

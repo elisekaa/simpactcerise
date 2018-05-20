@@ -195,7 +195,7 @@ EvtHazard* EvtHazardFormationAgeGap::processConfig(ConfigSettings& config, const
 
 void EvtHazardFormationAgeGap::obtainConfig(ConfigWriter& config, const string& prefix)
 {
-        string hazName = getHazardName();
+        string     hazName = getHazardName();
         ExitStatus r;
 
         if (!m_msm) {

@@ -8,8 +8,7 @@
 #include <iostream>
 using namespace std;
 
-TIFFDensityFile::TIFFDensityFile()
-        : m_height(0), m_width(0), m_yFlipped(false) {}
+TIFFDensityFile::TIFFDensityFile() : m_height(0), m_width(0), m_yFlipped(false) {}
 
 ExitStatus TIFFDensityFile::init(const string& fileName, bool noNegativeValues, bool flipY)
 {
@@ -157,7 +156,7 @@ ExitStatus TIFFDensityFile::readTiffFile(const string& fileName, bool noNeg, boo
 
 template <class T>
 ExitStatus TIFFDensityFile::readTilesFromTIFF(void* pTiffVoid, int tileWidth, int tileHeight, int width, int height,
-                                          bool noNeg, const string& fileName)
+                                              bool noNeg, const string& fileName)
 {
         TIFF*    pTiff     = (TIFF*)pTiffVoid;
         uint32_t numXTiles = width / tileWidth + ((width % tileWidth == 0) ? 0 : 1);

@@ -1,9 +1,8 @@
-#ifndef PERSON_HSV2_H
-
-#define PERSON_HSV2_H
+#pragma once
 
 #include "util.h"
-#include <assert.h>
+
+#include <cassert>
 
 class Person;
 class ProbabilityDistribution;
@@ -11,7 +10,7 @@ class ConfigSettings;
 class ConfigWriter;
 class GslRandomNumberGenerator;
 
-class Person_HSV2
+class PersonHSV2
 {
 public:
         enum InfectionType
@@ -21,8 +20,9 @@ public:
                 Seed
         };
 
-        Person_HSV2(Person* pSelf);
-        ~Person_HSV2();
+        explicit PersonHSV2(Person* pSelf);
+
+        ~PersonHSV2() = default;
 
         InfectionType getInfectionType() const { return m_infectionType; }
         void          setInfected(double t, Person* pOrigin, InfectionType iType);
@@ -62,5 +62,3 @@ private:
         static ProbabilityDistribution* m_pADist;
         static ProbabilityDistribution* m_pB2Dist;
 };
-
-#endif // PERSON_HSV2_H

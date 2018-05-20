@@ -53,9 +53,9 @@ void PopulationStateAdvanced::lockPerson(PersonBase* pPerson) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-        int64_t id = pPerson->getPersonID();
-        int64_t l  = m_personMutexes.size();
-        int mutexId = (int)(id % l);
+        int64_t id      = pPerson->getPersonID();
+        int64_t l       = m_personMutexes.size();
+        int     mutexId = (int)(id % l);
         m_personMutexes[mutexId].lock();
 #endif // !DISABLEOPENMP
 }
@@ -65,9 +65,9 @@ void PopulationStateAdvanced::unlockPerson(PersonBase* pPerson) const
 #ifndef DISABLEOPENMP
         if (!m_parallel)
                 return;
-        int64_t id = pPerson->getPersonID();
-        int64_t l  = m_personMutexes.size();
-        int mutexId = (int)(id % l);
+        int64_t id      = pPerson->getPersonID();
+        int64_t l       = m_personMutexes.size();
+        int     mutexId = (int)(id % l);
         m_personMutexes[mutexId].unlock();
 #endif // !DISABLEOPENMP
 }

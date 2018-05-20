@@ -50,7 +50,7 @@ void EventChronicStage::fire(Algorithm* pAlgorithm, State* pState, double t)
         assert(getNumberOfPersons() == 1);
 
         Person* pPerson = getPerson(0);
-        assert(pPerson->hiv().getInfectionStage() == Person_HIV::Acute);
+        assert(pPerson->hiv().getInfectionStage() == PersonHIV::Acute);
 
         pPerson->hiv().setInChronicStage(t);
 

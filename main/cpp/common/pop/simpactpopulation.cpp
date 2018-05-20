@@ -81,7 +81,7 @@ ExitStatus SimpactPopulation::init(const SimpactPopulationConfig& config, const 
 }
 
 ExitStatus SimpactPopulation::createInitialPopulation(const SimpactPopulationConfig& config,
-                                                  const PopulationDistribution&  popDist)
+                                                      const PopulationDistribution&  popDist)
 {
         assert(m_pCoarseMap == 0);
 
@@ -104,7 +104,7 @@ ExitStatus SimpactPopulation::createInitialPopulation(const SimpactPopulationCon
 
         // Time zero is at the start of the simulation, so the birth dates are negative
         for (int i = 0; i < numMen; i++) {
-                double age = popDist.pickAge(true);
+                double  age     = popDist.pickAge(true);
                 Person* pPerson = new Man(-age);
                 if (age > EventDebut::getDebutAge())
                         pPerson->setSexuallyActive(0);
@@ -112,7 +112,7 @@ ExitStatus SimpactPopulation::createInitialPopulation(const SimpactPopulationCon
         }
 
         for (int i = 0; i < numWomen; i++) {
-                double age = popDist.pickAge(false);
+                double  age     = popDist.pickAge(false);
                 Person* pPerson = new Woman(-age);
                 if (age > EventDebut::getDebutAge())
                         pPerson->setSexuallyActive(0);
@@ -244,7 +244,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                                   double tNow)
 {
         assert(pPerson->isSexuallyActive());
-        assert(pPerson->hiv().getInfectionStage() != Person_HIV::AIDSFinal);
+        assert(pPerson->hiv().getInfectionStage() != PersonHIV::AIDSFinal);
 
         GslRandomNumberGenerator* pRngGen = getRandomNumberGenerator();
 
@@ -262,7 +262,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                                 Woman* pWoman = ppWomen[i];
 
                                                 if (pWoman->isSexuallyActive() &&
-                                                    pWoman->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
+                                                    pWoman->hiv().getInfectionStage() != PersonHIV::AIDSFinal) {
                                                         EventFormation* pEvt =
                                                             new EventFormation(pMan, pWoman, -1, tNow);
                                                         onNewEvent(pEvt);
@@ -277,7 +277,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                         for (int i = 0; i < numMen; i++) {
                                                 Man* pMan2 = ppMen[i];
                                                 if (pMan != pMan2 && pMan2->isSexuallyActive() &&
-                                                    pMan2->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
+                                                    pMan2->hiv().getInfectionStage() != PersonHIV::AIDSFinal) {
                                                         if (initializationPhase &&
                                                             pMan->getPersonID() > pMan2->getPersonID())
                                                                 continue;
@@ -300,7 +300,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                 for (int i = 0; i < numMen; i++) {
                                         Man* pMan = ppMen[i];
                                         if (pMan->isSexuallyActive() &&
-                                            pMan->hiv().getInfectionStage() != Person_HIV::AIDSFinal) {
+                                            pMan->hiv().getInfectionStage() != PersonHIV::AIDSFinal) {
                                                 EventFormation* pEvt = new EventFormation(pMan, pWoman, -1, tNow);
                                                 onNewEvent(pEvt);
                                         }
@@ -340,7 +340,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                 assert(pWoman->isWoman());
 
                                 if (pWoman->isSexuallyActive() &&
-                                    pWoman->hiv().getInfectionStage() != Person_HIV::AIDSFinal)
+                                    pWoman->hiv().getInfectionStage() != PersonHIV::AIDSFinal)
                                         pMan->addPersonOfInterest(pWoman);
                         }
 
@@ -350,7 +350,7 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                                 assert(pMan2 && pMan2->isMan());
 
                                 if (pMan != pMan2 && pMan2->isSexuallyActive() &&
-                                    pMan2->hiv().getInfectionStage() != Person_HIV::AIDSFinal)
+                                    pMan2->hiv().getInfectionStage() != PersonHIV::AIDSFinal)
                                         pMan->addPersonOfInterest(pMan2);
                         }
 
@@ -383,16 +383,15 @@ void SimpactPopulation::initializeFormationEvents(Person* pPerson, bool initiali
                         }
                 } else // Female
                 {
-                        Woman* pWoman = WOMAN(pPerson);
-                        int    numMen = getNumberOfMen();
-                        int numInterests = (int)pRngGen->pickBinomialNumber(m_eyeCapsFraction, numMen);
+                        Woman* pWoman       = WOMAN(pPerson);
+                        int    numMen       = getNumberOfMen();
+                        int    numInterests = (int)pRngGen->pickBinomialNumber(m_eyeCapsFraction, numMen);
                         interests.resize(numInterests);
                         getInterestsForPerson(pWoman, interests, interestsMSM);
                         for (int i = 0; i < numInterests; i++) {
                                 Person* pMan = interests[i];
                                 assert(pMan->isMan());
-                                if (pMan->isSexuallyActive() &&
-                                    pMan->hiv().getInfectionStage() != Person_HIV::AIDSFinal)
+                                if (pMan->isSexuallyActive() && pMan->hiv().getInfectionStage() != PersonHIV::AIDSFinal)
                                         pWoman->addPersonOfInterest(pMan);
                         }
                         numInterests = pWoman->getNumberOfPersonsOfInterest();

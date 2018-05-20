@@ -38,8 +38,8 @@ EventFormation::EventFormation(Person* pPerson1, Person* pPerson2, double lastDi
 
         // New formation events must not be scheduled if one of the persons is in the
         // final AIDS stage
-        assert(pPerson1->hiv().getInfectionStage() != Person_HIV::AIDSFinal);
-        assert(pPerson2->hiv().getInfectionStage() != Person_HIV::AIDSFinal);
+        assert(pPerson1->hiv().getInfectionStage() != PersonHIV::AIDSFinal);
+        assert(pPerson2->hiv().getInfectionStage() != PersonHIV::AIDSFinal);
 }
 
 EventFormation::~EventFormation() {}
@@ -67,8 +67,8 @@ bool EventFormation::isUseless(const PopulationStateInterface& pop)
         Person* pPerson1 = getPerson(0);
         Person* pPerson2 = getPerson(1);
 
-        if (pPerson1->hiv().getInfectionStage() == Person_HIV::AIDSFinal ||
-            pPerson2->hiv().getInfectionStage() == Person_HIV::AIDSFinal)
+        if (pPerson1->hiv().getInfectionStage() == PersonHIV::AIDSFinal ||
+            pPerson2->hiv().getInfectionStage() == PersonHIV::AIDSFinal)
                 return true;
 
         // Check if old formation events need to be dropped because a person moved
@@ -178,7 +178,7 @@ EvtHazard* EventFormation::m_pHazardMSM = 0;
 
 EvtHazard* EventFormation::getHazard(ConfigSettings& config, const string& prefix, bool msm)
 {
-        string hazardType;
+        string     hazardType;
         ExitStatus r;
 
         string hazSimple  = "simple";

@@ -2,10 +2,10 @@
 #include "Faddeeva.hh"
 #include "inverseerfi.h"
 #include "util.h"
-#include <assert.h>
-#include <cmath>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_sf_erf.h>
+#include <assert.h>
+#include <cmath>
 #include <limits>
 
 // UNDER CONSTRUCTION

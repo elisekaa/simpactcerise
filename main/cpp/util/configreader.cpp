@@ -33,9 +33,9 @@ ExitStatus ConfigReader::read(const string& fileName)
                         }
                         string key   = line.substr(0, s);
                         string value = line.substr(s + 1);
-                        key = trim(key);
-                        value = substituteVariables(value);
-                        value = trim(value);
+                        key          = trim(key);
+                        value        = substituteVariables(value);
+                        value        = trim(value);
                         if (key.length() == 0) {
                                 fclose(pFile);
                                 return ExitStatus("Detected an empty key in line: " + line);
@@ -121,7 +121,7 @@ string ConfigReader::substituteVariables(const string& s)
                                 resultStr += s.substr(startPos, idx - startPos);
                                 string varName = s.substr(idx + 2, idx2 - idx - 2);
                                 string substStr;
-                                char* pEnvCont = getenv(varName.c_str());
+                                char*  pEnvCont = getenv(varName.c_str());
                                 if (pEnvCont)
                                         substStr = string(pEnvCont);
                                 else {

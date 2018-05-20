@@ -1,9 +1,9 @@
 #include "algorithm.h"
-#include "debugwarning.h"
 #include "Event.h"
+#include "State.h"
+#include "debugwarning.h"
 #include "gslrandomnumbergenerator.h"
 #include "mutex.h"
-#include "State.h"
 
 #include <cassert>
 #include <iostream>
@@ -32,8 +32,8 @@ ExitStatus Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime,
         if (initEvents) {
                 ExitStatus r = initEventTimes();
                 if (!r)
-                        return ExitStatus("Requested event time initialization, but unable to do this: "
-                                          + r.getErrorString());
+                        return ExitStatus("Requested event time initialization, but unable to do this: " +
+                                          r.getErrorString());
         }
 
         bool    done       = false;
@@ -56,7 +56,7 @@ ExitStatus Algorithm::evolve(double& tMax, int64_t& maxEvents, double startTime,
                 }
 
                 // Ask for the next scheduled event and for the time until it takes place
-                double     dtMin               = -1;
+                double dtMin               = -1;
                 Event* pNextScheduledEvent = 0;
 
 #ifdef ALGORITHM_DEBUG_TIMER

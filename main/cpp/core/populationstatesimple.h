@@ -22,7 +22,7 @@ public:
         void setListIndex(int idx) { m_listIndex = idx; }
 
         ///
-        int  getListIndex() const { return m_listIndex; }
+        int getListIndex() const { return m_listIndex; }
 
 private:
         int m_listIndex;
@@ -40,7 +40,7 @@ public:
         PopulationStateSimple() : m_init(false) {}
 
         ///
-        ~PopulationStateSimple() override =default;
+        ~PopulationStateSimple() override = default;
 
         ///
         ExitStatus init();
@@ -50,13 +50,13 @@ private:
         int64_t getNextPersonID() override;
 
         ///
-        void    addAlgorithmInfo(PersonBase* pPerson) override;
+        void addAlgorithmInfo(PersonBase* pPerson) override;
 
         ///
-        void    setListIndex(PersonBase* pPerson, int idx) override;
+        void setListIndex(PersonBase* pPerson, int idx) override;
 
         ///
-        int     getListIndex(PersonBase* pPerson) override;
+        int getListIndex(PersonBase* pPerson) override;
 
 private:
         bool    m_init;

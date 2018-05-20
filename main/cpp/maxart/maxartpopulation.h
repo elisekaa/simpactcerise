@@ -24,7 +24,7 @@ public:
         StudyStage getStudyStage() const { return m_studyStage; }
 
         ///
-        void       setInStudy()
+        void setInStudy()
         {
                 assert(m_studyStage == PreStudy);
                 m_studyStage = InStudy;
@@ -60,4 +60,3 @@ inline const MaxARTPopulation& MAXARTPOPULATION(const State* pState)
         assert(state.getExtraStateInfo() != 0);
         return dynamic_cast<const MaxARTPopulation&>(*state.getExtraStateInfo());
 }
-

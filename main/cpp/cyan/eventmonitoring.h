@@ -19,10 +19,10 @@ public:
         std::string getDescription(double tNow) const override;
 
         ///
-        void        writeLogs(const SimpactPopulation& pop, double tNow) const override;
+        void writeLogs(const SimpactPopulation& pop, double tNow) const override;
 
         ///
-        void        fire(Algorithm* pAlgorithm, State* pState, double t) override;
+        void fire(Algorithm* pAlgorithm, State* pState, double t) override;
 
         ///
         static void processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen);
@@ -32,10 +32,10 @@ public:
 
 private:
         ///
-        bool   isEligibleForTreatment(double t);
+        bool isEligibleForTreatment(double t);
 
         ///
-        bool   isWillingToStartTreatment(double t, GslRandomNumberGenerator* pRndGen);
+        bool isWillingToStartTreatment(double t, GslRandomNumberGenerator* pRndGen);
 
         ///
         double getNewInternalTimeDifference(GslRandomNumberGenerator* pRndGen, const State* pState) override;
@@ -48,4 +48,3 @@ private:
         static double                   s_cd4Threshold;
         static PieceWiseLinearFunction* s_pRecheckInterval;
 };
-

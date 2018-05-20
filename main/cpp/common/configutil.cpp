@@ -18,17 +18,18 @@ using namespace std;
 void checkConfiguration(const ConfigSettings& loadedConfig, const SimpactPopulationConfig& populationConfig,
                         double tMax, int64_t maxEvents);
 
-ExitStatus configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig, PopulationDistributionCSV& ageDist,
-                 GslRandomNumberGenerator* pRndGen, double& tMax, int64_t& maxEvents)
+ExitStatus configure(ConfigSettings& config, SimpactPopulationConfig& populationConfig,
+                     PopulationDistributionCSV& ageDist, GslRandomNumberGenerator* pRndGen, double& tMax,
+                     int64_t& maxEvents)
 {
         ConfigFunctions::processConfigurations(config, pRndGen);
 
         // TODO: absorb these things into similar process/obtain functions?
 
-        int    numMen = 0, numWomen = 0;
-        double eyecapFraction = 1;
-        string ageDistFile;
-        bool   msm = false;
+        int        numMen = 0, numWomen = 0;
+        double     eyecapFraction = 1;
+        string     ageDistFile;
+        bool       msm = false;
         ExitStatus r;
 
         if (!(r = config.getKeyValue("population.nummen", numMen, 0)) ||
@@ -149,7 +150,7 @@ void checkConfiguration(const ConfigSettings& loadedConfig, const SimpactPopulat
                         double tMax, int64_t maxEvents)
 {
         ConfigWriter config;
-        ExitStatus       r;
+        ExitStatus   r;
 
         ConfigFunctions::obtainConfigurations(config);
 

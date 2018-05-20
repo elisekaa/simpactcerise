@@ -37,10 +37,10 @@ public:
         void setAbortAlgorithm(const std::string& reason) const;
 
         /// Will only be called from the main simulation thread
-        void        clearAbort();
+        void clearAbort();
 
         ///
-        bool        shouldAbortAlgorithm() const { return m_abort; }
+        bool shouldAbortAlgorithm() const { return m_abort; }
 
         ///
         std::string getAbortReason() const;

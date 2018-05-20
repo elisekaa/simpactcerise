@@ -8,8 +8,8 @@
 
 #include <cassert>
 #include <cmath>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 class GslRandomNumberGenerator;
 

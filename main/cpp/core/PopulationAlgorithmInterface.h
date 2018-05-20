@@ -3,8 +3,8 @@
  * \file PopulationAlgorithmInterface.h
  */
 
-#include "State.h"
 #include "ExitStatus.h"
+#include "State.h"
 
 class PopulationEvent;
 class PopulationAlgorithmAboutToFireInterface;
@@ -58,4 +58,3 @@ public:
         /** Must return the random number generator used by the algorithm. */
         virtual GslRandomNumberGenerator* getRandomNumberGenerator() const = 0;
 };
-

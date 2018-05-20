@@ -2,8 +2,8 @@
 #include "personbase.h"
 
 #include <cassert>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 void PopulationEvent::commonConstructor()
 {

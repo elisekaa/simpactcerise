@@ -27,10 +27,10 @@ set(SRC
     event/simpactevent.cpp
 #
     pop/person.cpp
-    pop/person_family.h
-    pop/person_hiv.cpp
-    pop/person_hsv2.cpp
-    pop/person_relations.cpp
+    pop/PersonFamily.h
+    pop/PersonHiv.cpp
+    pop/PersonHsv2.cpp
+    pop/PersonRelations.cpp
     pop/simpactpopulation.cpp
 #
     AidsTimeOfDeathUtility.cpp

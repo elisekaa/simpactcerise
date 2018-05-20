@@ -17,26 +17,26 @@ public:
         ExitStatus init(const std::string& fileName, bool noNegativeValues = true, bool flipY = false);
 
         ///
-        int    getWidth() const override { return m_width; }
+        int getWidth() const override { return m_width; }
 
         ///
-        int    getHeight() const override { return m_height; }
+        int getHeight() const override { return m_height; }
 
         ///
         double getValue(int x, int y) const override;
 
         ///
-        void   setValue(int x, int y, double v) override;
+        void setValue(int x, int y, double v) override;
 
         ///
-        bool   isYFlipped() const override { return m_yFlipped; }
+        bool isYFlipped() const override { return m_yFlipped; }
 
 private:
         ExitStatus readTiffFile(const std::string& fileName, bool noNeg, bool flipY);
 
         template <class T>
         ExitStatus readTilesFromTIFF(void* pTiffVoid, int tileWidth, int tileHeight, int width, int height, bool noNeg,
-                                 const std::string& fileName);
+                                     const std::string& fileName);
 
         template <class T>
         class Tile
@@ -79,4 +79,3 @@ inline void TIFFDensityFile::setValue(int x, int y, double v)
         assert(idx >= 0 && idx < (int)m_values.size());
         m_values[idx] = v;
 }
-

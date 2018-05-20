@@ -14,8 +14,8 @@ PopulationDistributionCSV::~PopulationDistributionCSV() { clear(); }
 
 ExitStatus PopulationDistributionCSV::load(const std::string& csvFileName)
 {
-        CSVFile csvFile;
-        ExitStatus  r = csvFile.load(csvFileName);
+        CSVFile    csvFile;
+        ExitStatus r = csvFile.load(csvFileName);
 
         if (!r)
                 return ExitStatus("Can't open " + csvFileName + ": " + r.getErrorString());

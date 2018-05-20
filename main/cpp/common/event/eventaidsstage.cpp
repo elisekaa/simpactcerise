@@ -88,10 +88,10 @@ double EventAIDSStage::getNewStageTime(double currentTime) const
         double newStageTime        = expectedTimeOfDeath;
 
         if (m_finalStage) {
-                assert(pPerson->hiv().getInfectionStage() == Person_HIV::AIDS);
+                assert(pPerson->hiv().getInfectionStage() == PersonHIV::AIDS);
                 newStageTime -= m_relativeFinalTime;
         } else {
-                assert(pPerson->hiv().getInfectionStage() == Person_HIV::Chronic);
+                assert(pPerson->hiv().getInfectionStage() == PersonHIV::Chronic);
                 newStageTime -= m_relativeStartTime;
         }
 

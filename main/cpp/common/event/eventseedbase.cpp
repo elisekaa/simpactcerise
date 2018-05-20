@@ -105,7 +105,7 @@ void EventSeedBase::processConfig(SeedEventSettings& settings, ConfigSettings& c
         vector<string> fractionOrAmountStrings = {"fraction", "amount"};
         vector<string> seedGenderStrings       = {"any", "male", "female"};
         string         fractionOrAmount, seedGender;
-        ExitStatus         r;
+        ExitStatus     r;
 
         if (!(r = config.getKeyValue(configName + ".time", settings.m_seedTime)) ||
             !(r = config.getKeyValue(configName + ".type", fractionOrAmount, fractionOrAmountStrings)) ||
@@ -140,7 +140,7 @@ void EventSeedBase::processConfig(SeedEventSettings& settings, ConfigSettings& c
 
 void EventSeedBase::obtainConfig(SeedEventSettings& settings, ConfigWriter& config, const string& configName)
 {
-        string seedType, seedGender;
+        string     seedType, seedGender;
         ExitStatus r;
 
         if (settings.m_useFraction)

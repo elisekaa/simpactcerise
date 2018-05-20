@@ -18,8 +18,8 @@ ExitStatus GridValuesCSV::init(const string& csvFile, bool noNegativeValues, boo
         if (m_values.size() > 0)
                 return ExitStatus("Already initialized");
 
-        CSVFile* pCSVFile = new CSVFile();
-        ExitStatus   r;
+        CSVFile*   pCSVFile = new CSVFile();
+        ExitStatus r;
         if (!(r = pCSVFile->load(csvFile))) {
                 delete pCSVFile;
                 return ExitStatus("Unable to load CSV file '" + csvFile + "': " + r.getErrorString());
@@ -42,8 +42,8 @@ ExitStatus GridValuesCSV::init(const string& csvFile, bool noNegativeValues, boo
                         {
                                 delete pCSVFile;
                                 m_values.resize(0);
-                                return ExitStatus("No value for column " + intToString(x + 1) + " at row " + intToString(y + 1) +
-                                       " is present");
+                                return ExitStatus("No value for column " + intToString(x + 1) + " at row " +
+                                                  intToString(y + 1) + " is present");
                         }
 
                         double val = pCSVFile->getValue(y, x); // row first!

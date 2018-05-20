@@ -11,28 +11,26 @@ class Woman;
 Man*   MAN(Person* pPerson);
 Woman* WOMAN(Person* pPerson);
 
-class Person_Family
+class PersonFamily
 {
 public:
         ///
-        Person_Family() : m_pFather(nullptr), m_pMother(nullptr) {}
+        PersonFamily() : m_pFather(nullptr), m_pMother(nullptr) {}
 
         ///
-        ~Person_Family() = default;
+        ~PersonFamily() = default;
 
         ///
         void setFather(Man* pFather)
         {
-                assert(m_pFather == 0);
-                assert(pFather != 0);
+                assert(m_pFather == 0 && pFather != 0);
                 m_pFather = pFather;
         }
 
         ///
         void setMother(Woman* pMother)
         {
-                assert(m_pMother == 0);
-                assert(pMother != 0);
+                assert(m_pMother == 0 && pMother != 0);
                 m_pMother = pMother;
         }
 
@@ -58,7 +56,7 @@ private:
         std::vector<Person*> m_children;
 };
 
-inline void Person_Family::addChild(Person* pPerson)
+inline void PersonFamily::addChild(Person* pPerson)
 {
         assert(pPerson != 0);
         assert(!hasChild(pPerson));
@@ -67,7 +65,7 @@ inline void Person_Family::addChild(Person* pPerson)
 
 // TODO: this is currently not fast for large number of children
 //       can always use a 'set' if this becomes a bottleneck
-inline bool Person_Family::hasChild(Person* pPerson) const
+inline bool PersonFamily::hasChild(Person* pPerson) const
 {
         assert(pPerson != 0);
         for (size_t i = 0; i < m_children.size(); i++) {
@@ -78,7 +76,7 @@ inline bool Person_Family::hasChild(Person* pPerson) const
         return false;
 }
 
-inline Person* Person_Family::getChild(int idx)
+inline Person* PersonFamily::getChild(int idx)
 {
         assert(idx >= 0 && idx < (int)m_children.size());
         Person* pChild = m_children[idx];

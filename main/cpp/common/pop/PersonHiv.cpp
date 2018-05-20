@@ -1,4 +1,4 @@
-#include "person_hiv.h"
+#include "PersonHiv.h"
 #include "configdistributionhelper.h"
 #include "configfunctions.h"
 #include "configsettings.h"
@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Person_HIV::Person_HIV(Person* pSelf) : m_pSelf(pSelf)
+PersonHIV::PersonHIV(Person* pSelf) : m_pSelf(pSelf)
 {
         assert(pSelf);
 
@@ -44,9 +44,9 @@ Person_HIV::Person_HIV(Person* pSelf) : m_pSelf(pSelf)
         m_hazardB1Param       = m_pB1Dist->pickNumber();
 }
 
-Person_HIV::~Person_HIV() {}
+PersonHIV::~PersonHIV() {}
 
-void Person_HIV::setInfected(double t, Person* pOrigin, InfectionType iType)
+void PersonHIV::setInfected(double t, Person* pOrigin, InfectionType iType)
 {
         assert(m_infectionStage == NoInfection);
         assert(iType != None);
@@ -88,7 +88,7 @@ void Person_HIV::setInfected(double t, Person* pOrigin, InfectionType iType)
         writeToViralLoadLog(t, logDescription);
 }
 
-void Person_HIV::lowerViralLoad(double fractionOnLogscale, double treatmentTime)
+void PersonHIV::lowerViralLoad(double fractionOnLogscale, double treatmentTime)
 {
         assert(m_infectionStage != NoInfection);
         assert(m_Vsp > 0);
@@ -114,7 +114,7 @@ void Person_HIV::lowerViralLoad(double fractionOnLogscale, double treatmentTime)
         writeToViralLoadLog(treatmentTime, "Started ART");
 }
 
-void Person_HIV::resetViralLoad(double dropoutTime)
+void PersonHIV::resetViralLoad(double dropoutTime)
 {
         assert(m_infectionStage != NoInfection);
         assert(m_Vsp > 0 && m_VspOriginal > 0);
@@ -130,7 +130,7 @@ void Person_HIV::resetViralLoad(double dropoutTime)
         writeToViralLoadLog(dropoutTime, "Dropped out of ART");
 }
 
-double Person_HIV::getCD4Count(double t) const
+double PersonHIV::getCD4Count(double t) const
 {
         // This uses a simple linear interpolation between the count at the start and at the end.
         // Once the person has been treated, this probably won't make much sense anymore, but
@@ -150,7 +150,7 @@ double Person_HIV::getCD4Count(double t) const
         return CD4;
 }
 
-double Person_HIV::getViralLoadFromSetPointViralLoad(double x) const
+double PersonHIV::getViralLoadFromSetPointViralLoad(double x) const
 {
         assert(m_infectionStage != NoInfection);
         assert(m_Vsp > 0);
@@ -177,7 +177,7 @@ double Person_HIV::getViralLoadFromSetPointViralLoad(double x) const
         return Vacute;
 }
 
-void Person_HIV::initializeCD4Counts()
+void PersonHIV::initializeCD4Counts()
 {
         assert(m_cd4AtStart < 0 && m_cd4AtDeath < 0);
         assert(m_pCD4StartDistribution && m_pCD4EndDistribution);
@@ -189,13 +189,13 @@ void Person_HIV::initializeCD4Counts()
         assert(m_cd4AtDeath >= 0);
 }
 
-double Person_HIV::pickSeedSetPointViralLoad()
+double PersonHIV::pickSeedSetPointViralLoad()
 {
         assert(m_pVspModel != 0);
         return m_pVspModel->pickSetPointViralLoad();
 }
 
-double Person_HIV::pickInheritedSetPointViralLoad(const Person* pOrigin)
+double PersonHIV::pickInheritedSetPointViralLoad(const Person* pOrigin)
 {
         assert(m_pVspModel != 0);
         double Vsp0 = pOrigin->hiv().getSetPointViralLoad();
@@ -203,7 +203,7 @@ double Person_HIV::pickInheritedSetPointViralLoad(const Person* pOrigin)
         return m_pVspModel->inheritSetPointViralLoad(Vsp0);
 }
 
-void Person_HIV::writeToViralLoadLog(double tNow, const string& description) const
+void PersonHIV::writeToViralLoadLog(double tNow, const string& description) const
 {
         assert(m_pSelf);
 
@@ -216,26 +216,26 @@ void Person_HIV::writeToViralLoadLog(double tNow, const string& description) con
                               log10(currentVl));
 }
 
-double Person_HIV::m_hivSeedWeibullShape          = -1;
-double Person_HIV::m_hivSeedWeibullScale          = -1;
-double Person_HIV::m_VspHeritabilitySigmaFraction = -1;
+double PersonHIV::m_hivSeedWeibullShape          = -1;
+double PersonHIV::m_hivSeedWeibullScale          = -1;
+double PersonHIV::m_VspHeritabilitySigmaFraction = -1;
 
-double Person_HIV::m_acuteFromSetPointParamX     = -1;
-double Person_HIV::m_aidsFromSetPointParamX      = -1;
-double Person_HIV::m_finalAidsFromSetPointParamX = -1;
+double PersonHIV::m_acuteFromSetPointParamX     = -1;
+double PersonHIV::m_aidsFromSetPointParamX      = -1;
+double PersonHIV::m_finalAidsFromSetPointParamX = -1;
 
-double Person_HIV::m_maxViralLoad = -1; // this one is read from the config file
+double PersonHIV::m_maxViralLoad = -1; // this one is read from the config file
 
-VspModel*                Person_HIV::m_pVspModel              = 0;
-ProbabilityDistribution* Person_HIV::m_pCD4StartDistribution  = 0;
-ProbabilityDistribution* Person_HIV::m_pCD4EndDistribution    = 0;
-ProbabilityDistribution* Person_HIV::m_pARTAcceptDistribution = 0;
+VspModel*                PersonHIV::m_pVspModel              = 0;
+ProbabilityDistribution* PersonHIV::m_pCD4StartDistribution  = 0;
+ProbabilityDistribution* PersonHIV::m_pCD4EndDistribution    = 0;
+ProbabilityDistribution* PersonHIV::m_pARTAcceptDistribution = 0;
 
-ProbabilityDistribution* Person_HIV::m_pLogSurvTimeOffsetDistribution = 0;
-ProbabilityDistribution* Person_HIV::m_pB0Dist                        = 0;
-ProbabilityDistribution* Person_HIV::m_pB1Dist                        = 0;
+ProbabilityDistribution* PersonHIV::m_pLogSurvTimeOffsetDistribution = 0;
+ProbabilityDistribution* PersonHIV::m_pB0Dist                        = 0;
+ProbabilityDistribution* PersonHIV::m_pB1Dist                        = 0;
 
-void Person_HIV::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
+void PersonHIV::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
         assert(pRndGen != 0);
 
@@ -319,7 +319,7 @@ void Person_HIV::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
         m_pB1Dist = getDistributionFromConfig(config, pRndGen, "person.hiv.b1");
 }
 
-void Person_HIV::obtainConfig(ConfigWriter& config)
+void PersonHIV::obtainConfig(ConfigWriter& config)
 {
         ExitStatus r;
 
@@ -381,7 +381,7 @@ void Person_HIV::obtainConfig(ConfigWriter& config)
         abortWithMessage("Person::obtainConfig: ERROR: unhandled Vsp model");
 }
 
-ConfigFunctions personHIVConfigFunctions(Person_HIV::processConfig, Person_HIV::obtainConfig, "Person_HIV");
+ConfigFunctions personHIVConfigFunctions(PersonHIV::processConfig, PersonHIV::obtainConfig, "PersonHIV");
 
 JSONConfig personHIVJSONConfig(R"JSON(
 	"PersonHIV": {

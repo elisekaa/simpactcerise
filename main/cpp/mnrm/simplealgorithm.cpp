@@ -33,12 +33,11 @@ SimpleAlgorithm::SimpleAlgorithm(State& state, GslRandomNumberGenerator& rng, bo
         }
 }
 
-
 ExitStatus SimpleAlgorithm::initEventTimes() const
 {
         const std::vector<Event*>& events  = getCurrentEvents();
-        GslRandomNumberGenerator*      pRndGen = getRandomNumberGenerator();
-        State*                         pState  = getState();
+        GslRandomNumberGenerator*  pRndGen = getRandomNumberGenerator();
+        State*                     pState  = getState();
 
         // NOTE: this cannot be parallellized this way, unless multiple
         // random number generators are used. Shouldn't be the bottleneck
@@ -57,7 +56,7 @@ ExitStatus SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
         // already be called for them to generate the next step in
         // the unit-rate poisson process
         const std::vector<Event*>& events = getCurrentEvents();
-        State*                         pState = getState();
+        State*                     pState = getState();
 
         if (events.size() < 1)
                 return ExitStatus("The number of possible events became zero at a certain point");
@@ -115,7 +114,7 @@ ExitStatus SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
         m_pTmpEventList = &events;
 
         Event* pNextEvent = events[eventPos];
-        dt                    = dtMin;
+        dt                = dtMin;
 
 #ifdef ALGORITHM_SHOW_EVENTS
         showEvents();
@@ -128,7 +127,7 @@ ExitStatus SimpleAlgorithm::getNextScheduledEvent(double& dt, Event** ppEvt)
 void SimpleAlgorithm::advanceEventTimes(Event* pScheduledEvent, double dtMin)
 {
         const std::vector<Event*>& events = *m_pTmpEventList;
-        State*                         pState = getState();
+        State*                     pState = getState();
 
         assert(pScheduledEvent == events[m_eventPos]);
 

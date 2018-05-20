@@ -18,13 +18,14 @@ DiscreteDistributionWrapper::DiscreteDistributionWrapper(GslRandomNumberGenerato
 
 DiscreteDistributionWrapper::~DiscreteDistributionWrapper() { delete m_pDist; }
 
-ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, double xMin, double xMax, int yCol, bool floor)
+ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, double xMin, double xMax, int yCol,
+                                             bool floor)
 {
         if (m_pDist)
                 return ExitStatus("Already initialized");
 
-        CSVFile csv;
-        ExitStatus  r;
+        CSVFile    csv;
+        ExitStatus r;
 
         if (!(r = csv.load(csvFileName)))
                 return ExitStatus("Unable to load specified CSV file '" + csvFileName + "':" + r.getErrorString());
@@ -47,13 +48,13 @@ ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, dou
         for (int y = 0; y < numRows; y++) {
                 if (!csv.hasValue(y, yCol - 1)) // -1 because it's started with 0 as first index
                         return ExitStatus("The entry at row " + intToString(y) +
-                               " (for the specified column) is not a numerical value");
+                                          " (for the specified column) is not a numerical value");
 
                 yValues[y] = csv.getValue(y, yCol - 1);
 
                 if (!(yValues[y] >= 0 && yValues[y] < numeric_limits<double>::infinity()))
                         return ExitStatus("The y-entry at row " + intToString(y + 1) +
-                               " should be positive and smaller than infinity");
+                                          " should be positive and smaller than infinity");
         }
 
         m_pDist    = new DiscreteDistributionFast(xMin, xMax, yValues, floor, getRandomNumberGenerator());
@@ -71,8 +72,8 @@ ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, int
         if (m_pDist)
                 return ExitStatus("Already initialized");
 
-        CSVFile csv;
-        ExitStatus  r;
+        CSVFile    csv;
+        ExitStatus r;
 
         if (!(r = csv.load(csvFileName)))
                 return ExitStatus("Unable to load specified CSV file '" + csvFileName + "':" + r.getErrorString());
@@ -93,18 +94,18 @@ ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, int
         for (int y = 0; y < numRows; y++) {
                 if (!csv.hasValue(y, xCol - 1)) // -1 because it's started with 0 as first index
                         return ExitStatus("The entry at row " + intToString(y + 1) +
-                               " (for the specified x column) is not a numerical value");
+                                          " (for the specified x column) is not a numerical value");
 
                 if (!csv.hasValue(y, yCol - 1)) // -1 because it's started with 0 as first index
                         return ExitStatus("The entry at row " + intToString(y + 1) +
-                               " (for the specified y column) is not a numerical value");
+                                          " (for the specified y column) is not a numerical value");
 
                 xValues[y] = csv.getValue(y, xCol - 1);
                 yValues[y] = csv.getValue(y, yCol - 1);
 
                 if (y > 0 && xValues[y - 1] >= xValues[y])
                         return ExitStatus("The x-entry at row " + intToString(y + 1) +
-                               " is smaller than the previous value, but it should be increasing");
+                                          " is smaller than the previous value, but it should be increasing");
 
                 if (!(xValues[y] > -numeric_limits<double>::infinity() &&
                       xValues[y] < numeric_limits<double>::infinity()))
@@ -112,7 +113,7 @@ ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, int
 
                 if (!(yValues[y] >= 0 && yValues[y] < numeric_limits<double>::infinity()))
                         return ExitStatus("The y-entry at row " + intToString(y + 1) +
-                               " should be positive and smaller than infinity");
+                                          " should be positive and smaller than infinity");
         }
 
         if (yValues[numRows - 1] != 0)
@@ -128,7 +129,7 @@ ExitStatus DiscreteDistributionWrapper::init(const std::string& csvFileName, int
 }
 
 ExitStatus DiscreteDistributionWrapper::init(const std::vector<double>& xValues, const std::vector<double>& yValues,
-                                         bool floor)
+                                             bool floor)
 {
         if (m_pDist)
                 return ExitStatus("Already initialized");
@@ -146,7 +147,7 @@ ExitStatus DiscreteDistributionWrapper::init(const std::vector<double>& xValues,
         for (int i = 0; i < num; i++) {
                 if (i > 0 && xValues[i - 1] >= xValues[i])
                         return ExitStatus("The x-entry at position " + intToString(i + 1) +
-                               " is smaller than the previous value, but it should be increasing");
+                                          " is smaller than the previous value, but it should be increasing");
 
                 if (!(xValues[i] > -numeric_limits<double>::infinity() &&
                       xValues[i] < numeric_limits<double>::infinity()))
@@ -154,7 +155,7 @@ ExitStatus DiscreteDistributionWrapper::init(const std::vector<double>& xValues,
 
                 if (!(yValues[i] >= 0 && yValues[i] < numeric_limits<double>::infinity()))
                         return ExitStatus("The y-entry at position " + intToString(i + 1) +
-                               " should be positive and smaller than infinity");
+                                          " should be positive and smaller than infinity");
         }
 
         m_pDist   = new DiscreteDistribution(xValues, yValues, floor, getRandomNumberGenerator());

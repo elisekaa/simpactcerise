@@ -181,8 +181,8 @@ EvtHazard* EvtHazardFormationAgeGapRefYear::processConfig(ConfigSettings& config
 {
         double a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a6 = 0, a7 = 0, a8 = 0, a10 = 0, aDist = 0, b = 0, tMax = 0,
                tMaxAgeRefDiff = 0;
-        double agfmConst = 0, agfmExp = 0, agfmAge = 0, agfwConst = 0, agfwExp = 0, agfwAge = 0;
-        double numRelScaleMan = 0, numRelScaleWoman = 0;
+        double     agfmConst = 0, agfmExp = 0, agfmAge = 0, agfwConst = 0, agfwExp = 0, agfwAge = 0;
+        double     numRelScaleMan = 0, numRelScaleWoman = 0;
         ExitStatus r;
 
         if (!msm) {
@@ -242,7 +242,7 @@ EvtHazard* EvtHazardFormationAgeGapRefYear::processConfig(ConfigSettings& config
 
 void EvtHazardFormationAgeGapRefYear::obtainConfig(ConfigWriter& config, const string& prefix)
 {
-        string hazName = getHazardName();
+        string     hazName = getHazardName();
         ExitStatus r;
 
         if (!m_msm) {

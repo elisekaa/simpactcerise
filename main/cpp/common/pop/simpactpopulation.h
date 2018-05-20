@@ -1,12 +1,12 @@
 #pragma once
 
-#include "coarsemap.h"
-#include "person.h"
 #include "PopulationAlgorithmAboutToFireInterface.h"
 #include "PopulationAlgorithmInterface.h"
 #include "PopulationStateExtra.h"
 #include "PopulationStateInterface.h"
 #include "State.h"
+#include "coarsemap.h"
+#include "person.h"
 
 #include <cassert>
 
@@ -95,10 +95,10 @@ public:
 
 protected:
         virtual ExitStatus createInitialPopulation(const SimpactPopulationConfig& config,
-                                               const PopulationDistribution&  popDist);
+                                                   const PopulationDistribution&  popDist);
         virtual ExitStatus scheduleInitialEvents();
-        virtual void   getInterestsForPerson(const Person* pPerson, std::vector<Person*>& interests,
-                                             std::vector<Person*>& interestsMSM);
+        virtual void       getInterestsForPerson(const Person* pPerson, std::vector<Person*>& interests,
+                                                 std::vector<Person*>& interestsMSM);
 
 private:
         void onAboutToFire(PopulationEvent* pEvt);
@@ -150,4 +150,3 @@ inline void SimpactPopulation::setPersonDied(Person* pPerson)
 
         m_state.setPersonDied(pPerson);
 }
-

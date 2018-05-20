@@ -163,7 +163,7 @@ void EventStudyStep::obtainConfig(ConfigWriter& config)
 void EventStudyStep::processLogConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
         ExitStatus r;
-        string stepLog;
+        string     stepLog;
 
         if (!(r = config.getKeyValue("maxart.outfile.logsteps", stepLog)))
                 abortWithMessage(r.getErrorString());

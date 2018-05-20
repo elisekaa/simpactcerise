@@ -1,9 +1,9 @@
 #include "hazardfunction.h"
 #include "util.h"
 
+#include <gsl/gsl_integration.h>
 #include <cassert>
 #include <cstddef>
-#include <gsl/gsl_integration.h>
 
 #define WORKSPACESIZE 1024
 

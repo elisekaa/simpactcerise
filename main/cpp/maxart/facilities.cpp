@@ -133,7 +133,7 @@ void Facilities::processConfig(ConfigSettings& config, GslRandomNumberGenerator*
 {
         vector<string> allowedValues{"top", "bottom"};
         string         coordsFile, randFile;
-        ExitStatus         r;
+        ExitStatus     r;
 
         if (!(r = config.getKeyValue("facilities.geo.start.longitude", s_startLongitude)) ||
             !(r = config.getKeyValue("facilities.geo.start.latitude", s_startLattitude)) ||

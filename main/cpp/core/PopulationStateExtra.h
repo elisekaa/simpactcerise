@@ -12,5 +12,5 @@ class PopulationStateExtra
 public:
         PopulationStateExtra() = default;
 
-        virtual ~PopulationStateExtra() =default;
+        virtual ~PopulationStateExtra() = default;
 };

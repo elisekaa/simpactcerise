@@ -1,6 +1,4 @@
-#ifndef PERSON_HIV_H
-
-#define PERSON_HIV_H
+#pragma once
 
 #include "AidsTimeOfDeathUtility.h"
 #include "util.h"
@@ -12,7 +10,7 @@ class ConfigSettings;
 class ConfigWriter;
 class GslRandomNumberGenerator;
 
-class Person_HIV
+class PersonHIV
 {
 public:
         enum InfectionType
@@ -31,8 +29,8 @@ public:
                 AIDSFinal
         };
 
-        Person_HIV(Person* pSelf);
-        ~Person_HIV();
+        explicit PersonHIV(Person* pSelf);
+        ~PersonHIV();
 
         InfectionType getInfectionType() const { return m_infectionType; }
         void          setInfected(double t, Person* pOrigin, InfectionType iType);
@@ -173,7 +171,7 @@ private:
         static ProbabilityDistribution* m_pB1Dist;
 };
 
-inline double Person_HIV::getViralLoad() const
+inline double PersonHIV::getViralLoad() const
 {
         assert(m_infectionStage != NoInfection);
         if (m_infectionStage == Acute)
@@ -189,25 +187,23 @@ inline double Person_HIV::getViralLoad() const
         return -1;
 }
 
-inline void Person_HIV::setInChronicStage(double tNow)
+inline void PersonHIV::setInChronicStage(double tNow)
 {
         assert(m_infectionStage == Acute);
         m_infectionStage = Chronic;
         writeToViralLoadLog(tNow, "Chronic stage");
 }
 
-inline void Person_HIV::setInAIDSStage(double tNow)
+inline void PersonHIV::setInAIDSStage(double tNow)
 {
         assert(m_infectionStage == Chronic);
         m_infectionStage = AIDS;
         writeToViralLoadLog(tNow, "AIDS stage");
 }
 
-inline void Person_HIV::setInFinalAIDSStage(double tNow)
+inline void PersonHIV::setInFinalAIDSStage(double tNow)
 {
         assert(m_infectionStage == AIDS);
         m_infectionStage = AIDSFinal;
         writeToViralLoadLog(tNow, "Final AIDS stage");
 }
-
-#endif // PERSON_HIV_H

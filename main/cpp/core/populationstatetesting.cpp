@@ -17,7 +17,7 @@ ExitStatus PopulationStateTesting::init(bool parallel)
 
         assert(m_people.empty() && "__fuc__ : population not empty");
         assert(m_deceasedPersons.empty() && "__func__ : deceasedPersons not empty.");
-        m_parallel = parallel;
+        m_parallel     = parallel;
         m_numMen       = 0;
         m_numWomen     = 0;
         m_nextPersonID = 0;
@@ -26,7 +26,7 @@ ExitStatus PopulationStateTesting::init(bool parallel)
         m_people.resize(m_numGlobalDummies);
 
         for (int i = 0; i < m_numGlobalDummies; i++) {
-                m_people[i] = new GlobalEventDummyPerson();
+                m_people[i]   = new GlobalEventDummyPerson();
                 auto pEvtList = new PersonalEventListTesting(m_people[i]);
                 m_people[i]->setAlgorithmInfo(pEvtList);
                 pEvtList->setListIndex(i);

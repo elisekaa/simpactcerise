@@ -104,4 +104,3 @@ public:
         GlobalEventDummyPerson() : PersonBase(GlobalEventDummy, -11111) {}
         ~GlobalEventDummyPerson() {}
 };
-

@@ -3,8 +3,8 @@
  * \file betadistribution.h
  */
 
-#include "probabilitydistribution.h"
 #include "gslrandomnumbergenerator.h"
+#include "probabilitydistribution.h"
 
 /** This class allows you to return a random number from a beta distribution
  *  with parameters specified in the constructor.
@@ -40,4 +40,3 @@ inline double BetaDistribution::pickNumber() const
         double x = getRandomNumberGenerator()->pickBetaNumber(m_a, m_b);
         return x * m_scale + m_minVal;
 }
-

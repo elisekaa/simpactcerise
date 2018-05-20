@@ -8,8 +8,8 @@ using namespace std;
 
 void LogSystem::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        string eventLogFile, personLogFile, relationLogFile, treatmentLogFile, settingsLogFile;
-        string locationLogFile, hivVLLogFile;
+        string     eventLogFile, personLogFile, relationLogFile, treatmentLogFile, settingsLogFile;
+        string     locationLogFile, hivVLLogFile;
         ExitStatus r;
 
         if (!(r = config.getKeyValue("logsystem.outfile.logevents", eventLogFile)) ||

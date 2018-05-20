@@ -1,4 +1,4 @@
-#include "person_relations.h"
+#include "PersonRelations.h"
 #include "configdistributionhelper.h"
 #include "configfunctions.h"
 #include "distribution/probabilitydistribution.h"
@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Person_Relations::Person_Relations(const Person* pSelf) : m_pSelf(pSelf)
+PersonRelations::PersonRelations(const Person* pSelf) : m_pSelf(pSelf)
 {
         assert(pSelf);
 
@@ -29,12 +29,12 @@ Person_Relations::Person_Relations(const Person* pSelf) : m_pSelf(pSelf)
         else if (pSelf->isWoman())
                 pickEagernessAndGap(m_eagAgeWoman);
         else
-                abortWithMessage("Person_Relations::Person_Relations: unknown gender!");
+                abortWithMessage("PersonRelations::PersonRelations: unknown gender!");
 }
 
-Person_Relations::~Person_Relations() {}
+PersonRelations::~PersonRelations() {}
 
-void Person_Relations::pickEagernessAndGap(const EagernessAndAgegap& e)
+void PersonRelations::pickEagernessAndGap(const EagernessAndAgegap& e)
 {
         if (e.m_independentEagerness) {
                 assert(e.m_pEagHetero != 0);
@@ -57,7 +57,7 @@ void Person_Relations::pickEagernessAndGap(const EagernessAndAgegap& e)
         m_preferredAgeDiffHomo   = e.m_pGapHomo->pickNumber();
 }
 
-void Person_Relations::startRelationshipIteration()
+void PersonRelations::startRelationshipIteration()
 {
         assert(!m_relIterationBusy);
 
@@ -68,7 +68,7 @@ void Person_Relations::startRelationshipIteration()
 #endif
 }
 
-Person* Person_Relations::getNextRelationshipPartner(double& formationTime)
+Person* PersonRelations::getNextRelationshipPartner(double& formationTime)
 {
         if (m_relationshipsIterator == m_relationshipsSet.end()) {
 #ifndef NDEBUG
@@ -87,7 +87,7 @@ Person* Person_Relations::getNextRelationshipPartner(double& formationTime)
         return r.getPartner();
 }
 
-int Person_Relations::getNumberOfDiagnosedPartners()
+int PersonRelations::getNumberOfDiagnosedPartners()
 {
         // IMPORTANT: for a simple method, we cannot cache the result, it will
         //            not only change on relationship events, but also on transmission
@@ -108,7 +108,7 @@ int Person_Relations::getNumberOfDiagnosedPartners()
         return D;
 }
 
-void Person_Relations::addRelationship(Person* pPerson, double t)
+void PersonRelations::addRelationship(Person* pPerson, double t)
 {
         assert(!m_relIterationBusy);
         assert(pPerson != 0);
@@ -126,7 +126,7 @@ void Person_Relations::addRelationship(Person* pPerson, double t)
         m_lastRelationChangeTime = t;
 }
 
-void Person_Relations::removeRelationship(Person* pPerson, double t, bool deathBased)
+void PersonRelations::removeRelationship(Person* pPerson, double t, bool deathBased)
 {
         assert(!m_relIterationBusy);
         assert(pPerson != 0);
@@ -193,7 +193,7 @@ void Person_Relations::removeRelationship(Person* pPerson, double t, bool deathB
         }
 }
 
-void Person_Relations::addPersonOfInterest(Person* pPerson)
+void PersonRelations::addPersonOfInterest(Person* pPerson)
 {
         assert(pPerson);
         assert(!pPerson->hasDied());
@@ -208,13 +208,13 @@ void Person_Relations::addPersonOfInterest(Person* pPerson)
 
         // Because of the relocation, we also need to check that a relationship
         // does not already exist with a new person of interest
-        if (m_relationshipsSet.find(Person_Relations::Relationship(pPerson)) != m_relationshipsSet.end())
+        if (m_relationshipsSet.find(PersonRelations::Relationship(pPerson)) != m_relationshipsSet.end())
                 return;
 
         m_personsOfInterest.push_back(pPerson);
 }
 
-void Person_Relations::removePersonOfInterest(Person* pPerson)
+void PersonRelations::removePersonOfInterest(Person* pPerson)
 {
         assert(pPerson);
 
@@ -234,8 +234,8 @@ void Person_Relations::removePersonOfInterest(Person* pPerson)
                          m_pSelf->getName());
 }
 
-void Person_Relations::writeToRelationLog(const Person* pMan, const Person* pWomanOrMan2, double formationTime,
-                                          double dissolutionTime)
+void PersonRelations::writeToRelationLog(const Person* pMan, const Person* pWomanOrMan2, double formationTime,
+                                         double dissolutionTime)
 {
         assert(pMan->isMan());
         // assert(pWoman->isWoman());
@@ -248,7 +248,7 @@ void Person_Relations::writeToRelationLog(const Person* pMan, const Person* pWom
                           (pMan->isMan() && pWomanOrMan2->isMan()) ? 1 : 0);
 }
 
-void Person_Relations::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
+void PersonRelations::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
         assert(pRndGen != 0);
 
@@ -256,13 +256,13 @@ void Person_Relations::processConfig(ConfigSettings& config, GslRandomNumberGene
         m_eagAgeWoman.processConfig(config, pRndGen, "person.eagerness.woman", "person.agegap.woman", "wsw");
 }
 
-void Person_Relations::obtainConfig(ConfigWriter& config)
+void PersonRelations::obtainConfig(ConfigWriter& config)
 {
         m_eagAgeMan.obtainConfig(config, "person.eagerness.man", "person.agegap.man", "msm");
         m_eagAgeWoman.obtainConfig(config, "person.eagerness.woman", "person.agegap.woman", "wsw");
 }
 
-Person_Relations::EagernessAndAgegap::EagernessAndAgegap()
+PersonRelations::EagernessAndAgegap::EagernessAndAgegap()
 {
         m_independentEagerness = true;
         m_pEagHetero           = 0;
@@ -273,7 +273,7 @@ Person_Relations::EagernessAndAgegap::EagernessAndAgegap()
         m_pGapHomo   = 0;
 }
 
-Person_Relations::EagernessAndAgegap::~EagernessAndAgegap()
+PersonRelations::EagernessAndAgegap::~EagernessAndAgegap()
 {
         delete m_pEagHetero;
         delete m_pEagHomo;
@@ -282,9 +282,9 @@ Person_Relations::EagernessAndAgegap::~EagernessAndAgegap()
         delete m_pGapHomo;
 }
 
-void Person_Relations::EagernessAndAgegap::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen,
-                                                         const string& prefixEag, const string& prefixGap,
-                                                         const string& homSuff)
+void PersonRelations::EagernessAndAgegap::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen,
+                                                        const string& prefixEag, const string& prefixGap,
+                                                        const string& homSuff)
 {
         ExitStatus r;
 
@@ -318,8 +318,8 @@ void Person_Relations::EagernessAndAgegap::processConfig(ConfigSettings& config,
         m_pGapHomo = getDistributionFromConfig(config, pRndGen, prefixGap + "." + homSuff);
 }
 
-void Person_Relations::EagernessAndAgegap::obtainConfig(ConfigWriter& config, const string& prefixEag,
-                                                        const string& prefixGap, const string& homSuff)
+void PersonRelations::EagernessAndAgegap::obtainConfig(ConfigWriter& config, const string& prefixEag,
+                                                       const string& prefixGap, const string& homSuff)
 {
         string eagType;
         if (m_independentEagerness) {
@@ -336,11 +336,11 @@ void Person_Relations::EagernessAndAgegap::obtainConfig(ConfigWriter& config, co
         addDistributionToConfig(m_pGapHomo, config, prefixGap + "." + homSuff);
 }
 
-Person_Relations::EagernessAndAgegap Person_Relations::m_eagAgeMan;
-Person_Relations::EagernessAndAgegap Person_Relations::m_eagAgeWoman;
+PersonRelations::EagernessAndAgegap PersonRelations::m_eagAgeMan;
+PersonRelations::EagernessAndAgegap PersonRelations::m_eagAgeWoman;
 
-ConfigFunctions personRelationsConfigFunctions(Person_Relations::processConfig, Person_Relations::obtainConfig,
-                                               "Person_Relations");
+ConfigFunctions personRelationsConfigFunctions(PersonRelations::processConfig, PersonRelations::obtainConfig,
+                                               "PersonRelations");
 
 JSONConfig personRelationsJSONConfig(R"JSON(
 

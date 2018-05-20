@@ -14,10 +14,10 @@ public:
         virtual ~VspModel() = default;
 
         ///
-        virtual double            pickSetPointViralLoad()                      = 0;
+        virtual double pickSetPointViralLoad() = 0;
 
         ///
-        virtual double            inheritSetPointViralLoad(double VspInfector) = 0;
+        virtual double inheritSetPointViralLoad(double VspInfector) = 0;
 
         ///
         GslRandomNumberGenerator* getRandomNumberGenerator() const
@@ -29,4 +29,3 @@ public:
 private:
         mutable GslRandomNumberGenerator* m_pRndGen;
 };
-

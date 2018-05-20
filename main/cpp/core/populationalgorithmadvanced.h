@@ -4,13 +4,13 @@
  * \file populationalgorithmadvanced.h
  */
 
+#include "PopulationAlgorithmAboutToFireInterface.h"
+#include "PopulationAlgorithmInterface.h"
 #include "algorithm.h"
 #include "mutex.h"
 #include "personaleventlist.h"
 #include "personbase.h"
 #include "populationevent.h"
-#include "PopulationAlgorithmInterface.h"
-#include "PopulationAlgorithmAboutToFireInterface.h"
 
 #include <cassert>
 
@@ -94,9 +94,9 @@ public:
 
         ExitStatus init();
 
-        bool   isParallel() const { return m_parallel; }
+        bool       isParallel() const { return m_parallel; }
         ExitStatus run(double& tMax, int64_t& maxEvents, double startTime = 0);
-        void   onNewEvent(PopulationEvent* pEvt);
+        void       onNewEvent(PopulationEvent* pEvt);
 
         // TODO: shield these from the user somehow? These functions should not be used
         //       directly by the user, they are used internally by the algorithm
@@ -110,8 +110,8 @@ public:
         void setAboutToFireAction(PopulationAlgorithmAboutToFireInterface* pAction) { m_pOnAboutToFire = pAction; }
 
 private:
-        ExitStatus             initEventTimes() const;
-        ExitStatus             getNextScheduledEvent(double& dt, Event** ppEvt);
+        ExitStatus         initEventTimes() const;
+        ExitStatus         getNextScheduledEvent(double& dt, Event** ppEvt);
         void               advanceEventTimes(Event* pScheduledEvent, double dt);
         void               onAboutToFire(Event* pEvt);
         PopulationEvent*   getEarliestEvent(const std::vector<PersonBase*>& people);
@@ -184,4 +184,3 @@ inline void PopulationAlgorithmAdvanced::onAboutToFire(Event* pEvt)
         if (m_pOnAboutToFire)
                 m_pOnAboutToFire->onAboutToFire(static_cast<PopulationEvent*>(pEvt));
 }
-

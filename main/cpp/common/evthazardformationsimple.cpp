@@ -144,7 +144,7 @@ double EvtHazardFormationSimple::getTr(const SimpactPopulation& population, Pers
 EvtHazard* EvtHazardFormationSimple::processConfig(ConfigSettings& config, const string& prefix, const string& hazName,
                                                    bool msm)
 {
-        double a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0, a7 = 0, aDist = 0, Dp = 0, b = 0, tMax = 0;
+        double     a0 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0, a7 = 0, aDist = 0, Dp = 0, b = 0, tMax = 0;
         ExitStatus r;
 
         if (!msm) {
@@ -184,7 +184,7 @@ EvtHazard* EvtHazardFormationSimple::processConfig(ConfigSettings& config, const
 
 void EvtHazardFormationSimple::obtainConfig(ConfigWriter& config, const string& prefix)
 {
-        string hazName = getHazardName();
+        string     hazName = getHazardName();
         ExitStatus r;
 
         if (!m_msm) {

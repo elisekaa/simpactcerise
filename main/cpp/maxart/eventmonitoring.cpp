@@ -58,7 +58,7 @@ bool EventMonitoring::isEligibleForTreatment(double t, const MaxARTPopulation& p
         if (pPerson->hiv().getNumberTreatmentStarted() > 0)
                 return true;
 
-        double          threshold = -1;
+        double threshold = -1;
         getCurrentFacilityAndThreshold(population, threshold);
         assert(threshold >= 0);
 

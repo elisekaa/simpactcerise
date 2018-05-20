@@ -18,9 +18,7 @@ using namespace std;
 Person::Person(double dateOfBirth, Gender g) : PersonBase(g, dateOfBirth), m_relations(this), m_hiv(this), m_hsv2(this)
 {
         assert(g == Male || g == Female);
-
         assert(m_pPopDist);
-
         Point2D loc = m_pPopDist->pickPoint();
         assert(loc.x == loc.x && loc.y == loc.y); // check for NaN
         setLocation(loc, 0);
@@ -30,15 +28,11 @@ Person::Person(double dateOfBirth, Gender g) : PersonBase(g, dateOfBirth), m_rel
 
 Person::~Person() { delete m_pPersonImpl; }
 
-ProbabilityDistribution2D* Person::m_pPopDist      = 0;
-double                     Person::m_popDistWidth  = 0;
-double                     Person::m_popDistHeight = 0;
+ProbabilityDistribution2D* Person::m_pPopDist = nullptr;
 
 void Person::processConfig(ConfigSettings& config, GslRandomNumberGenerator* pRndGen)
 {
-        assert(pRndGen != 0);
-
-        // Population distribution
+        assert(pRndGen != nullptr);
         delete m_pPopDist;
         m_pPopDist = getDistribution2DFromConfig(config, pRndGen, "person.geo");
 }
@@ -51,9 +45,8 @@ void Person::obtainConfig(ConfigWriter& config)
 
 void Person::writeToPersonLog()
 {
-        double infinity = numeric_limits<double>::infinity();
-        double NaN      = numeric_limits<double>::quiet_NaN();
-
+        double infinity    = numeric_limits<double>::infinity();
+        double NaN         = numeric_limits<double>::quiet_NaN();
         int    id          = (int)getPersonID(); // TODO: should fit in an 'int' (easier for output)
         int    gender      = (isMan()) ? 0 : 1;
         double timeOfBirth = getDateOfBirth();
@@ -76,10 +69,10 @@ void Person::writeToPersonLog()
 
         int infectionType = 0;
         switch (m_hiv.getInfectionType()) {
-        case Person_HIV::None: infectionType = -1; break;
-        case Person_HIV::Seed: infectionType = 0; break;
-        case Person_HIV::Partner: infectionType = 1; break;
-        case Person_HIV::Mother: infectionType = 2; break;
+        case PersonHIV::None: infectionType = -1; break;
+        case PersonHIV::Seed: infectionType = 0; break;
+        case PersonHIV::Partner: infectionType = 1; break;
+        case PersonHIV::Mother: infectionType = 2; break;
         default: // Unknown, but don't abort the program at this point
                 infectionType = 10000 + (int)m_hiv.getInfectionType();
         }
@@ -129,13 +122,5 @@ void Person::writeToTreatmentLog(double dropoutTime, bool justDied)
         LogTreatment.print("%d,%d,%10.10f,%10.10f,%d,%10.10f", id, gender, lastTreatmentStartTime, dropoutTime,
                            justDiedInt, lastCD4);
 }
-
-Man::Man(double dateOfBirth) : Person(dateOfBirth, Male) {}
-
-Man::~Man() {}
-
-Woman::Woman(double dateOfBirth) : Person(dateOfBirth, Female) { m_pregnant = false; }
-
-Woman::~Woman() {}
 
 ConfigFunctions personConfigFunctions(Person::processConfig, Person::obtainConfig, "Person");

@@ -14,7 +14,7 @@ DiscreteDistributionFast::DiscreteDistributionFast(double xMin, double xMax, con
 
         assert(probValues.size() > 0);
 
-        int       levels     = 0;
+        int levels = 0;
         getLargerPowerOfTwo(probValues.size(), &levels);
         m_probLevels.resize(levels); // last level still should have two entries
         for (size_t i = 0, s = 2; i < m_probLevels.size(); i++, s *= 2)

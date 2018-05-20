@@ -74,7 +74,7 @@ void EventIntervention::processConfig(ConfigSettings& config, GslRandomNumberGen
         // check the config file
         vector<string> yesNoOptions;
         string         yesNo;
-        ExitStatus         r;
+        ExitStatus     r;
 
         yesNoOptions.push_back("yes");
         yesNoOptions.push_back("no");
